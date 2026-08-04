@@ -3,302 +3,143 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>TikFinity Web Studio</title>
-  
-  <!-- Kütüphaneler -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
+  <title>TikTok Hediye Ekranı</title>
   <style>
-    :root {
-      --bg-main: #0a0b10;
-      --card-bg: #141622;
-      --border-color: #232738;
-      --accent-cyan: #00f2fe;
-      --accent-pink: #ff0050;
-      --accent-purple: #7b2cbf;
-      --text-main: #ffffff;
-      --text-sub: #8e94a7;
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; user-select: none; }
-    body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
+    body { background-color: #0b0e14; color: #fff; min-height: 100vh; padding: 15px; overflow-x: hidden; }
 
-    /* GMAIL GİRİŞ EKRANI */
-    #login-screen {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: radial-gradient(circle at center, #1a1c2e 0%, #0a0b10 100%);
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      z-index: 10000; padding: 20px; text-align: center;
-    }
-    .login-box {
-      background: rgba(20, 22, 34, 0.95); border: 1px solid var(--border-color);
-      border-radius: 24px; padding: 35px 25px; max-width: 400px; width: 100%;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8); backdrop-filter: blur(15px);
-    }
-    .login-box h1 { font-size: 26px; margin-bottom: 8px; color: var(--accent-cyan); }
-    .google-btn {
-      background: #ffffff; color: #333333; width: 100%; padding: 14px;
-      border-radius: 12px; border: none; font-weight: 700; font-size: 15px;
-      display: flex; align-items: center; justify-content: center; gap: 12px;
-      cursor: pointer; margin-top: 20px;
-    }
-    .google-btn img { width: 22px; height: 22px; }
+    h2 { text-align: center; color: #00f2fe; margin-bottom: 15px; font-size: 20px; }
 
-    /* DASHBOARD */
-    #dashboard-screen { display: none; padding: 15px; padding-bottom: 80px; max-width: 600px; margin: 0 auto; }
-    header.app-header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 15px; background: var(--card-bg); padding: 12px 18px; border-radius: 16px;
-      border: 1px solid var(--border-color);
-    }
-    .user-profile { display: flex; align-items: center; gap: 10px; }
-    .user-profile img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--accent-cyan); }
-
-    .card { background: var(--card-bg); border-radius: 18px; padding: 16px; margin-bottom: 15px; border: 1px solid var(--border-color); }
-    .card h3 { font-size: 15px; margin-bottom: 12px; color: var(--accent-cyan); }
-
-    .form-group { margin-bottom: 10px; }
-    .form-group label { display: block; font-size: 12px; color: var(--text-sub); margin-bottom: 5px; }
-    .form-control { width: 100%; padding: 10px 12px; background: #0a0b10; border: 1px solid var(--border-color); border-radius: 10px; color: #fff; font-size: 14px; outline: none; }
-
-    .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; }
-    .btn-cyan { background: var(--accent-cyan); color: #000; }
-    .btn-pink { background: var(--accent-pink); color: #fff; }
-    .btn-purple { background: var(--accent-purple); color: #fff; }
-
-    /* FİGÜRAN HEDİYE CANVAS ALANI */
+    /* FİGÜRAN HEDİYE EKRANI */
     #canvas-container {
-      position: relative; width: 100%; height: 360px; background: #050608;
-      border-radius: 14px; border: 2px dashed var(--border-color); overflow: hidden;
+      position: relative; width: 100%; height: 380px; background: #121622;
+      border-radius: 18px; border: 2px dashed #00f2fe; overflow: hidden; margin-bottom: 20px;
+      box-shadow: inset 0 0 20px rgba(0, 242, 254, 0.1);
     }
 
+    .info-text {
+      position: absolute; top: 10px; width: 100%; text-align: center;
+      font-size: 11px; color: rgba(255,255,255,0.4); pointer-events: none;
+    }
+
+    /* SÜRÜKLENEBİLİR FİGÜRAN HEDİYE */
     .draggable-gift {
       position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      background: rgba(20, 22, 34, 0.9); border: 2px solid var(--accent-pink); border-radius: 16px;
-      padding: 6px 10px; min-width: 80px; cursor: move; touch-action: none;
-      box-shadow: 0 4px 15px rgba(255, 0, 80, 0.3); backdrop-filter: blur(8px);
-      transition: transform 0.1s, box-shadow 0.2s;
+      background: rgba(20, 24, 38, 0.95); border: 2px solid #ff0050; border-radius: 16px;
+      padding: 8px 12px; min-width: 85px; cursor: move; touch-action: none;
+      box-shadow: 0 4px 15px rgba(255, 0, 80, 0.4); backdrop-filter: blur(8px);
     }
-    .draggable-gift img { width: 38px; height: 38px; object-fit: contain; }
-    .draggable-gift .gift-tag { font-size: 10px; font-weight: 900; color: #fff; background: var(--accent-pink); padding: 2px 6px; border-radius: 6px; text-transform: uppercase; margin-top: 4px; text-align: center; }
-    .draggable-gift .gift-count { font-size: 10px; color: var(--accent-cyan); font-weight: bold; margin-top: 2px; }
-    .draggable-gift .remove-btn { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; border: none; cursor: pointer; }
+    
+    .draggable-gift img { width: 45px; height: 45px; object-fit: contain; pointer-events: none; }
+    
+    .draggable-gift .gift-tag {
+      font-size: 11px; font-weight: 900; color: #fff; background: #ff0050;
+      padding: 3px 8px; border-radius: 6px; text-transform: uppercase; margin-top: 5px;
+      text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .draggable-gift .remove-btn {
+      position: absolute; top: -6px; right: -6px; background: #ff0050; color: #fff;
+      border-radius: 50%; width: 20px; height: 20px; font-size: 11px; border: none; font-weight: bold; cursor: pointer;
+    }
+
+    /* KONTROL PANELİ */
+    .panel { background: #161b26; border-radius: 16px; padding: 15px; border: 1px solid #232a3b; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; color: #8e94a7; margin-bottom: 6px; }
+    .form-control { width: 100%; padding: 12px; background: #0b0e14; border: 1px solid #232a3b; border-radius: 10px; color: #fff; font-size: 14px; outline: none; }
+    
+    .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; background: #00f2fe; color: #000; margin-top: 5px; }
   </style>
 </head>
 <body>
 
-  <!-- 1. GOOGLE GİRİŞ EKRANI -->
-  <div id="login-screen">
-    <div class="login-box">
-      <div style="font-size: 40px; margin-bottom: 8px;">⚡</div>
-      <h1>TikFinity Web App</h1>
-      <p style="font-size: 12px; color: var(--text-sub);">Gerçek TikTok Canlı Yayın & İnteraktif Hediye Paneli</p>
-      
-      <button class="google-btn" onclick="handleGoogleLogin()">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-        Gmail Hesabı İle Giriş Yap
-      </button>
-    </div>
+  <h2>🎁 TikTok Hediye Figüran Paneli</h2>
+
+  <!-- FİGÜRLERİN YERLEŞTİRİLDİĞİ EKRAN -->
+  <div id="canvas-container">
+    <div class="info-text">📍 Eklediğin hediyeleri parmağınla istediğin yere sürükle</div>
   </div>
 
-  <!-- 2. ANA YÖNETİM PANELİ -->
-  <div id="dashboard-screen">
-    
-    <header class="app-header">
-      <div class="user-profile">
-        <img id="user-photo" src="https://via.placeholder.com/40" alt="Profil">
-        <div>
-          <h4 id="user-name" style="font-size: 13px;">Giriş Yapıldı</h4>
-          <p id="user-email" style="font-size: 11px; color: var(--text-sub);">email@gmail.com</p>
-        </div>
-      </div>
-      <button onclick="location.reload()" style="background: rgba(255,0,80,0.2); color: var(--accent-pink); border:none; padding:6px 12px; border-radius:8px; font-size:11px; font-weight:bold;">Çıkış</button>
-    </header>
-
-    <!-- TIKTOK BAĞLANTISI -->
-    <div class="card">
-      <h3>📡 TikTok Canlı Yayınına Bağlan</h3>
-      <div class="form-group">
-        <label>TikTok Kullanıcı Adınız (@olmadan)</label>
-        <input type="text" id="tiktok-user" class="form-control" placeholder="Örn: mehmetyilmaz">
-      </div>
-      <button class="btn btn-cyan" onclick="connectTikTok()">Yayına Gerçek Zamanlı Bağlan</button>
-      <p id="connection-status" style="font-size: 11px; color: var(--accent-cyan); margin-top: 6px; text-align: center; display: none;">✅ Canlı Yayına Bağlandı!</p>
+  <!-- HEDİYE EKLEME FORMU -->
+  <div class="panel">
+    <div class="form-group">
+      <label>TikTok Hediyesi Seçin</label>
+      <select id="gift-select" class="form-control">
+        <option value="🌹|TAKLA AT|https://p16-webcast.tiktokcdn.com/webcast/58ed6ff73fb8953110e536bf30424a73.png">🌹 Gül</option>
+        <option value="🍩|TWERK AT|https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/gift_donut.png">🍩 Donut</option>
+        <option value="🦁|BAYILT|https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/gift_lion.png">🦁 Aslan</option>
+        <option value="🍦|SUS LAN|https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/gift_icecream.png">🍦 Dondurma</option>
+        <option value="🧿|GERİ|https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/gift_nazar.png">🧿 Nazar Boncuğu</option>
+        <option value="☕|RESET|https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/gift_coffee.png">☕ Kahve</option>
+      </select>
     </div>
 
-    <!-- EKRANA HEDİYE/FİGÜRAN EKLEME ALANI -->
-    <div class="card">
-      <h3>🎭 Ekrana Hediye & Figür Ekle (Sürükle-Bırak)</h3>
-      <p style="font-size: 11px; color: var(--text-sub); margin-bottom: 10px;">Hediyeleri ekranda istediğin yere sürükle. Yayında atılınca ses çalacak ve TTS mesajı okuyacak!</p>
-      
-      <div id="canvas-container">
-        <span style="position: absolute; top:10px; left:50%; transform:translateX(-50%); font-size:10px; color:rgba(255,255,255,0.3);">📍 Hediyeleri İstediğin Yere Sürükle</span>
-      </div>
+    <div class="form-group">
+      <label>Altına Yazılacak Özel Yazı</label>
+      <input type="text" id="gift-text" class="form-control" placeholder="Örn: TAKLA AT / BAYILT / RESET">
     </div>
 
-    <!-- FİGÜRAN TANIMLAMA KARTI -->
-    <div class="card">
-      <h3>➕ Yeni Hediye & Yazı Ekle</h3>
-      <div class="form-group">
-        <label>Hediye Seçin</label>
-        <select id="gift-type" class="form-control">
-          <option value="Rose|TAKLA AT|https://p16-webcast.tiktokcdn.com/webcast/58ed6ff73fb8953110e536bf30424a73.png">🌹 Gül (Rose)</option>
-          <option value="Donut|TWERK AT|https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/gift_donut.png">🍩 Donut (Twerk)</option>
-          <option value="Lion|BAYILT|https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/gift_lion.png">🦁 Aslan (Bayılt)</option>
-          <option value="IceCream|SUS LAN|https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/gift_icecream.png">🍦 Dondurma (Sus Lan)</option>
-          <option value="Nazar|GERİ|https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/gift_nazar.png">🧿 Nazar Boncuğu (Geri)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Ekranda Yazacak Yazı (Örn: TAKLA AT / RESET)</label>
-        <input type="text" id="gift-label" class="form-control" placeholder="Örn: TAKLA AT">
-      </div>
-      <button class="btn btn-purple" onclick="addGiftToCanvas()">+ Ekrana Ekle</button>
-    </div>
-
-    <!-- TTS CHAT VE TEST -->
-    <div class="card">
-      <h3>🗣️ TTS & Test Paneli</h3>
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <span style="font-size: 12px;">Yorumları Sesli Oku (TTS)</span>
-        <input type="checkbox" id="tts-toggle" checked style="width: 18px; height: 18px;">
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-        <button class="btn btn-pink" onclick="simulateGiftTest('Rose')">🌹 Gül Test Et</button>
-        <button class="btn btn-pink" onclick="simulateGiftTest('Donut')">🍩 Donut Test Et</button>
-      </div>
-    </div>
-
+    <button class="btn" onclick="addGift()">+ Hediyeyi Ekrana Ekle</button>
   </div>
 
   <script>
-    // FIREBASE GOOGLE AUTH MOCK & CONFIG
-    const firebaseConfig = { apiKey: "AIzaSyDemoKey", authDomain: "tikfinity.firebaseapp.com" };
-    firebase.initializeApp(firebaseConfig);
-
-    function handleGoogleLogin() {
-      // Google Login Tetikleyici
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider).then((res) => {
-        setupUser(res.user);
-      }).catch(() => {
-        // Offline / Mobil Test Girişi
-        setupUser({ displayName: "Canlı Yayıncı", email: "yayinci@gmail.com", photoURL: "https://api.dicebear.com/7.x/bottts/svg?seed=TikFinity" });
-      });
-    }
-
-    function setupUser(user) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('dashboard-screen').style.display = 'block';
-      document.getElementById('user-name').innerText = user.displayName;
-      document.getElementById('user-email').innerText = user.email;
-      if(user.photoURL) document.getElementById('user-photo').src = user.photoURL;
-    }
-
-    // GERÇEK TIKTOK SOCKET MOTORU
-    let socket = null;
-    function connectTikTok() {
-      const user = document.getElementById('tiktok-user').value.trim();
-      if(!user) return alert('Lütfen TikTok Kullanıcı Adınızı Girin!');
-
-      socket = io('https://tiktako-backend.onrender.com');
-      socket.emit('join-room', user);
-
-      document.getElementById('connection-status').style.display = 'block';
-      alert(`@${user} TikTok Canlı Yayınına Bağlanıldı!`);
-
-      socket.on('tiktok-gift', (data) => {
-        handleIncomingGift(data.giftName, data.uniqueId);
-      });
-
-      socket.on('tiktok-chat', (data) => {
-        if(document.getElementById('tts-toggle').checked) {
-          speakTTS(`${data.uniqueId} diyor ki: ${data.comment}`);
-        }
-      });
-    }
-
-    // SÜRÜKLENEBİLİR FİGÜRAN HEDİYE MANTIĞI
     const canvas = document.getElementById('canvas-container');
-    let activeGifts = {};
 
-    function addGiftToCanvas() {
-      const selectVal = document.getElementById('gift-type').value.split('|');
-      const giftKey = selectVal[0];
-      const defaultLabel = selectVal[1];
-      const giftImg = selectVal[2];
-      const customLabel = document.getElementById('gift-label').value.trim() || defaultLabel;
+    function addGift() {
+      const selectVal = document.getElementById('gift-select').value.split('|');
+      const defaultText = selectVal[1];
+      const giftImgUrl = selectVal[2];
+      const customText = document.getElementById('gift-text').value.trim() || defaultText;
 
-      if(activeGifts[giftKey]) return alert('Bu hediye ekranda zaten var!');
-
+      // Hediye Elemanı Oluşturma
       const giftEl = document.createElement('div');
       giftEl.className = 'draggable-gift';
-      giftEl.style.top = '40px'; giftEl.style.left = '40px';
+      giftEl.style.top = '50px';
+      giftEl.style.left = '50px';
 
       giftEl.innerHTML = `
-        <button class="remove-btn" onclick="removeGift('${giftKey}')">✕</button>
-        <img src="${giftImg}">
-        <div class="gift-tag">${customLabel}</div>
-        <div class="gift-count" id="count-${giftKey}">x0 Atıldı</div>
+        <button class="remove-btn" onclick="this.parentElement.remove()">✕</button>
+        <img src="${giftImgUrl}" alt="Gift">
+        <div class="gift-tag">${customText}</div>
       `;
 
       canvas.appendChild(giftEl);
-      activeGifts[giftKey] = { label: customLabel, count: 0, el: giftEl };
       makeDraggable(giftEl);
+      
+      // Yazı alanını temizle
+      document.getElementById('gift-text').value = '';
     }
 
-    function removeGift(key) {
-      if(activeGifts[key]) {
-        activeGifts[key].el.remove();
-        delete activeGifts[key];
-      }
-    }
-
+    // TELEFONDA PARMAKLA SÜRÜKLEME MANTIĞI
     function makeDraggable(elmnt) {
       let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-      elmnt.ontouchstart = (e) => {
+
+      elmnt.ontouchstart = function(e) {
         const touch = e.touches[0];
-        pos3 = touch.clientX; pos4 = touch.clientY;
-        document.ontouchend = () => { document.ontouchmove = null; };
-        document.ontouchmove = (ev) => {
-          const t = ev.touches[0];
-          pos1 = pos3 - t.clientX; pos2 = pos4 - t.clientY;
-          pos3 = t.clientX; pos4 = t.clientY;
-          elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-          elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        pos3 = touch.clientX;
+        pos4 = touch.clientY;
+
+        document.ontouchend = function() {
+          document.ontouchmove = null;
+        };
+
+        document.ontouchmove = function(e) {
+          const t = e.touches[0];
+          pos1 = pos3 - t.clientX;
+          pos2 = pos4 - t.clientY;
+          pos3 = t.clientX;
+          pos4 = t.clientY;
+
+          let newTop = elmnt.offsetTop - pos2;
+          let newLeft = elmnt.offsetLeft - pos1;
+
+          // Ekran dışına çıkmasını engelle
+          if(newTop > 0 && newTop < (canvas.offsetHeight - 80)) elmnt.style.top = newTop + "px";
+          if(newLeft > 0 && newLeft < (canvas.offsetWidth - 80)) elmnt.style.left = newLeft + "px";
         };
       };
     }
-
-    function handleIncomingGift(giftName, sender) {
-      let key = giftName === 'Gül' ? 'Rose' : giftName;
-      if(activeGifts[key]) {
-        activeGifts[key].count++;
-        document.getElementById(`count-${key}`).innerText = `x${activeGifts[key].count} Atıldı`;
-
-        const el = activeGifts[key].el;
-        el.style.transform = 'scale(1.3)';
-        el.style.boxShadow = '0 0 25px #00f2fe';
-        setTimeout(() => { el.style.transform = 'scale(1)'; el.style.boxShadow = '0 4px 15px rgba(255, 0, 80, 0.3)'; }, 500);
-
-        if(typeof confetti === 'function') confetti({ particleCount: 40, spread: 60, origin: { y: 0.6 } });
-        new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3').play().catch(()=>{});
-        speakTTS(`${sender} ${activeGifts[key].label} hediyesi attı!`);
-      }
-    }
-
-    function speakTTS(text) {
-      if('speechSynthesis' in window) {
-        const msg = new SpeechSynthesisUtterance(text);
-        msg.lang = 'tr-TR';
-        window.speechSynthesis.speak(msg);
-      }
-    }
-
-    function simulateGiftTest(key) { handleIncomingGift(key, 'TestKullanici'); }
   </script>
 </body>
 </html>
