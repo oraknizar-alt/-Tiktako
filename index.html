@@ -3,39 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TikTok Live Overlay Platformu</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Canvas Confetti & Canvas Fireworks Kütüphanesi -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <!-- Socket.io bağlantısı -->
+  <title>HediyeBox - TikTok Overlay</title>
+  <link rel="stylesheet" href="./style.css">
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 </head>
 <body>
 
-  <!-- 1. HAVAİ FİŞEK VE TAKİPÇİ BİLDİRİMİ (Yaklaşık 2.5 cm boyutunda) -->
-  <div id="follower-alert" class="alert-card hidden">
-    <div class="user-avatar">👤</div>
-    <div class="alert-info">
-      <span id="follower-name" class="username">@kullanici</span>
-      <span class="action-text">takip etti! 🎉</span>
+  <!-- HEDİYEBOX CANLI OVERLAY ALANI -->
+  <div id="overlay-container">
+    
+    <!-- 0. Takipçi Bildirim Kartı (2.5 cm boyutunda) -->
+    <div id="follower-card" class="hb-card follower-card hidden">
+      <div class="user-avatar">👤</div>
+      <div class="hb-details">
+        <h4 id="follower-name">@kullanici</h4>
+        <p>Aramıza katıldı! 🎉</p>
+      </div>
     </div>
-  </div>
 
-  <!-- 2. HEDİYE EKRANI (TikFinity Tarzı) -->
-  <div id="gift-alert" class="gift-card hidden">
-    <img id="gift-icon" src="" alt="Hediye">
-    <div class="gift-details">
-      <h3 id="gift-sender">@kullanici</h3>
-      <p id="gift-desc">Gül gönderdi!</p>
+    <!-- 1. Hediye Kartı (Gül / Aslan vb. Geldiğinde Çıkan Kart) -->
+    <div id="gift-card" class="hb-card hidden">
+      <div class="hb-gift-icon-wrap">
+        <img id="gift-icon" src="https://p16-webcast.tiktokcdn.com/webcast/58ed6ff73fb8953110e536bf30424a73.png" alt="Hediye">
+      </div>
+      <div class="hb-details">
+        <h4 id="gift-sender">@kullanici</h4>
+        <p id="gift-message">Gül gönderdi!</p>
+      </div>
     </div>
+
+    <!-- 2. Video Bildirimi (Özel Hediyelerde Ekranda Oynayan Video) -->
+    <div id="video-alert-box" class="hidden">
+      <video id="alert-video" width="300" src=""></video>
+    </div>
+
+    <!-- 3. Beğeni Bildirimi -->
+    <div id="like-badge" class="hb-badge">
+      <span class="heart-pulse">❤️</span>
+      <span id="like-count">0</span>
+    </div>
+
   </div>
 
-  <!-- 3. BEĞENİ TABLOSU / SAYAÇ -->
-  <div id="like-counter-box">
-    <span class="heart-icon">❤️</span>
-    <span id="like-count">0</span>
-  </div>
-
-  <script src="script.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
