@@ -4,15 +4,132 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HediyeBox - TikTok Overlay</title>
-  <link rel="stylesheet" href="./style.css">
+  
+  <!-- Kütüphaneler -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+  <!-- TÜM TASARIM KODLARI (SAYFA BOZULMASINI %100 ENGELER) -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: transparent !important;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* GİZLEME SINIFI (Çok Önemli) */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Ortak Kart Tasarımı */
+    .hb-card {
+      position: absolute;
+      background: rgba(18, 18, 28, 0.92);
+      border-radius: 16px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #ffffff;
+      backdrop-filter: blur(12px);
+      animation: hbPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* 1. Takipçi Kutusu (Yaklaşık 2.5 cm boyutunda) */
+    .follower-card {
+      top: 25px;
+      left: 25px;
+      width: 250px;
+      height: 90px;
+      border: 2px solid #00f2fe;
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+    }
+
+    /* 2. Hediye Kutusu */
+    .gift-card {
+      top: 130px;
+      left: 25px;
+      border: 2px solid #ff0050;
+      box-shadow: 0 0 20px rgba(255, 0, 80, 0.4);
+    }
+
+    .user-avatar {
+      font-size: 32px;
+    }
+
+    .hb-gift-icon-wrap img {
+      width: 55px;
+      height: 55px;
+      object-fit: contain;
+    }
+
+    .hb-details h4 {
+      font-size: 16px;
+      color: #00f2fe;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .gift-card .hb-details h4 {
+      color: #ff0050;
+    }
+
+    .hb-details p {
+      font-size: 13px;
+      color: #f1f1f1;
+      font-weight: 500;
+    }
+
+    /* 3. Beğeni Sayacı */
+    .hb-badge {
+      position: absolute;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(15, 15, 20, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 18px;
+      border-radius: 40px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .heart-pulse {
+      color: #ff0050;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes hbPop {
+      0% { transform: scale(0.6) translateY(-10px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
 <body>
 
   <!-- HEDİYEBOX CANLI OVERLAY ALANI -->
   <div id="overlay-container">
     
-    <!-- 0. Takipçi Bildirim Kartı (2.5 cm boyutunda) -->
+    <!-- 0. TAKİPÇİ KUTUSU (2.5 cm Havai Fişekli Bildirim) -->
     <div id="follower-card" class="hb-card follower-card hidden">
       <div class="user-avatar">👤</div>
       <div class="hb-details">
@@ -21,8 +138,8 @@
       </div>
     </div>
 
-    <!-- 1. Hediye Kartı (Gül / Aslan vb. Geldiğinde Çıkan Kart) -->
-    <div id="gift-card" class="hb-card hidden">
+    <!-- 1. HEDİYE KARTI -->
+    <div id="gift-card" class="hb-card gift-card hidden">
       <div class="hb-gift-icon-wrap">
         <img id="gift-icon" src="https://p16-webcast.tiktokcdn.com/webcast/58ed6ff73fb8953110e536bf30424a73.png" alt="Hediye">
       </div>
@@ -32,12 +149,7 @@
       </div>
     </div>
 
-    <!-- 2. Video Bildirimi (Özel Hediyelerde Ekranda Oynayan Video) -->
-    <div id="video-alert-box" class="hidden">
-      <video id="alert-video" width="300" src=""></video>
-    </div>
-
-    <!-- 3. Beğeni Bildirimi -->
+    <!-- 2. BEĞENİ SAYACI -->
     <div id="like-badge" class="hb-badge">
       <span class="heart-pulse">❤️</span>
       <span id="like-count">0</span>
