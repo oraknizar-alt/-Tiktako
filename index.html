@@ -3,26 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tiktako Live Overlay</title>
+  <title>TikTok Live Overlay Platformu</title>
   <link rel="stylesheet" href="style.css">
-  <!-- WebSocket Kütüphanesi -->
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <!-- Canvas Confetti & Canvas Fireworks Kütüphanesi -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Socket.io bağlantısı -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 </head>
 <body>
 
-  <!-- Overlay Katmanı -->
-  <div id="overlay-container">
-    <div id="gift-box" class="hidden">
-      <h3 id="sender-name">@KullaniciAdi</h3>
-      <img id="gift-image" src="" alt="Hediye">
-      <h2 id="gift-name">Gül Gönderildi!</h2>
+  <!-- 1. HAVAİ FİŞEK VE TAKİPÇİ BİLDİRİMİ (Yaklaşık 2.5 cm boyutunda) -->
+  <div id="follower-alert" class="alert-card hidden">
+    <div class="user-avatar">👤</div>
+    <div class="alert-info">
+      <span id="follower-name" class="username">@kullanici</span>
+      <span class="action-text">takip etti! 🎉</span>
     </div>
   </div>
 
-  <!-- Test Butonları -->
-  <div class="controls">
-    <button onclick="triggerTikTokGift('Ahmet', 'Rose')">🌹 Gül Testi</button>
-    <button onclick="triggerTikTokGift('Mehmet', 'Lion')">🦁 Aslan Testi ("Aslanım")</button>
+  <!-- 2. HEDİYE EKRANI (TikFinity Tarzı) -->
+  <div id="gift-alert" class="gift-card hidden">
+    <img id="gift-icon" src="" alt="Hediye">
+    <div class="gift-details">
+      <h3 id="gift-sender">@kullanici</h3>
+      <p id="gift-desc">Gül gönderdi!</p>
+    </div>
+  </div>
+
+  <!-- 3. BEĞENİ TABLOSU / SAYAÇ -->
+  <div id="like-counter-box">
+    <span class="heart-icon">❤️</span>
+    <span id="like-count">0</span>
   </div>
 
   <script src="script.js"></script>
