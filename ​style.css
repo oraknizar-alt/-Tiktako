@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: transparent; /* OBS için şeffaf arka plan */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+}
+
+#overlay-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#gift-box {
+  text-align: center;
+  background: rgba(15, 15, 25, 0.85);
+  color: #fff;
+  padding: 25px 40px;
+  border-radius: 20px;
+  border: 2px solid #ff0050;
+  box-shadow: 0 0 25px rgba(255, 0, 80, 0.6);
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#gift-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.controls {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.controls button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #ff0050;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}

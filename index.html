@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiktako Live Overlay</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- WebSocket Kütüphanesi -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body>
+
+  <!-- Overlay Katmanı -->
+  <div id="overlay-container">
+    <div id="gift-box" class="hidden">
+      <h3 id="sender-name">@KullaniciAdi</h3>
+      <img id="gift-image" src="" alt="Hediye">
+      <h2 id="gift-name">Gül Gönderildi!</h2>
+    </div>
+  </div>
+
+  <!-- Test Butonları -->
+  <div class="controls">
+    <button onclick="triggerTikTokGift('Ahmet', 'Rose')">🌹 Gül Testi</button>
+    <button onclick="triggerTikTokGift('Mehmet', 'Lion')">🦁 Aslan Testi ("Aslanım")</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
