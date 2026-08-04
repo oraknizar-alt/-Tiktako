@@ -3,156 +3,214 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HediyeBox - TikTok Overlay</title>
+  <title>TikFinity Android Studio & Overlay</title>
   
   <!-- Kütüphaneler -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 
-  <!-- TÜM TASARIM KODLARI (SAYFA BOZULMASINI %100 ENGELER) -->
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root {
+      --bg-color: #0d0e15;
+      --card-bg: #161824;
+      --accent-color: #00f2fe;
+      --pink-color: #ff0050;
+      --text-color: #ffffff;
+      --subtext-color: #a0a5ba;
     }
 
-    body {
-      background-color: transparent !important;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      overflow: hidden;
-      width: 100vw;
-      height: 100vh;
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; padding-bottom: 50px; }
+
+    /* CANLI OVERLAY ALANI (Ekrana Yerleşen Katmanlar) */
+    #overlay-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
     }
 
-    /* GİZLEME SINIFI (Çok Önemli) */
-    .hidden {
-      display: none !important;
-    }
+    .hidden { display: none !important; }
 
-    /* Ortak Kart Tasarımı */
-    .hb-card {
+    /* TikFinity Alert Kutusu */
+    .alert-box {
       position: absolute;
-      background: rgba(18, 18, 28, 0.92);
-      border-radius: 16px;
-      padding: 12px 20px;
+      background: rgba(22, 24, 36, 0.95);
+      border-radius: 14px;
+      padding: 12px 18px;
       display: flex;
       align-items: center;
       gap: 14px;
-      color: #ffffff;
-      backdrop-filter: blur(12px);
-      animation: hbPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      animation: popIn 0.4s ease-out;
     }
 
-    /* 1. Takipçi Kutusu (Yaklaşık 2.5 cm boyutunda) */
-    .follower-card {
-      top: 25px;
-      left: 25px;
-      width: 250px;
-      height: 90px;
-      border: 2px solid #00f2fe;
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+    .follower-alert {
+      top: 20px; left: 20px;
+      width: 250px; height: 90px; /* 2.5 cm ölçüsü */
+      border: 2px solid var(--accent-color);
     }
 
-    /* 2. Hediye Kutusu */
-    .gift-card {
-      top: 130px;
-      left: 25px;
-      border: 2px solid #ff0050;
-      box-shadow: 0 0 20px rgba(255, 0, 80, 0.4);
+    .gift-alert {
+      top: 125px; left: 20px;
+      border: 2px solid var(--pink-color);
     }
 
-    .user-avatar {
-      font-size: 32px;
-    }
+    .user-icon { font-size: 30px; }
+    .alert-details h4 { color: var(--accent-color); font-size: 15px; }
+    .alert-details p { color: #fff; font-size: 13px; }
 
-    .hb-gift-icon-wrap img {
-      width: 55px;
-      height: 55px;
-      object-fit: contain;
-    }
-
-    .hb-details h4 {
-      font-size: 16px;
-      color: #00f2fe;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-
-    .gift-card .hb-details h4 {
-      color: #ff0050;
-    }
-
-    .hb-details p {
-      font-size: 13px;
-      color: #f1f1f1;
-      font-weight: 500;
-    }
-
-    /* 3. Beğeni Sayacı */
-    .hb-badge {
+    /* Hedef Çubuğu (Goal Bar) */
+    .goal-box {
       position: absolute;
-      bottom: 25px;
-      right: 25px;
-      background: rgba(15, 15, 20, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 8px 18px;
-      border-radius: 40px;
-      color: #fff;
-      font-size: 18px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      top: 20px; right: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+      padding: 10px 15px;
+      width: 220px;
+      border: 1px solid rgba(255,255,255,0.1);
     }
 
-    .heart-pulse {
-      color: #ff0050;
-      animation: pulse 1s infinite;
+    .goal-title { font-size: 12px; margin-bottom: 5px; color: var(--subtext-color); display: flex; justify-content: space-between; }
+    .goal-bar-bg { width: 100%; height: 12px; background: #222; border-radius: 6px; overflow: hidden; }
+    .goal-bar-fill { width: 35%; height: 100%; background: linear-gradient(90deg, #ff0050, #00f2fe); transition: width 0.3s; }
+
+    /* MOBİL YÖNETİM PANELİ (DASHBOARD) STİLLERİ */
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    header { text-align: center; margin-bottom: 25px; }
+    header h1 { color: var(--accent-color); font-size: 24px; }
+    header p { color: var(--subtext-color); font-size: 13px; }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
     }
 
-    @keyframes hbPop {
-      0% { transform: scale(0.6) translateY(-10px); opacity: 0; }
-      100% { transform: scale(1) translateY(0); opacity: 1; }
+    .card h3 { font-size: 16px; margin-bottom: 12px; color: #fff; display: flex; align-items: center; gap: 8px; }
+
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; color: var(--subtext-color); margin-bottom: 5px; }
+    .form-control {
+      width: 100%; padding: 10px 14px;
+      background: #0d0e15; border: 1px solid #2a2d3d;
+      border-radius: 8px; color: #fff; font-size: 14px;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.25); }
-      100% { transform: scale(1); }
+    .btn {
+      width: 100%; padding: 12px;
+      border: none; border-radius: 8px;
+      font-weight: bold; font-size: 14px; cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-primary { background: var(--accent-color); color: #000; }
+    .btn-pink { background: var(--pink-color); color: #fff; }
+    .btn-secondary { background: #2a2d3d; color: #fff; }
+
+    .switch-group { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; }
+
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
 <body>
 
-  <!-- HEDİYEBOX CANLI OVERLAY ALANI -->
-  <div id="overlay-container">
+  <!-- ================= 1. CANLI OVERLAY EKRANI (OBS / Ekran Üstü) ================= -->
+  <div id="overlay-screen">
     
-    <!-- 0. TAKİPÇİ KUTUSU (2.5 cm Havai Fişekli Bildirim) -->
-    <div id="follower-card" class="hb-card follower-card hidden">
-      <div class="user-avatar">👤</div>
-      <div class="hb-details">
+    <!-- Takipçi Uyarısı (2.5 cm Havai Fişekli) -->
+    <div id="follower-alert" class="alert-box follower-alert hidden">
+      <div class="user-icon">👤</div>
+      <div class="alert-details">
         <h4 id="follower-name">@kullanici</h4>
         <p>Aramıza katıldı! 🎉</p>
       </div>
     </div>
 
-    <!-- 1. HEDİYE KARTI -->
-    <div id="gift-card" class="hb-card gift-card hidden">
-      <div class="hb-gift-icon-wrap">
-        <img id="gift-icon" src="https://p16-webcast.tiktokcdn.com/webcast/58ed6ff73fb8953110e536bf30424a73.png" alt="Hediye">
-      </div>
-      <div class="hb-details">
+    <!-- Hediye Uyarısı -->
+    <div id="gift-alert" class="alert-box gift-alert hidden">
+      <div class="user-icon">🎁</div>
+      <div class="alert-details">
         <h4 id="gift-sender">@kullanici</h4>
-        <p id="gift-message">Gül gönderdi!</p>
+        <p id="gift-text">Gül gönderdi!</p>
       </div>
     </div>
 
-    <!-- 2. BEĞENİ SAYACI -->
-    <div id="like-badge" class="hb-badge">
-      <span class="heart-pulse">❤️</span>
-      <span id="like-count">0</span>
+    <!-- Beğeni & Takip Hedef Çubuğu -->
+    <div id="goal-box" class="goal-box">
+      <div class="goal-title">
+        <span>Beğeni Hedefi</span>
+        <span id="goal-count">350 / 1000</span>
+      </div>
+      <div class="goal-bar-bg">
+        <div id="goal-fill" class="goal-bar-fill"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= 2. MOBİL YÖNETİM PANELİ (DASHBOARD) ================= -->
+  <div class="container">
+    
+    <header>
+      <h1>⚡ TikFinity Android</h1>
+      <p>TikTok Canlı Yayın Etkileşim & Overlay Paneli</p>
+    </header>
+
+    <!-- BAĞLANTI KARTI -->
+    <div class="card">
+      <h3>🔌 Canlı Yayın Bağlantısı</h3>
+      <div class="form-group">
+        <label>TikTok Kullanıcı Adınız (@olmadan)</label>
+        <input type="text" id="tiktok-user" class="form-control" placeholder="örneğin: mehmetyilmaz">
+      </div>
+      <button class="btn btn-primary" onclick="connectStream()">Yayına Bağlan</button>
+    </div>
+
+    <!-- TTS CHAT OKUYUCU -->
+    <div class="card">
+      <h3>🗣️ TTS (Chat Okuyucu) Ayarları</h3>
+      <div class="switch-group">
+        <span>Gelen Yorumları Sesli Oku</span>
+        <input type="checkbox" id="tts-toggle" checked>
+      </div>
+      <div class="form-group" style="margin-top: 10px;">
+        <label>Okuma Hızı</label>
+        <input type="range" id="tts-speed" min="0.5" max="2" step="0.1" value="1" style="width: 100%;">
+      </div>
+    </div>
+
+    <!-- HEDİYE VE SES AYARLARI -->
+    <div class="card">
+      <h3>🎁 Özel Hediye Sesleri & Efektler</h3>
+      <div class="form-group">
+        <label>Hediye Seçin</label>
+        <select id="gift-select" class="form-control">
+          <option value="Rose">Gül (Rose)</option>
+          <option value="Lion">Aslan (Lion)</option>
+          <option value="TikTok">TikTok Logosu</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Özel Mesaj Metni</label>
+        <input type="text" id="gift-custom-msg" class="form-control" placeholder="Örn: Kral Aslan Geldi!">
+      </div>
+      <button class="btn btn-secondary" onclick="saveGiftSetting()">Aylarları Kaydet</button>
+    </div>
+
+    <!-- TEST PANELİ -->
+    <div class="card">
+      <h3>🧪 Test Butonları (Yayında Değilken Dene)</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <button class="btn btn-pink" onclick="testFollower()">Takipçi Test Et</button>
+        <button class="btn btn-pink" onclick="testGift()">Hediye Test Et</button>
+      </div>
     </div>
 
   </div>
