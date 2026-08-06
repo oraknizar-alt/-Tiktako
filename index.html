@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiktok Mobile Stüdyo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Tiktok Mobile <span>Stüdyo</span>
+        </div>
+        <a href="app.apk" class="btn-primary btn-sm"><i class="fa-solid fa-download"></i> Uygulamayı İndir</a>
+    </header>
+
+    <section class="hero">
+        <div class="badge">✨ TikTok LIVE Mobil Overlay ✨</div>
+        <h1>Tiktok Mobile <span>Stüdyo</span></h1>
+        <p>Canlı yayın ekranınızı kişiselleştirin! Ekrana hediye, video, özel yazılar ve uyarılar ekleyerek yayınınızı profesyonelleştirin.</p>
+        
+        <div class="hero-buttons">
+            <a href="app.apk" download class="btn-primary btn-lg"><i class="fa-solid fa-download"></i> Uygulamayı İndir (APK)</a>
+            <a href="#hediyeler" class="btn-secondary btn-lg"><i class="fa-solid fa-gift"></i> Hediyeleri İncele</a>
+        </div>
+
+        <div class="app-preview-container">
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <img src="34574.jpg" alt="Tiktok Mobile Stüdyo Ön İzleme" class="preview-img">
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <strong>~30sn</strong>
+                <span>Hızlı Kurulum</span>
+            </div>
+            <div class="stat-item">
+                <strong>Anlık</strong>
+                <span>Overlay Bağlantısı</span>
+            </div>
+            <div class="stat-item">
+                <strong>Türkçe</strong>
+                <span>Tam Destek</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="hediyeler">
+        <div class="section-tag">🎁 Ekran Araçları</div>
+        <h2>Ekrana Hediye & Video Ekleme</h2>
+
+        <div class="grid-container">
+            <div class="feature-card clickable-card" id="openGiftModal">
+                <div class="icon"><i class="fa-solid fa-gift"></i></div>
+                <h3>Ekrana Hediye Koy</h3>
+                <p>TikTok şeffaf PNG hediyelerini kütüphaneden seçerek canlı yayın ekranınıza aktarın.</p>
+                <button class="btn-secondary btn-sm mt-10">Hediyeleri Aç & Seç →</button>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon"><i class="fa-solid fa-video"></i></div>
+                <h3>Ekrana Video Koy</h3>
+                <p>İstediğiniz videoları veya simgeleri canlı yayın overlay ekranına dilediğiniz boyutta ekleyin.</p>
+            </div>
+        </div>
+
+        <div class="update-notice">
+            <i class="fa-solid fa-arrows-rotate fa-spin"></i>
+            <span>DAHA GÜNCELLENECEK</span>
+        </div>
+    </section>
+
+    <section class="steps-section">
+        <div class="section-tag">⚙️ Kurulum Rehberi</div>
+        <h2>Yayına Kadar 4 Adım</h2>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <span class="step-num">01</span>
+                <h4>Uygulamayı İndir ve Kur</h4>
+                <p>Tiktok Mobile Stüdyo APK dosyasını indirip cihazınıza kurulum yapın.</p>
+            </div>
+            <div class="step-card">
+                <span class="step-num">02</span>
+                <h4>İzinleri Onayla</h4>
+                <p>Ekranda çizim (Overlay) iznini vererek yüzen pencereyi aktif edin.</p>
+            </div>
+            <div class="step-card">
+                <span class="step-num">03</span>
+                <h4>Hediye ve Videoları Seç</h4>
+                <p>Görsel ve yazı boyutlarını, şeffaflık ve kilit ayarlarını düzenleyin.</p>
+            </div>
+            <div class="step-card">
+                <span class="step-num">04</span>
+                <h4>Canlı Yayına Başla</h4>
+                <p>TikTok yayınınızı başlatın, overlay ögeleri ekranda canlı olarak çalışsın.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="download-section" id="uygulama-indir">
+        <div class="card-box">
+            <h2><i class="fa-solid fa-user-plus"></i> Hesap Oluştur</h2>
+            <p>E-mail adresinize doğrulama kodu göndereceğiz.</p>
+            
+            <form id="registerForm" onsubmit="event.preventDefault(); alert('Doğrulama kodu e-posta adresinize gönderildi!');">
+                <div class="input-group">
+                    <label>Adınız Soyadınız</label>
+                    <input type="text" placeholder="Ad Soyad" required>
+                </div>
+                <div class="input-group">
+                    <label>E-Mail Adresi</label>
+                    <input type="email" placeholder="ornek@gmail.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Şifre</label>
+                    <input type="password" placeholder="En az 8 karakter" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full"><i class="fa-solid fa-paper-plane"></i> Kod Gönder</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="giftModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🎁 TikTok Hediyeleri Seç (Şeffaf PNG)</h3>
+                <span class="close-btn" id="closeGiftModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="gift-grid">
+                    <div class="gift-item">🌸 <span>Gül</span></div>
+                    <div class="gift-item">👏 <span>Alkış</span></div>
+                    <div class="gift-item">🎈 <span>Balon</span></div>
+                    <div class="gift-item">🏹 <span>Kalp Oku</span></div>
+                    <div class="gift-item">⭐ <span>Yıldız</span></div>
+                    <div class="gift-item">🎯 <span>Hedef</span></div>
+                    <div class="gift-item">🧸 <span>Ayıcık</span></div>
+                    <div class="gift-item">👑 <span>Taç</span></div>
+                    <div class="gift-item">🚀 <span>Roket</span></div>
+                    <div class="gift-item">💎 <span>Elmas</span></div>
+                    <div class="gift-item">🎮 <span>Konsol</span></div>
+                    <div class="gift-item">🍿 <span>M
