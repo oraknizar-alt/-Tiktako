@@ -3,99 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiktok Mobil Stüdyo</title>
+    <title>TikTok Mobil Stüdyo & Live Editör</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <header class="navbar">
-        <h2>Tiktok Mobil Stüdyo</h2>
-        <div id="user-info">
-            <button id="google-login-btn" onclick="googleIleGirisYap()">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"> Google ile Giriş Yap
+    <div id="googleAuthModal" class="auth-overlay">
+        <div class="auth-card">
+            <i class="fa-brands fa-google google-icon"></i>
+            <h2>Devam Etmek İçin Giriş Yapın</h2>
+            <p>TikTok Mobil Stüdyo özelliklerine erişebilmek için Google hesabınızla giriş yapmanız gerekmektedir.</p>
+            <button id="googleLoginBtn" class="btn-google">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                Google ile Giriş Yap
             </button>
-            <div id="user-profile" class="hidden">
-                <img id="user-photo" src="" alt="Profil">
-                <span id="user-name"></span>
-                <button onclick="cikisYap()" class="logout-btn">Çıkış</button>
-            </div>
-        </div>
-    </header>
-
-    <section class="hero">
-        <h1 id="hero-title">Tiktok Mobil Stüdyo</h1>
-        <p id="hero-desc">TikTok canlı yayın ekranınızı kişiselleştirin! Ekrana hediye, video ve özel içerikler ekleyin.</p>
-        
-        <div class="media-container" id="media-preview-box">
-            <img id="preview-image" src="https://via.placeholder.com/600x350/111/fff?text=On+Izleme+Gorseli" alt="Ön İzleme">
-            <video id="preview-video" controls class="hidden">
-                <source id="video-source" src="" type="video/mp4">
-            </video>
-        </div>
-
-        <div class="action-box">
-            <div id="payment-status-box">
-                <p class="status-text locked" id="lock-status-text">🔒 APK İndirmek İçin Satın Almalısınız</p>
-                <!-- Shopier / PayTR Ödeme Linkiniz Buraya Bağlanır -->
-                <button id="buy-btn" onclick="gercekOdemeBaslat()">💳 Güvenli Ödeme Yap (Satın Al)</button>
-            </div>
-
-            <button id="download-apk-btn" class="download-btn disabled" disabled onclick="guvenliApkIndir()">
-                🚀 APK İndir (Cihaza Özel Güvenli İndirme)
-            </button>
-        </div>
-    </section>
-
-    <!-- SAĞ ORTADAKİ AI BOT BUTONU VE PENCERESİ -->
-    <button id="ai-toggle-btn" onclick="aiPenceresiAcKapat()">🤖 AI Asistan</button>
-
-    <div id="ai-chat-window" class="ai-window hidden">
-        <div class="ai-header">
-            <span>🤖 Tiktok Stüdyo AI</span>
-            <span class="ai-close" onclick="aiPenceresiAcKapat()">&times;</span>
-        </div>
-        <div class="ai-messages" id="ai-messages">
-            <div class="bot-msg">Merhaba! Uygulamamız hakkında ne düşünüyorsun? Aklına takılan her şeyi sorabilirsin!</div>
-        </div>
-        <div class="ai-input-box">
-            <input type="text" id="ai-user-input" placeholder="Bir şeyler yazın..." onkeypress="aiTusaBasildi(event)">
-            <button onclick="aiMesajGonder()">Gönder</button>
         </div>
     </div>
 
-    <footer class="footer">
-        <button class="admin-open-btn" onclick="adminPaneliAc()">⚙️ Admin Paneli Girişi</button>
-    </footer>
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> TikTok Mobile <span>Stüdyo</span>
+        </div>
+        <a href="app.apk" class="btn-primary btn-sm"><i class="fa-solid fa-download"></i> Uygulamayı İndir</a>
+    </header>
 
-    <!-- ADMIN PANEL POPUP -->
-    <div id="admin-modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-btn" onclick="adminPaneliKapat()">&times;</span>
-            <h2>⚙️ Yönetici Paneli</h2>
-            
-            <div id="admin-login-form">
-                <input type="password" id="admin-pass-input" placeholder="Admin Şifresi">
-                <button onclick="adminGirisKontrol()">Giriş Yap</button>
+    <section class="hero">
+        <div class="badge">✨ TikTok LIVE Mobil Overlay ✨</div>
+        <h1>TikTok Mobile <span>Stüdyo</span></h1>
+        <p>Canlı yayın ekranınızı kişiselleştirin! Ekrana hediye, video, özel yazılar ve görevler ekleyerek yayınınızı profesyonelleştirin.</p>
+        
+        <div class="hero-buttons">
+            <a href="app.apk" download class="btn-primary btn-lg"><i class="fa-solid fa-download"></i> Uygulamayı İndir (APK)</a>
+            <button id="openGiftModal" class="btn-secondary btn-lg"><i class="fa-solid fa-gift"></i> Hediyeleri İncele</button>
+        </div>
+    </section>
+
+    <section class="preview-section">
+        <div class="section-title">
+            <h2><i class="fa-solid fa-mobile-screen-button"></i> Uygulama Ön İzleme</h2>
+            <p>Canlı yayın editörünün nasıl çalıştığını videodan izleyin.</p>
+        </div>
+        <div class="video-container">
+            <video controls autoplay loop muted playsinline class="app-video">
+                <source src="34671.mp4" type="video/mp4">
+                Tarayıcınız video etiketini desteklemiyor.
+            </video>
+        </div>
+    </section>
+
+    <section class="bottom-section">
+        <div class="about-app-wrapper">
+            <button id="openAboutModal" class="about-app-btn">
+                <div class="about-img-circle">
+                    <i class="fa-solid fa-sliders"></i>
+                </div>
+                <span>UYGULAMA HAKKINDA</span>
+            </button>
+        </div>
+
+        <div class="contact-request">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=oraknizar@gmail.com" target="_blank" class="red-email-link">
+                <i class="fa-solid fa-envelope"></i> EKLEMEMİZİ İSTEDİĞİNİZ BİŞEY VARSA POSTA ADRESİMİZE GÖNDERİN
+            </a>
+        </div>
+    </section>
+
+    <div id="aiAssistantBtn" class="ai-float-btn" title="AI Asistan">
+        <div class="ai-glow"></div>
+        <i class="fa-solid fa-robot"></i>
+        <span class="ai-badge">AI</span>
+    </div>
+
+    <div id="aiChatModal" class="modal">
+        <div class="modal-content ai-modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-robot"></i> AI Asistan</h3>
+                <span class="close-btn" id="closeAiModal">&times;</span>
             </div>
+            <div class="modal-body ai-chat-body">
+                <div class="chat-message bot">
+                    Merhaba! TikTok Mobil Stüdyo hakkında bana dilediğiniz soruyu sorabilirsiniz.
+                </div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="aiInput" placeholder="Sorunuzu yazın...">
+                <button id="sendAiMsg"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
 
-            <div id="admin-controls" class="hidden">
-                <hr>
-                <h3>Site İçeriğini Düzenle</h3>
-                <label>Başlık:</label>
-                <input type="text" id="edit-hero-title">
-                <label>Açıklama:</label>
-                <textarea id="edit-hero-desc" rows="3"></textarea>
-                <label>Medya Tipi:</label>
-                <select id="edit-media-type">
-                    <option value="image">Resim</option>
-                    <option value="video">Video</option>
-                </select>
-                <label>Medya URL:</label>
-                <input type="text" id="edit-media-url">
+    <div id="giftModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🎁 TikTok Hediyeleri (Şeffaf Overlay)</h3>
+                <span class="close-btn" id="closeGiftModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="gift-grid">
+                    <div class="gift-item">🌸 <span>Gül</span></div>
+                    <div class="gift-item">👏 <span>Alkış</span></div>
+                    <div class="gift-item">🎈 <span>Balon</span></div>
+                    <div class="gift-item">🏹 <span>Kalp Oku</span></div>
+                    <div class="gift-item">⭐ <span>Yıldız</span></div>
+                    <div class="gift-item">🎯 <span>Hedef</span></div>
+                    <div class="gift-item">🧸 <span>Ayıcık</span></div>
+                    <div class="gift-item">👑 <span>Taç</span></div>
+                    <div class="gift-item">🚀 <span>Roket</span></div>
+                    <div class="gift-item">💎 <span>Elmas</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <button class="save-btn" onclick="adminDegisiklikleriKaydet()">💾 Kaydet</button>
+    <div id="aboutModal" class="modal">
+        <div class="modal-content about-modal-content">
+            <div class="modal-header">
+                <h3>✨ Tik Tako Live Editör Özellikleri</h3>
+                <span class="close-btn" id="closeAboutModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="guide-list">
+                    <div class="guide-card">
+                        <i class="fa-solid fa-image"></i>
+                        <h4>1. Ekrana Fotoğraf & Görev Ekleme</h4>
+                        <p>Canlı yayın ekranınıza özel fotoğraflar ekleyebilir, üstüne veya altına "Örnek: 100 Gül" şeklinde yayın hedefleri ve yazıları koyabilirsiniz.</p>
+                    </div>
+
+                    <div class="guide-card">
+                        <i class="fa-solid fa-gift"></i>
+                        <h4>2. TikTok Hediyeleri Seçimi</h4>
+                        <p>Favorilere hediye ekleme özelliği sayesinde en çok kullanılan şeffaf PNG hediyeleri yayın ekranında anında sergileyebilirsiniz.</p>
+                    </div>
+
+                    <div class="guide-card">
+                        <i class="fa-solid fa-video"></i>
+                        <h4>3. Ekrana Video Simgesi Ekleme</h4>
+                        <p>Overlay üzerine hareketli veya sabit video simgeleri ekleyerek yayınınızı görsel olarak zenginleştirebilirsiniz.</p>
+                    </div>
+
+                    <div class="guide-card">
+                        <i class="fa-solid fa-sliders"></i>
+                        <h4>4. Boyut, Şeffaflık & Stil Ayarları</h4>
+                        <p>Resim boyutu, video boyutu, yazı boyutu ve şeffaflığı canlı olarak ayarlayabilir; renk ve stil seçimleri ile ekrandaki objeleri kilitleyebilirsiniz.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
