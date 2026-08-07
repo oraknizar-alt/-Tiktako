@@ -6,12 +6,10 @@
     <title id="site-title-tag">TikTok Mobile Stüdyo</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 </head>
 <body>
 
+    <!-- Zorunlu Google Giriş Ekranı (Sayfa Kilidi) -->
     <div id="googleAuthModal" class="auth-overlay">
         <div class="auth-card">
             <div class="google-header-icon">
@@ -23,7 +21,7 @@
                 </svg>
             </div>
             <h2>Google İle Giriş Yapın</h2>
-            <p>TikTok Mobil Stüdyo'ya erişmek için gerçek Google (Gmail) hesabınızla oturum açın.</p>
+            <p>TikTok Mobil Stüdyo'ya devam edebilmek için gerçek Google hesabınızla oturum açmanız gerekmektedir.</p>
             
             <button id="googleLoginBtn" type="button" class="btn-google" onclick="gercekGoogleGirisYap(event)">
                 <svg width="20" height="20" viewBox="0 0 48 48" class="btn-google-svg">
@@ -37,6 +35,7 @@
         </div>
     </div>
 
+    <!-- Üst Menü -->
     <header class="navbar">
         <div class="logo">
             <i class="fa-solid fa-wand-magic-sparkles"></i> TikTok Mobile <span id="nav-logo-sub">Stüdyo</span>
@@ -45,20 +44,21 @@
         <div id="user-profile" class="user-profile-box hidden">
             <img id="user-photo" src="" alt="Profil">
             <span id="user-name"></span>
-            <button onclick="cikisYap()" class="logout-btn">Çıkış</button>
+            <button type="button" onclick="cikisYap()" class="logout-btn">Çıkış</button>
         </div>
     </header>
 
+    <!-- Hero Bölümü -->
     <section class="hero">
         <div class="badge">✨ TikTok LIVE Mobil Overlay ✨</div>
         <h1 id="hero-title">TikTok Mobile <span>Stüdyo</span></h1>
         <p id="hero-desc">Canlı yayın ekranınızı kişiselleştirin! Ekrana hediye, video, özel yazılar ve görevler ekleyerek yayınınızı profesyonelleştirin.</p>
         
         <div class="hero-buttons">
-            <button id="buy-btn" class="btn-primary btn-lg" onclick="gercekOdemeBaslat()">
+            <button id="buy-btn" class="btn-primary btn-lg" type="button" onclick="gercekOdemeBaslat()">
                 <i class="fa-solid fa-cart-shopping"></i> Satın Al & APK İndir
             </button>
-            <button id="download-apk-btn" class="btn-primary btn-lg disabled" disabled onclick="guvenliApkIndir()">
+            <button id="download-apk-btn" class="btn-primary btn-lg disabled" type="button" disabled onclick="guvenliApkIndir()">
                 <i class="fa-solid fa-download"></i> Cihaza Özel APK İndir
             </button>
         </div>
@@ -69,6 +69,7 @@
         </div>
     </section>
 
+    <!-- Video Ön İzleme Bölümü -->
     <section class="preview-section">
         <div class="section-title">
             <h2><i class="fa-solid fa-mobile-screen-button"></i> Uygulama Ön İzleme</h2>
@@ -82,16 +83,19 @@
         </div>
     </section>
 
+    <!-- Uygulama Hakkında & İletişim -->
     <section class="bottom-section">
+        <!-- Yuvarlak Fotoğraflı Uygulama Hakkında Butonu -->
         <div class="about-app-wrapper">
-            <button id="openAboutModal" class="about-app-btn" onclick="modalAc('aboutModal')">
+            <button id="openAboutModal" class="about-app-btn" type="button" onclick="modalAc('aboutModal')">
                 <div class="about-img-circle">
-                    <i class="fa-solid fa-sliders"></i>
+                    <img src="34674.jpg" alt="Uygulama Hakkında" class="circular-btn-img">
                 </div>
                 <span>UYGULAMA HAKKINDA</span>
             </button>
         </div>
 
+        <!-- Sarı Renk, Kırmızı Alt Çizgili İletişim Bağlantısı -->
         <div class="contact-request">
             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=oraknizar@gmail.com" target="_blank" class="yellow-email-link">
                 <i class="fa-solid fa-envelope"></i> EKLEMEMİZİ İSTEDİĞİNİZ BİŞEY VARSA POSTA ADRESİMİZE GÖNDERİN
@@ -100,11 +104,13 @@
         </div>
     </section>
 
+    <!-- Mavi Yuvarlak AI Asistan Butonu (Robot Figürlü) -->
     <div id="aiAssistantBtn" class="ai-float-btn" title="AI Asistan" onclick="aiPenceresiAcKapat()">
         <i class="fa-solid fa-robot"></i>
         <span class="ai-badge">AI</span>
     </div>
 
+    <!-- AI Chat Penceresi -->
     <div id="aiChatModal" class="modal hidden">
         <div class="modal-content ai-modal-content">
             <div class="modal-header">
@@ -112,57 +118,60 @@
                 <span class="close-btn" onclick="aiPenceresiAcKapat()">×</span>
             </div>
             <div class="modal-body ai-chat-body" id="ai-messages">
-                <div class="bot-msg">Merhaba! Ben TikTok Mobil Stüdyo yapay zeka asistanıyım. Uygulama hakkında ne öğrenmek istersin?</div>
+                <div class="bot-msg">Merhaba! Ben TikTok Mobil Stüdyo yapay zeka asistanıyım. Uygulama, lisans sistemi veya özellikler hakkında her şeyi bana sorabilirsin!</div>
             </div>
             <div class="chat-footer">
                 <input type="text" id="aiInput" placeholder="Mesajınızı yazın..." onkeypress="aiTusaBasildi(event)">
-                <button onclick="aiMesajGonder()"><i class="fa-solid fa-paper-plane"></i></button>
+                <button type="button" onclick="aiMesajGonder()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
+    <!-- Uygulama Hakkında Modal -->
     <div id="aboutModal" class="modal hidden">
         <div class="modal-content about-modal-content">
             <div class="modal-header">
-                <h3>✨ Tik Tako Live Editör Özellikleri</h3>
+                <h3>✨ TikTok Mobil Stüdyo Rehberi</h3>
                 <span class="close-btn" onclick="modalKapat('aboutModal')">×</span>
             </div>
             <div class="modal-body">
                 <div class="guide-list">
                     <div class="guide-card">
-                        <h4>1. Ekrana Fotoğraf & Görev Ekleme</h4>
-                        <p>Canlı yayın ekranınıza fotoğraflar ve özel görev metinleri koyabilirsiniz.</p>
+                        <h4>1. Google ile Giriş & Lisans</h4>
+                        <p>Siteye ilk girişte Google hesabınız doğrulanır. Satın alım sonrasında lisans yalnızca sizin telefonunuzun cihaz kimliğine (Device ID) kilitlenir.</p>
                     </div>
                     <div class="guide-card">
-                        <h4>2. Şeffaf TikTok Hediyeleri</h4>
-                        <p>Yayın esnasında şeffaf PNG formatında TikTok hediye görsellerini yayına ekleyebilirsiniz.</p>
+                        <h4>2. Ekrana Fotoğraf & Görev Ekleme</h4>
+                        <p>Canlı yayın ekranınıza özel fotoğraflar, hedef görselleri ve görev metinleri yerleştirebilirsiniz.</p>
                     </div>
                     <div class="guide-card">
                         <h4>3. Ekrana Video Simgesi & Overlay</h4>
-                        <p>Hareketli veya sabit video simgeleri ile yayınınızı görsel olarak zenginleştirebilirsiniz.</p>
+                        <p>Hareketli veya sabit video simgeleri ekleyerek yayın kalitenizi profesyonel seviyeye taşıyabilirsiniz.</p>
                     </div>
                     <div class="guide-card">
                         <h4>4. Boyut, Şeffaflık & Kilitleme</h4>
-                        <p>Ekrandaki objelerin boyutunu, şeffaflığını ayarlayabilir ve yerini sabitlemek için kilitleyebilirsiniz.</p>
+                        <p>Ekrandaki tüm objelerin şeffaflık derecesini ayarlayabilir, yanlışlıkla dokunmamak için sabitleyip kilitleyebilirsiniz.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer & Admin Butonu -->
     <footer class="footer">
-        <button class="admin-open-btn" onclick="adminPaneliAc()">⚙️ Admin Paneli</button>
+        <button class="admin-open-btn" type="button" onclick="adminPaneliAc()">⚙️ Admin Paneli</button>
     </footer>
 
+    <!-- ADMIN PANEL POPUP -->
     <div id="admin-modal" class="modal hidden">
         <div class="modal-content">
             <span class="close-btn" onclick="adminPaneliKapat()">×</span>
             <h2>⚙️ Yönetici Paneli</h2>
             
             <div id="admin-login-form">
-                <p>Şifrenizi girin:</p>
+                <p>Yönetici şifresini girin:</p>
                 <input type="password" id="admin-pass-input" placeholder="Admin Şifresi">
-                <button onclick="adminGirisKontrol()" class="btn-primary">Giriş Yap</button>
+                <button type="button" onclick="adminGirisKontrol()" class="btn-primary">Giriş Yap</button>
             </div>
 
             <div id="admin-controls" class="hidden">
@@ -183,7 +192,7 @@
                 <label>Medya URL Bağlantısı:</label>
                 <input type="text" id="edit-media-url">
 
-                <button class="btn-primary" onclick="adminDegisiklikleriKaydet()">💾 Değişiklikleri Kaydet</button>
+                <button type="button" class="btn-primary" onclick="adminDegisiklikleriKaydet()">💾 Değişiklikleri Kaydet</button>
             </div>
         </div>
     </div>
