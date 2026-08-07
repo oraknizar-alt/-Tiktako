@@ -9,7 +9,6 @@
 </head>
 <body>
 
-    <!-- Zorunlu Google Giriş Ekranı (Sayfa Kilidi) -->
     <div id="googleAuthModal" class="auth-overlay">
         <div class="auth-card">
             <div class="google-header-icon">
@@ -35,7 +34,6 @@
         </div>
     </div>
 
-    <!-- Üst Menü -->
     <header class="navbar">
         <div class="logo">
             <i class="fa-solid fa-wand-magic-sparkles"></i> TikTok Mobile <span id="nav-logo-sub">Stüdyo</span>
@@ -48,7 +46,6 @@
         </div>
     </header>
 
-    <!-- Hero Bölümü -->
     <section class="hero">
         <div class="badge">✨ TikTok LIVE Mobil Overlay ✨</div>
         <h1 id="hero-title">TikTok Mobile <span>Stüdyo</span></h1>
@@ -69,33 +66,26 @@
         </div>
     </section>
 
-    <!-- Video Ön İzleme Bölümü -->
     <section class="preview-section">
         <div class="section-title">
             <h2><i class="fa-solid fa-mobile-screen-button"></i> Uygulama Ön İzleme</h2>
             <p>Canlı yayın editörünün nasıl çalıştığını izleyin.</p>
         </div>
         <div class="video-container" id="media-preview-box">
-            <video id="preview-video" controls autoplay loop muted playsinline class="app-video">
-                <source id="video-source" src="34671.mp4" type="video/mp4">
-            </video>
-            <img id="preview-image" src="" alt="Ön İzleme" class="hidden app-img">
+            <iframe src="https://streamable.com/e/3gsvlu?autoplay=0&muted=0" frameborder="0" width="100%" height="320" allowfullscreen allow="autoplay"></iframe>
         </div>
     </section>
 
-    <!-- Uygulama Hakkında & İletişim -->
     <section class="bottom-section">
-        <!-- Yuvarlak Fotoğraflı Uygulama Hakkında Butonu -->
         <div class="about-app-wrapper">
             <button id="openAboutModal" class="about-app-btn" type="button" onclick="modalAc('aboutModal')">
                 <div class="about-img-circle">
-                    <img src="34674.jpg" alt="Uygulama Hakkında" class="circular-btn-img">
+                    <img src="https://cdn.phototourl.com/free/2026-08-07-ef3d73f8-f2bb-4039-a996-34b929e1eef6.jpg" alt="Uygulama Hakkında" class="circular-btn-img">
                 </div>
                 <span>UYGULAMA HAKKINDA</span>
             </button>
         </div>
 
-        <!-- Sarı Renk, Kırmızı Alt Çizgili İletişim Bağlantısı -->
         <div class="contact-request">
             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=oraknizar@gmail.com" target="_blank" class="yellow-email-link">
                 <i class="fa-solid fa-envelope"></i> EKLEMEMİZİ İSTEDİĞİNİZ BİŞEY VARSA POSTA ADRESİMİZE GÖNDERİN
@@ -104,13 +94,11 @@
         </div>
     </section>
 
-    <!-- Mavi Yuvarlak AI Asistan Butonu (Robot Figürlü) -->
     <div id="aiAssistantBtn" class="ai-float-btn" title="AI Asistan" onclick="aiPenceresiAcKapat()">
         <i class="fa-solid fa-robot"></i>
         <span class="ai-badge">AI</span>
     </div>
 
-    <!-- AI Chat Penceresi -->
     <div id="aiChatModal" class="modal hidden">
         <div class="modal-content ai-modal-content">
             <div class="modal-header">
@@ -127,7 +115,6 @@
         </div>
     </div>
 
-    <!-- Uygulama Hakkında Modal -->
     <div id="aboutModal" class="modal hidden">
         <div class="modal-content about-modal-content">
             <div class="modal-header">
@@ -157,12 +144,10 @@
         </div>
     </div>
 
-    <!-- Footer & Admin Butonu -->
     <footer class="footer">
         <button class="admin-open-btn" type="button" onclick="adminPaneliAc()">⚙️ Admin Paneli</button>
     </footer>
 
-    <!-- ADMIN PANEL POPUP -->
     <div id="admin-modal" class="modal hidden">
         <div class="modal-content">
             <span class="close-btn" onclick="adminPaneliKapat()">×</span>
@@ -182,15 +167,6 @@
 
                 <label>Açıklama Metni:</label>
                 <textarea id="edit-hero-desc" rows="3"></textarea>
-
-                <label>Medya Tipi:</label>
-                <select id="edit-media-type">
-                    <option value="video">Video (MP4)</option>
-                    <option value="image">Resim (JPG/PNG)</option>
-                </select>
-
-                <label>Medya URL Bağlantısı:</label>
-                <input type="text" id="edit-media-url">
 
                 <button type="button" class="btn-primary" onclick="adminDegisiklikleriKaydet()">💾 Değişiklikleri Kaydet</button>
             </div>
