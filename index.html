@@ -25,7 +25,7 @@
             <h2>Google İle Giriş Yapın</h2>
             <p>TikTok Mobil Stüdyo'ya erişmek için gerçek Google (Gmail) hesabınızla oturum açın.</p>
             
-            <button id="googleLoginBtn" class="btn-google" onclick="gercekGoogleGirisYap(event)">
+            <button id="googleLoginBtn" type="button" class="btn-google" onclick="gercekGoogleGirisYap(event)">
                 <svg width="20" height="20" viewBox="0 0 48 48" class="btn-google-svg">
                     <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
                     <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -109,7 +109,7 @@
         <div class="modal-content ai-modal-content">
             <div class="modal-header">
                 <h3><i class="fa-solid fa-robot"></i> AI Asistan</h3>
-                <span class="close-btn" onclick="aiPenceresiAcKapat()">&times;</span>
+                <span class="close-btn" onclick="aiPenceresiAcKapat()">×</span>
             </div>
             <div class="modal-body ai-chat-body" id="ai-messages">
                 <div class="bot-msg">Merhaba! Ben TikTok Mobil Stüdyo yapay zeka asistanıyım. Uygulama hakkında ne öğrenmek istersin?</div>
@@ -125,13 +125,13 @@
         <div class="modal-content about-modal-content">
             <div class="modal-header">
                 <h3>✨ Tik Tako Live Editör Özellikleri</h3>
-                <span class="close-btn" onclick="modalKapat('aboutModal')">&times;</span>
+                <span class="close-btn" onclick="modalKapat('aboutModal')">×</span>
             </div>
             <div class="modal-body">
                 <div class="guide-list">
                     <div class="guide-card">
                         <h4>1. Ekrana Fotoğraf & Görev Ekleme</h4>
-                        <p>Canlı yayın ekranınıza fotoğraflar ve "100 Gül Hedefi" gibi özelleştirilebilir görev metinleri koyabilirsiniz.</p>
+                        <p>Canlı yayın ekranınıza fotoğraflar ve özel görev metinleri koyabilirsiniz.</p>
                     </div>
                     <div class="guide-card">
                         <h4>2. Şeffaf TikTok Hediyeleri</h4>
@@ -156,7 +156,7 @@
 
     <div id="admin-modal" class="modal hidden">
         <div class="modal-content">
-            <span class="close-btn" onclick="adminPaneliKapat()">&times;</span>
+            <span class="close-btn" onclick="adminPaneliKapat()">×</span>
             <h2>⚙️ Yönetici Paneli</h2>
             
             <div id="admin-login-form">
