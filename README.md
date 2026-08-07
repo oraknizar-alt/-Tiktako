@@ -1,1 +1,1 @@
-# -Tiktako
+# TikTok Mobil Stüdyo
