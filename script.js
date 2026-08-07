@@ -136,23 +136,10 @@ function adminGirisKontrol() {
 function adminDegisiklikleriKaydet() {
     const t = document.getElementById('edit-hero-title').value;
     const d = document.getElementById('edit-hero-desc').value;
-    const url = document.getElementById('edit-media-url').value;
-    const type = document.getElementById('edit-media-type').value;
 
     if(t) document.getElementById('hero-title').innerHTML = t;
     if(d) document.getElementById('hero-desc').innerText = d;
-    if(url) {
-        if(type === 'image') {
-            document.getElementById('preview-image').src = url;
-            document.getElementById('preview-image').classList.remove('hidden');
-            document.getElementById('preview-video').classList.add('hidden');
-        } else {
-            document.getElementById('video-source').src = url;
-            document.getElementById('preview-video').load();
-            document.getElementById('preview-video').classList.remove('hidden');
-            document.getElementById('preview-image').classList.add('hidden');
-        }
-    }
+    
     alert("Değişiklikler başarıyla kaydedildi!");
     adminPaneliKapat();
 }
