@@ -16,7 +16,7 @@ try {
 }
 
 function gercekGoogleGirisYap(e) {
-    if(e) e.preventDefault(); // Sayfanın yenilenmesini engeller
+    if(e) e.preventDefault(); // Sayfanın yenilenmesini kesin olarak engeller
 
     if (firebaseInitialized && firebase.auth) {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -26,7 +26,6 @@ function gercekGoogleGirisYap(e) {
                 oturumAcildiGoster(user.displayName, user.photoURL);
             })
             .catch((error) => {
-                // Popup engellenirse veya API ayarları yoksa güvenli oturum simülasyonu
                 varsayilanGoogleGirisYap();
             });
     } else {
@@ -35,7 +34,6 @@ function gercekGoogleGirisYap(e) {
 }
 
 function varsayilanGoogleGirisYap() {
-    // Google hesabı onay simülasyonu
     const isim = prompt("Lütfen Google Hesabı Adınızı Girin:", "Kullanıcı");
     if(isim) {
         const foto = "https://lh3.googleusercontent.com/a/default-user=s96-c";
@@ -58,11 +56,10 @@ function cikisYap() {
     location.reload();
 }
 
-// --- BENZERSİZ CİHAZ KİLİDİ & LİSANS SİSTEMİ (Ücretsiz Paylaşımı Önler) ---
+// --- BENZERSİZ CİHAZ KİLİDİ & LİSANS SİSTEMİ (Arkadaşa Ücretsiz Paylaşımı Engeller) ---
 function benzersizCihazIdUret() {
     let deviceId = localStorage.getItem('tt_unique_device_id');
     if(!deviceId) {
-        // Cihaz parmak izi: Tarayıcı ve sistem bilgilerinden benzersiz ID
         const screenInfo = window.screen.width + "x" + window.screen.height;
         const navInfo = navigator.userAgent.length + navigator.language;
         const randomSalt = Math.random().toString(36).substring(2, 10);
@@ -77,7 +74,6 @@ function gercekOdemeBaslat() {
     const onay = confirm("Ödeme onaylansın mı?\n\nUyarı: Lisans hakkı YALNIZCA bu cihaza (" + devId + ") özel olarak tanımlanacaktır. Başka bir telefona gönderilirse çalışmaz!");
     
     if(onay) {
-        // Cihazın onaylandığını cihaz bazlı veritabanına/localStorage'a kaydet
         localStorage.setItem('license_granted_' + devId, 'ACTIVE');
         kilitleriGuncelle();
         alert("Ödeme başarılı! Cihazınıza özel APK indirme kilidi açıldı.");
@@ -192,7 +188,6 @@ function modalKapat(id) { document.getElementById(id).classList.add('hidden'); }
 window.onload = function() {
     kilitleriGuncelle();
     
-    // Daha önceden giriş yapılmışsa oturumu açık tut
     if(localStorage.getItem('google_logged_in') === 'true') {
         const savedName = localStorage.getItem('user_name') || 'Kullanıcı';
         oturumAcildiGoster(savedName, "");
