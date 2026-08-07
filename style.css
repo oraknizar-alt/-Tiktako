@@ -13,26 +13,26 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
 body { background-color: var(--bg-color); color: var(--text-white); padding-bottom: 20px; }
 
-/* Auth Modal */
+/* Zorunlu Google Auth Overlay (Giriş Kilidi) */
 .auth-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.94); backdrop-filter: blur(8px);
-    display: flex; justify-content: center; align-items: center; z-index: 10000;
+    background: rgba(5, 1, 2, 0.96); backdrop-filter: blur(10px);
+    display: flex; justify-content: center; align-items: center; z-index: 99999;
 }
 .auth-card {
     background: var(--card-bg); border: 2px solid var(--primary-red);
-    padding: 30px 20px; border-radius: 20px; text-align: center; max-width: 380px; width: 90%;
-    box-shadow: 0 0 25px rgba(211, 18, 42, 0.4);
+    padding: 35px 25px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%;
+    box-shadow: 0 0 30px rgba(211, 18, 42, 0.5);
 }
 .google-header-icon { margin-bottom: 15px; display: flex; justify-content: center; }
 .auth-card h2 { font-size: 1.4rem; margin-bottom: 10px; color: var(--text-white); }
-.auth-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+.auth-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 25px; line-height: 1.5; }
 
 .btn-google {
     display: flex; align-items: center; justify-content: center; gap: 12px;
     width: 100%; padding: 14px 20px; background: #ffffff; color: #3c4043; border: 1px solid #dadce0;
     border-radius: 25px; font-weight: 600; font-size: 0.95rem; cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: background 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: background 0.2s;
 }
 .btn-google:hover { background: #f8f9fa; }
 .btn-google-svg { width: 20px; height: 20px; flex-shrink: 0; }
@@ -41,12 +41,15 @@ body { background-color: var(--bg-color); color: var(--text-white); padding-bott
 .navbar {
     display: flex; justify-content: space-between; align-items: center;
     padding: 15px 20px; background: rgba(11, 2, 3, 0.95); border-bottom: 1px solid var(--card-border);
+    position: sticky; top: 0; z-index: 100;
 }
 .logo { font-size: 1.2rem; font-weight: bold; color: var(--accent-gold); }
 .logo span { color: var(--primary-red); }
-.user-profile-box { display: flex; align-items: center; gap: 10px; }
-.user-profile-box img { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--accent-gold); }
-.logout-btn { background: var(--primary-red); color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
+
+.user-profile-box { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--card-border); }
+.user-profile-box img { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--accent-gold); }
+.user-profile-box span { font-size: 0.85rem; color: var(--text-white); }
+.logout-btn { background: var(--primary-red); color: #fff; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; }
 
 /* Hero */
 .hero { text-align: center; padding: 30px 15px; max-width: 800px; margin: 0 auto; }
@@ -79,10 +82,13 @@ body { background-color: var(--bg-color); color: var(--text-white); padding-bott
 .bottom-section { margin-top: 30px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .about-app-btn {
     background: linear-gradient(135deg, var(--card-bg), #2a080c);
-    border: 2px solid var(--primary-red); padding: 10px 20px; border-radius: 30px;
-    color: white; font-weight: bold; display: flex; align-items: center; gap: 10px; cursor: pointer;
+    border: 2px solid var(--primary-red); padding: 8px 20px 8px 8px; border-radius: 35px;
+    color: white; font-weight: bold; display: flex; align-items: center; gap: 12px; cursor: pointer;
+    box-shadow: 0 4px 15px rgba(211, 18, 42, 0.3); transition: transform 0.2s;
 }
-.about-img-circle { width: 35px; height: 35px; border-radius: 50%; background: var(--primary-red); display: flex; align-items: center; justify-content: center; }
+.about-app-btn:hover { transform: scale(1.03); }
+.about-img-circle { width: 42px; height: 42px; border-radius: 50%; overflow: hidden; border: 2px solid var(--accent-gold); flex-shrink: 0; }
+.circular-btn-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .yellow-email-link {
     color: #ffeb3b !important;
@@ -93,7 +99,7 @@ body { background-color: var(--bg-color); color: var(--text-white); padding-bott
     display: inline-block;
     line-height: 1.5;
 }
-.click-subtext { display: block; color: var(--primary-red); font-size: 0.8rem; margin-top: 4px; }
+.click-subtext { display: block; color: var(--primary-red); font-size: 0.8rem; margin-top: 4px; font-weight: bold; }
 
 /* AI Floating Button & Modal */
 .ai-float-btn {
@@ -118,7 +124,8 @@ body { background-color: var(--bg-color); color: var(--text-white); padding-bott
 .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 8px; }
 .close-btn { font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
 
-.guide-card { background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); padding: 10px; border-radius: 8px; margin-bottom: 8px; }
+.modal-body { padding: 15px 0; max-height: 320px; overflow-y: auto; }
+.guide-card { background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); padding: 10px; border-radius: 8px; margin-bottom: 8px; text-align: left; }
 .guide-card h4 { color: var(--accent-gold); font-size: 0.9rem; margin-bottom: 3px; }
 .guide-card p { font-size: 0.8rem; color: var(--text-muted); }
 
