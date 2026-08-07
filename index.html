@@ -9,40 +9,9 @@
 </head>
 <body>
 
-    <div id="googleAuthModal" class="auth-overlay">
-        <div class="auth-card">
-            <div class="google-header-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48">
-                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                </svg>
-            </div>
-            <h2>Google İle Giriş Yapın</h2>
-            <p>TikTok Mobil Stüdyo'ya devam edebilmek için gerçek Google hesabınızla oturum açmanız gerekmektedir.</p>
-            
-            <button id="googleLoginBtn" type="button" class="btn-google" onclick="gercekGoogleGirisYap(event)">
-                <svg width="20" height="20" viewBox="0 0 48 48" class="btn-google-svg">
-                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                </svg>
-                Google Hesabı İle Giriş Yap
-            </button>
-        </div>
-    </div>
-
     <header class="navbar">
         <div class="logo">
             <i class="fa-solid fa-wand-magic-sparkles"></i> TikTok Mobile <span id="nav-logo-sub">Stüdyo</span>
-        </div>
-        
-        <div id="user-profile" class="user-profile-box hidden">
-            <img id="user-photo" src="" alt="Profil">
-            <span id="user-name"></span>
-            <button type="button" onclick="cikisYap()" class="logout-btn">Çıkış</button>
         </div>
     </header>
 
@@ -52,17 +21,14 @@
         <p id="hero-desc">Canlı yayın ekranınızı kişiselleştirin! Ekrana hediye, video, özel yazılar ve görevler ekleyerek yayınınızı profesyonelleştirin.</p>
         
         <div class="hero-buttons">
-            <button id="buy-btn" class="btn-primary btn-lg" type="button" onclick="gercekOdemeBaslat()">
-                <i class="fa-solid fa-cart-shopping"></i> Satın Al & APK İndir
-            </button>
-            <button id="download-apk-btn" class="btn-primary btn-lg disabled" type="button" disabled onclick="guvenliApkIndir()">
+            <button id="download-apk-btn" class="btn-primary btn-lg" type="button" onclick="guvenliApkIndir()">
                 <i class="fa-solid fa-download"></i> Cihaza Özel APK İndir
             </button>
         </div>
         
         <div class="device-security-info">
             <i class="fa-solid fa-shield-halved"></i> 
-            <span>Cihaz Kimliği: <strong id="display-device-id">Yükleniyor...</strong> (Lisans Yalnızca Bu Cihaza Özeldir)</span>
+            <span>Cihaz Kimliği: <strong id="display-device-id">Yükleniyor...</strong></span>
         </div>
     </section>
 
@@ -106,7 +72,7 @@
                 <span class="close-btn" onclick="aiPenceresiAcKapat()">×</span>
             </div>
             <div class="modal-body ai-chat-body" id="ai-messages">
-                <div class="bot-msg">Merhaba! Ben TikTok Mobil Stüdyo yapay zeka asistanıyım. Uygulama, lisans sistemi veya özellikler hakkında her şeyi bana sorabilirsin!</div>
+                <div class="bot-msg">Merhaba! Ben TikTok Mobil Stüdyo yapay zeka asistanıyım. Uygulama veya özellikler hakkında her şeyi bana sorabilirsin!</div>
             </div>
             <div class="chat-footer">
                 <input type="text" id="aiInput" placeholder="Mesajınızı yazın..." onkeypress="aiTusaBasildi(event)">
@@ -124,19 +90,15 @@
             <div class="modal-body">
                 <div class="guide-list">
                     <div class="guide-card">
-                        <h4>1. Google ile Giriş & Lisans</h4>
-                        <p>Siteye ilk girişte Google hesabınız doğrulanır. Satın alım sonrasında lisans yalnızca sizin telefonunuzun cihaz kimliğine (Device ID) kilitlenir.</p>
-                    </div>
-                    <div class="guide-card">
-                        <h4>2. Ekrana Fotoğraf & Görev Ekleme</h4>
+                        <h4>1. Ekrana Fotoğraf & Görev Ekleme</h4>
                         <p>Canlı yayın ekranınıza özel fotoğraflar, hedef görselleri ve görev metinleri yerleştirebilirsiniz.</p>
                     </div>
                     <div class="guide-card">
-                        <h4>3. Ekrana Video Simgesi & Overlay</h4>
+                        <h4>2. Ekrana Video Simgesi & Overlay</h4>
                         <p>Hareketli veya sabit video simgeleri ekleyerek yayın kalitenizi profesyonel seviyeye taşıyabilirsiniz.</p>
                     </div>
                     <div class="guide-card">
-                        <h4>4. Boyut, Şeffaflık & Kilitleme</h4>
+                        <h4>3. Boyut, Şeffaflık & Kilitleme</h4>
                         <p>Ekrandaki tüm objelerin şeffaflık derecesini ayarlayabilir, yanlışlıkla dokunmamak için sabitleyip kilitleyebilirsiniz.</p>
                     </div>
                 </div>
