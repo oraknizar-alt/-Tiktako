@@ -16,20 +16,26 @@ body { background-color: var(--bg-color); color: var(--text-white); padding-bott
 /* Auth Modal */
 .auth-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.93); backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.94); backdrop-filter: blur(8px);
     display: flex; justify-content: center; align-items: center; z-index: 10000;
 }
 .auth-card {
     background: var(--card-bg); border: 2px solid var(--primary-red);
     padding: 30px 20px; border-radius: 20px; text-align: center; max-width: 380px; width: 90%;
+    box-shadow: 0 0 25px rgba(211, 18, 42, 0.4);
 }
-.google-icon { font-size: 3rem; color: var(--primary-red); margin-bottom: 15px; }
+.google-header-icon { margin-bottom: 15px; display: flex; justify-content: center; }
+.auth-card h2 { font-size: 1.4rem; margin-bottom: 10px; color: var(--text-white); }
+.auth-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+
 .btn-google {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    width: 100%; padding: 12px; background: #fff; color: #333; border: none;
-    border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 15px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    width: 100%; padding: 14px 20px; background: #ffffff; color: #3c4043; border: 1px solid #dadce0;
+    border-radius: 25px; font-weight: 600; font-size: 0.95rem; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: background 0.2s;
 }
-.btn-google img { width: 20px; }
+.btn-google:hover { background: #f8f9fa; }
+.btn-google-svg { width: 20px; height: 20px; flex-shrink: 0; }
 
 /* Navbar */
 .navbar {
@@ -39,8 +45,8 @@ body { background-color: var(--bg-color); color: var(--text-white); padding-bott
 .logo { font-size: 1.2rem; font-weight: bold; color: var(--accent-gold); }
 .logo span { color: var(--primary-red); }
 .user-profile-box { display: flex; align-items: center; gap: 10px; }
-.user-profile-box img { width: 32px; height: 32px; border-radius: 50%; }
-.logout-btn { background: var(--primary-red); color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+.user-profile-box img { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--accent-gold); }
+.logout-btn { background: var(--primary-red); color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
 
 /* Hero */
 .hero { text-align: center; padding: 30px 15px; max-width: 800px; margin: 0 auto; }
@@ -48,7 +54,13 @@ body { background-color: var(--bg-color); color: var(--text-white); padding-bott
 .hero h1 { font-size: 2rem; margin-bottom: 10px; }
 .hero h1 span { color: var(--primary-red); }
 .hero p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
-.hero-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.hero-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+
+.device-security-info {
+    font-size: 0.78rem; color: #ffb703; background: rgba(255, 183, 3, 0.08);
+    border: 1px dashed #ffb703; padding: 8px 12px; border-radius: 10px;
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 10px;
+}
 
 .btn-primary {
     background: var(--primary-red); color: white; border: none; padding: 12px 20px;
@@ -73,9 +85,9 @@ body { background-color: var(--bg-color); color: var(--text-white); padding-bott
 .about-img-circle { width: 35px; height: 35px; border-radius: 50%; background: var(--primary-red); display: flex; align-items: center; justify-content: center; }
 
 .yellow-email-link {
-    color: #ffeb3b !important; /* SARI YAZI */
+    color: #ffeb3b !important;
     font-weight: bold;
-    text-decoration: underline red 3px !important; /* KIRMIZI ALT ÇİZGİ */
+    text-decoration: underline red 3px !important;
     font-size: 0.9rem;
     padding: 10px 15px;
     display: inline-block;
