@@ -13,6 +13,9 @@
         <div class="logo">
             <i class="fa-solid fa-wand-magic-sparkles"></i> TikTok Mobile <span id="nav-logo-sub">Stüdyo</span>
         </div>
+        <div class="cart-icon-container" onclick="sepetiAcKapat()" style="cursor: pointer; color: white; font-size: 18px;">
+            <i class="fa-solid fa-cart-shopping"></i> <span id="sepet-sayac" style="background: #ff3366; padding: 2px 8px; border-radius: 50%; font-size: 12px;">0</span>
+        </div>
     </header>
 
     <section class="hero">
@@ -32,15 +35,74 @@
         </div>
     </section>
 
-    <section class="preview-section">
-        <div class="section-title">
-            <h2><i class="fa-solid fa-mobile-screen-button"></i> Uygulama Ön İzleme</h2>
-            <p>Canlı yayın editörünün nasıl çalıştığını izleyin.</p>
+    <!-- ABONELİK VE MARKET SEPETİ BÖLÜMÜ -->
+    <section class="pricing-section" style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
+        <div class="section-title" style="text-align: center; margin-bottom: 30px;">
+            <h2><i class="fa-solid fa-store"></i> Abonelik Paketleri ve Market</h2>
+            <p style="color: #aaa;">Uygulamanızı kesintisiz kullanmak için size uygun lisans paketini seçin.</p>
         </div>
-        <div class="video-container" id="media-preview-box">
-            <iframe src="https://streamable.com/e/3gsvlu?autoplay=0&muted=0" frameborder="0" width="100%" height="320" allowfullscreen allow="autoplay"></iframe>
+
+        <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            
+            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px;">1 Hafta Deneme</h3>
+                <div class="price" style="font-size: 20px; font-weight: bold; color: #29b6f6; margin-bottom: 15px;">ÜCRETSİZ</div>
+                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Uygulamayı ilk indirenlere özel 7 gün tam yetki.</p>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #0288d1; border: none; color: white; cursor: pointer;" onclick="alert('Deneme süresi uygulamayı ilk indirdiğinizde otomatik başlar!')">Hemen Başla</button>
+            </div>
+
+            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px;">1 Hafta Paket</h3>
+                <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">29.99 ₺</div>
+                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">7 günlük kesintisiz lisans.</p>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Hafta Paket', 29.99)">Sepete Ekle</button>
+            </div>
+
+            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px;">1 Ay Paket</h3>
+                <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">100 ₺</div>
+                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">30 günlük VIP yayın desteği.</p>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Ay Paket', 100)">Sepete Ekle</button>
+            </div>
+
+            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px;">2 Ay Paket</h3>
+                <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">150 ₺</div>
+                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">60 günlük avantajlı paket.</p>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('2 Ay Paket', 150)">Sepete Ekle</button>
+            </div>
+
+            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px;">7 Ay Paket</h3>
+                <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">1000 ₺</div>
+                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Uzun dönem ekonomik paket.</p>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('7 Ay Paket', 1000)">Sepete Ekle</button>
+            </div>
+
+            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px;">1 Yıllık Paket</h3>
+                <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">1800 ₺</div>
+                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">365 gün kesintisiz tam sürüm.</p>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Yıllık Paket', 1800)">Sepete Ekle</button>
+            </div>
+
         </div>
     </section>
+
+    <!-- SEPET / ÖDEME MODALI -->
+    <div id="sepetModal" class="modal hidden">
+        <div class="modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 50px auto;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                <h3>🛒 Market Sepetim</h3>
+                <span class="close-btn" onclick="sepetiAcKapat()" style="cursor: pointer; font-size: 20px;">×</span>
+            </div>
+            <div class="modal-body" style="padding: 20px 0;">
+                <p id="sepet-urun-adi" style="font-size: 16px; margin-bottom: 10px;">Ürün seçilmedi.</p>
+                <p id="sepet-urun-fiyat" style="font-size: 18px; font-weight: bold; color: #00e676; margin-bottom: 20px;"></p>
+                <button id="paytr-odeme-btn" class="btn-primary" style="width: 100%; padding: 12px; background: #00e676; color: black; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; display: none;" onclick="paytrOdemeYap()">PayTR ile Güvenli Öde</button>
+            </div>
+        </div>
+    </div>
 
     <section class="bottom-section">
         <div class="about-app-wrapper">
@@ -135,6 +197,30 @@
         </div>
     </div>
 
+    <script>
+        let secilenUrun = "";
+        let secilenFiyat = 0;
+
+        function sepeteEkle(urunAdi, fiyat) {
+            secilenUrun = urunAdi;
+            secilenFiyat = fiyat;
+            document.getElementById("sepet-urun-adi").innerText = "Seçilen Paket: " + urunAdi;
+            document.getElementById("sepet-urun-fiyat5" || "sepet-urun-fiyat").innerText = "Tutar: " + fiyat + " ₺";
+            document.getElementById("sepet-sayac").innerText = "1";
+            document.getElementById("paytr-odeme-btn").style.display = "block";
+            sepetiAcKapat();
+        }
+
+        function sepetiAcKapat() {
+            const modal = document.getElementById("sepetModal");
+            modal.classList.toggle("hidden");
+        }
+
+        function paytrOdemeYap() {
+            alert(secilenUrun + " (" + secilenFiyat + " ₺) için PayTR ödeme sayfasına yönlendiriliyorsunuz...");
+            // PayTR entegrasyon linki veya iFrame buraya eklenecek
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
