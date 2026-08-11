@@ -89,7 +89,7 @@
         </div>
     </section>
 
-    <!-- SEPET / ÖDEME MODALI -->
+    <!-- SEPET / ÖDEME MODALI (SİLME ÖZELLİĞİ EKLENDİ) -->
     <div id="sepetModal" class="modal hidden">
         <div class="modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 50px auto;">
             <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
@@ -97,14 +97,24 @@
                 <span class="close-btn" onclick="sepetiAcKapat()" style="cursor: pointer; font-size: 20px;">×</span>
             </div>
             <div class="modal-body" style="padding: 20px 0;">
-                <p id="sepet-urun-adi" style="font-size: 16px; margin-bottom: 10px;">Ürün seçilmedi.</p>
-                <p id="sepet-urun-fiyat" style="font-size: 18px; font-weight: bold; color: #00e676; margin-bottom: 20px;"></p>
-                <button id="paytr-odeme-btn" class="btn-primary" style="width: 100%; padding: 12px; background: #00e676; color: black; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; display: none;" onclick="paytrOdemeYap()">PayTR ile Güvenli Öde</button>
+                <div id="sepet-bos-mesaj" style="text-align: center; color: #888;">Sepetinizde ürün bulunmamaktadır.</div>
+                
+                <div id="sepet-dolu-alan" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: #252525; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+                        <div>
+                            <p id="sepet-urun-adi" style="font-size: 15px; font-weight: bold; color: #fff;"></p>
+                            <p id="sepet-urun-fiyat" style="font-size: 14px; color: #00e676; margin-top: 4px;"></p>
+                        </div>
+                        <button onclick="sepettenUrunSil()" style="background: #ff3366; border: none; color: white; padding: 6px 10px; border-radius: 4px; cursor: pointer;" title="Ürünü Sil"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+
+                    <button id="paytr-odeme-btn" class="btn-primary" style="width: 100%; padding: 12px; background: #00e676; color: black; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;" onclick="paytrOdemeYap()">PayTR ile Güvenli Öde</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- HAKKIMIZDA VE YASAL METİNLER (PAYTR İÇİN ZORUNLU) MODALLARI -->
+    <!-- HAKKIMIZDA VE YASAL METİNLER MODALLARI -->
     <div id="hakkimizdaModal" class="modal hidden">
         <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto;">
             <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
@@ -174,7 +184,7 @@
         </div>
     </section>
 
-    <!-- PAYTR ONAYI İÇİN YASAL LİNKLER FOOTER ALANI -->
+    <!-- FOOTER ALANI -->
     <div style="background: #111; padding: 20px; text-align: center; border-top: 1px solid #333; margin-top: 30px;">
         <a href="#" onclick="yasalModalAc('hakkimizdaModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Hakkımızda</a> | 
         <a href="#" onclick="yasalModalAc('gizlilikModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Gizlilik Politikası</a> | 
@@ -265,11 +275,22 @@
         function sepeteEkle(urunAdi, fiyat) {
             secilenUrun = urunAdi;
             secilenFiyat = fiyat;
-            document.getElementById("sepet-urun-adi").innerText = "Seçilen Paket: " + urunAdi;
+            document.getElementById("sepet-urun-adi").innerText = urunAdi;
             document.getElementById("sepet-urun-fiyat").innerText = "Tutar: " + fiyat + " ₺";
             document.getElementById("sepet-sayac").innerText = "1";
-            document.getElementById("paytr-odeme-btn").style.display = "block";
+            
+            document.getElementById("sepet-bos-mesaj").style.display = "none";
+            document.getElementById("sepet-dolu-alan").style.display = "block";
             sepetiAcKapat();
+        }
+
+        function sepettenUrunSil() {
+            secilenUrun = "";
+            secilenFiyat = 0;
+            document.getElementById("sepet-sayac").innerText = "0";
+            
+            document.getElementById("sepet-dolu-alan").style.display = "none";
+            document.getElementById("sepet-bos-mesaj").style.display = "block";
         }
 
         function sepetiAcKapat() {
@@ -279,10 +300,8 @@
 
         function paytrOdemeYap() {
             alert(secilenUrun + " (" + secilenFiyat + " ₺) için PayTR ödeme sayfasına yönlendiriliyorsunuz...");
-            // PayTR entegrasyon linki veya iFrame buraya eklenecek
         }
 
-        // Yasal Metin Modalları Açma Kapama Fonksiyonları
         function yasalModalAc(modalId) {
             document.getElementById(modalId).classList.remove("hidden");
         }
