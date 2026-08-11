@@ -104,6 +104,58 @@
         </div>
     </div>
 
+    <!-- HAKKIMIZDA VE YASAL METİNLER (PAYTR İÇİN ZORUNLU) MODALLARI -->
+    <div id="hakkimizdaModal" class="modal hidden">
+        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto;">
+            <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
+                <h3>🏢 Hakkımızda</h3>
+                <span class="close-btn" onclick="yasalModalKapat('hakkimizdaModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
+            </div>
+            <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
+                <p>TikTok Mobil Stüdyo, yayıncıların canlı yayın deneyimlerini profesyonelleştirmeyi hedefleyen yenilikçi bir yazılım projesidir. Amacımız, yayıncılara mobil cihazları üzerinden en kaliteli etkileşim araçlarını sunmaktır.</p>
+                <br><p><strong>İletişim:</strong> oraknizar@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="gizlilikModal" class="modal hidden">
+        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto; max-height: 80vh; overflow-y: auto;">
+            <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
+                <h3>🔒 Gizlilik Politikası</h3>
+                <span class="close-btn" onclick="yasalModalKapat('gizlilikModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
+            </div>
+            <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
+                <p>Sistemimize kayıtlı cihaz kimliğiniz (Device ID) sadece lisans güvenliği amacıyla tutulmakta olup üçüncü şahıslarla kesinlikle paylaşılmamaktadır. Ödeme işlemleriniz PayTR güvencesiyle gerçekleşmekte olup kredi kartı bilgileriniz sistemimizde saklanmamaktadır.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="mesafeliModal" class="modal hidden">
+        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto; max-height: 80vh; overflow-y: auto;">
+            <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
+                <h3>📄 Mesafeli Satış Sözleşmesi</h3>
+                <span class="close-btn" onclick="yasalModalKapat('mesafeliModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
+            </div>
+            <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
+                <p><strong>MADDE 1 - TARAFLAR:</strong> İşbu sözleşme, dijital lisans satın alan 'Alıcı' ile hizmeti sağlayan 'Satıcı' arasındadır.<br>
+                <strong>MADDE 2 - KONU:</strong> Sözleşmenin konusu, alıcının dijital platform üzerinden satın aldığı uygulama kullanım lisansının satışı ve teslimidir.<br>
+                <strong>MADDE 3 - TESLİMAT:</strong> Hizmet dijital olduğu için ödeme onayı sonrasında lisans anında cihaz kimliğine tanımlanır.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="iadeModal" class="modal hidden">
+        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto;">
+            <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
+                <h3>↩️ İptal ve İade Koşulları</h3>
+                <span class="close-btn" onclick="yasalModalKapat('iadeModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
+            </div>
+            <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
+                <p>Satın alınan hizmet dijital bir içerik (yazılım lisansı) olduğu için, Mesafeli Sözleşmeler Yönetmeliği'nin 15. maddesi gereğince, anında ifa edilen hizmetler cayma hakkının istisnaları kapsamındadır. Lisans aktif edildikten sonra ücret iadesi yapılamaz. Ancak altyapısal bir sorun olması durumunda destek ekibimiz telafi lisans süresi tanımlayabilir.</p>
+            </div>
+        </div>
+    </div>
+
     <section class="bottom-section">
         <div class="about-app-wrapper">
             <button id="openAboutModal" class="about-app-btn" type="button" onclick="modalAc('aboutModal')">
@@ -121,6 +173,15 @@
             </a>
         </div>
     </section>
+
+    <!-- PAYTR ONAYI İÇİN YASAL LİNKLER FOOTER ALANI -->
+    <div style="background: #111; padding: 20px; text-align: center; border-top: 1px solid #333; margin-top: 30px;">
+        <a href="#" onclick="yasalModalAc('hakkimizdaModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Hakkımızda</a> | 
+        <a href="#" onclick="yasalModalAc('gizlilikModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Gizlilik Politikası</a> | 
+        <a href="#" onclick="yasalModalAc('mesafeliModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Mesafeli Satış Sözleşmesi</a> | 
+        <a href="#" onclick="yasalModalAc('iadeModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">İptal ve İade Koşulları</a>
+        <p style="color: #555; font-size: 11px; margin-top: 10px;">© 2026 TikTok Mobil Stüdyo - Tüm Hakları Saklıdır.</p>
+    </div>
 
     <div id="aiAssistantBtn" class="ai-float-btn" title="AI Asistan" onclick="aiPenceresiAcKapat()">
         <i class="fa-solid fa-robot"></i>
@@ -205,7 +266,7 @@
             secilenUrun = urunAdi;
             secilenFiyat = fiyat;
             document.getElementById("sepet-urun-adi").innerText = "Seçilen Paket: " + urunAdi;
-            document.getElementById("sepet-urun-fiyat5" || "sepet-urun-fiyat").innerText = "Tutar: " + fiyat + " ₺";
+            document.getElementById("sepet-urun-fiyat").innerText = "Tutar: " + fiyat + " ₺";
             document.getElementById("sepet-sayac").innerText = "1";
             document.getElementById("paytr-odeme-btn").style.display = "block";
             sepetiAcKapat();
@@ -219,6 +280,14 @@
         function paytrOdemeYap() {
             alert(secilenUrun + " (" + secilenFiyat + " ₺) için PayTR ödeme sayfasına yönlendiriliyorsunuz...");
             // PayTR entegrasyon linki veya iFrame buraya eklenecek
+        }
+
+        // Yasal Metin Modalları Açma Kapama Fonksiyonları
+        function yasalModalAc(modalId) {
+            document.getElementById(modalId).classList.remove("hidden");
+        }
+        function yasalModalKapat(modalId) {
+            document.getElementById(modalId).classList.add("hidden");
         }
     </script>
     <script src="script.js"></script>
