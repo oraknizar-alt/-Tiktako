@@ -1,0 +1,26 @@
+<!-- aktivasyon.html -->
+<div style="max-width: 400px; margin: 50px auto; text-align: center; color: white; background: #1e1e1e; padding: 20px; border-radius: 10px;">
+    <h2>Lisans Aktivasyonu</h2>
+    <p>Satın aldığınız paketi cihazınıza tanımlayın.</p>
+    
+    <input type="text" id="deviceId" placeholder="Cihaz ID'nizi Yapıştırın" style="width: 100%; padding: 10px; margin: 10px 0;"><br>
+    <input type="text" id="orderNo" placeholder="Shopier Sipariş Numarası" style="width: 100%; padding: 10px; margin: 10px 0;"><br>
+    
+    <button onclick="activateLicense()" style="width: 100%; padding: 10px; background: #00e676; border: none; cursor: pointer; font-weight: bold;">Aktivasyonu Tamamla</button>
+</div>
+
+<script>
+async function activateLicense() {
+    const deviceId = document.getElementById('deviceId').value;
+    const orderNo = document.getElementById('orderNo').value;
+
+    const response = await fetch('http://SUNUCU_ADRESIN:3000/api/auto-activate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ deviceId, orderNo })
+    });
+
+    const result = await response.json();
+    alert(result.message);
+}
+</script>
