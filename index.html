@@ -270,7 +270,7 @@
     </div>
 
     <!-- JAVASCRIPT MOTORU -->
-    <script>
+    <script
         // ⚙️ Firebase Kurulumu
         const firebaseConfig = {
             databaseURL: "https://SENIN-FIREBASE-PROJECT-ID.firebaseio.com"
@@ -435,34 +435,243 @@
                 document.getElementById("admin-login-form").style.display = "none";
                 document.getElementById("admin-controls").style.display = "block";
                 document.getElementById("edit-hero-title").value = document.getElementById("hero-title").innerText;
-                document.getElementById("edit-hero-desc").value = document.getElementById("hero-desc").innerText;
-            } else {
-                alert("Hatalı Admin Şifresi!");
+                document.getElementB<script>
+    // ⚙️ Firebase Kurulumu
+    const firebaseConfig = {
+        databaseURL: "https://SENIN-FIREBASE-PROJECT-ID.firebaseio.com"
+    };
+
+    try {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+    } catch (e) {
+        console.log("Firebase başlatma uyarısı:", e);
+    }
+    
+    let db = null;
+    try {
+        db = firebase.database();
+    } catch (e) {
+        console.log("Firebase DB bağlantı uyarısı:", e);
+    }
+
+    // 🔒 GİZLİ APK LINKI (Base64 ile Şifrelenmiş APK Bağlantısı)
+    // Dışarıdan bakanlar açık linki göremez.
+    const _0x4a12 = "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL29yYWtuaXphci1hbHQvLVRpa3Rha28vbWFpbi9ST1NFJTIwU1QlQzMlOTNESU8uYXBr";
+
+    let currentDeviceId = "";
+
+    // 🆔 Cihaz ID Oluşturma / Yakalama
+    function cihazKimligiAlVeyaUret() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let id = urlParams.get('deviceId') || localStorage.getItem('rose_device_id');
+        
+        if (!id) {
+            id = 'DEV-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+            localStorage.setItem('rose_device_id', id);
+        }
+        return id;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        currentDeviceId = cihazKimligiAlVeyaUret();
+        const displayEl = document.getElementById('display-device-id');
+        if (displayEl) {
+            displayEl.innerText = currentDeviceId;
+        }
+    });
+
+    // 🎁 7 Gün Ücretsiz Deneme (Sadece 1 Kere İndirilebilir)
+    function ucretsizDenemeBaslat() {
+        if (!currentDeviceId) {
+            currentDeviceId = cihazKimligiAlVeyaUret();
+        }
+
+        // 1. Cihazın Önceden İndirip İndirmediğini Kontrol Et (Local Storage)
+        const localTrialStatus = localStorage.getItem('rose_trial_used_' + currentDeviceId);
+        
+        if (localTrialStatus === 'true') {
+            alert("⚠️ Bu cihazda 7 günlük deneme sürümü zaten kullanılmış Sülü! Tekrar indiremezsin.");
+            return;
+        }
+
+        // 2. Firebase Veritabanı Üzerinden İkincil Kontrol
+        if (db) {
+            db.ref('licenses/' + currentDeviceId).once('value').then((snapshot) => {
+                const data = snapshot.val();
+                if (data && data.trialUsed) {
+                    localStorage.setItem('rose_trial_used_' + currentDeviceId, 'true');
+                    alert("⚠️ Bu cihazda 7 günlük deneme sürümü zaten kullanılmış! Tekrar indiremezsin.");
+                } else {
+                    indirmeyiIşleVeKilitle();
+                }
+            }).catch(() => {
+                indirmeyiIşleVeKilitle();
+            });
+        } else {
+            indirmeyiIşleVeKilitle();
+        }
+    }
+
+    // 📥 İndirmeyi Başlat ve Cihazı Kilitle
+    function indirmeyiIşleVeKilitle() {
+        // Cihazı "Deneme Kullanıldı" Olarak İşaretle
+        localStorage.setItem('rose_trial_used_' + currentDeviceId, 'true');
+
+        if (db) {
+            try {
+                const birHaftaSonra = Date.now() + (7 * 24 * 60 * 60 * 1000);
+                db.ref('licenses/' + currentDeviceId).set({
+                    bitisZamani: birHaftaSonra,
+                    trialUsed: true,
+                    tip: "1_hafta_deneme"
+                });
+            } catch (err) {
+                console.log("Firebase kaydı atlandı:", err);
             }
         }
 
-        function adminDegisiklikleriKaydet() {
-            const t = document.getElementById("edit-hero-title").value;
-            const d = document.getElementById("edit-hero-desc").value;
-            if (t) document.getElementById("hero-title").innerText = t;
-            if (d) document.getElementById("hero-desc").innerText = d;
-            alert("Değişiklikler başarıyla kaydedildi!");
-            adminPaneliKapat();
-        }
+        // Gizli Linki Anlık Olarak Çöz ve İndirmeyi Başlat
+        guvenliGizliApkIndir();
+    }
 
-        // 📄 Modal Açma/Kapatma Genel Fonksiyonları
-        function modalAc(id) {
-            document.getElementById(id).classList.remove("hidden");
+    // 🔐 Linki Gizli Olarak Çalıştıran Fonksiyon
+    function guvenliGizliApkIndir() {
+        try {
+            // Base64 Şifresini Anlık Çöz
+            const realUrl = atob(_0x4a12);
+            
+            // Gizli geçici bir indirme bağlantısı oluştur
+            const hiddenAnchor = document.createElement('a');
+            hiddenAnchor.href = realUrl;
+            hiddenAnchor.setAttribute('download', 'ROSE_STUDYO.apk');
+            hiddenAnchor.style.display = 'none';
+            document.body.appendChild(hiddenAnchor);
+            
+            // Tıklamayı simüle et ve kaldır
+            hiddenAnchor.click();
+            document.body.removeChild(hiddenAnchor);
+        } catch (e) {
+            alert("İndirme bağlantısı çözülemedi!");
         }
-        function modalKapat(id) {
-            document.getElementById(id).classList.add("hidden");
+    }
+
+    // 🛒 Sepet ve Market İşlemleri
+    let secilenUrun = "";
+    let secilenFiyat = "";
+    let secilenLink = "";
+
+    function sepeteEkle(urunAdi, fiyat, link) {
+        secilenUrun = urunAdi;
+        secilenFiyat = fiyat;
+        secilenLink = link;
+        document.getElementById("sepet-urun-adi").innerText = urunAdi;
+        document.getElementById("sepet-urun-fiyat").innerText = "Tutar: " + fiyat;
+        document.getElementById("sepet-sayac").innerText = "1";
+        
+        document.getElementById("sepet-bos-mesaj").style.display = "none";
+        document.getElementById("sepet-dolu-alan").style.display = "block";
+        sepetiAcKapat();
+    }
+
+    function sepettenUrunSil() {
+        secilenUrun = "";
+        secilenFiyat = "";
+        secilenLink = "";
+        document.getElementById("sepet-sayac").innerText = "0";
+        
+        document.getElementById("sepet-dolu-alan").style.display = "none";
+        document.getElementById("sepet-bos-mesaj").style.display = "block";
+    }
+
+    function sepetiAcKapat() {
+        document.getElementById("sepetModal").classList.toggle("hidden");
+    }
+
+    function dogrudanSatinAl() {
+        if (secilenLink) {
+            window.location.href = secilenLink;
+        } else {
+            alert("Lütfen bir paket seçin.");
         }
-        function yasalModalAc(modalId) {
-            document.getElementById(modalId).classList.remove("hidden");
+    }
+
+    // 🤖 AI Asistan İşlemleri
+    function aiPenceresiAcKapat() {
+        document.getElementById("aiChatModal").classList.toggle("hidden");
+    }
+
+    function aiTusaBasildi(e) {
+        if (e.key === 'Enter') aiMesajGonder();
+    }
+
+    function aiMesajGonder() {
+        const input = document.getElementById("aiInput");
+        const txt = input.value.trim();
+        if (!txt) return;
+
+        const msgArea = document.getElementById("ai-messages");
+        
+        const userDiv = document.createElement("div");
+        userDiv.style.cssText = "background:#ff3366; color:#fff; padding:8px 12px; border-radius:12px; margin:5px 0; align-self:flex-end; max-width:80%; font-size:13px;";
+        userDiv.innerText = txt;
+        msgArea.appendChild(userDiv);
+
+        input.value = "";
+
+        setTimeout(() => {
+            const botDiv = document.createElement("div");
+            botDiv.style.cssText = "background:#252525; color:#ccc; padding:8px 12px; border-radius:12px; margin:5px 0; align-self:flex-start; max-width:80%; font-size:13px;";
+            botDiv.innerText = "Sorunu aldım! TikTok Mobil Stüdyo özelliklerini kullanabilmek için 7 gün ücretsiz paketi indirebilir veya marketten lisans satın alabilirsin.";
+            msgArea.appendChild(botDiv);
+            msgArea.scrollTop = msgArea.scrollHeight;
+        }, 600);
+
+        msgArea.scrollTop = msgArea.scrollHeight;
+    }
+
+    // ⚙️ Admin Paneli İşlemleri
+    function adminPaneliAc() {
+        document.getElementById("admin-modal").classList.remove("hidden");
+    }
+
+    function adminPaneliKapat() {
+        document.getElementById("admin-modal").classList.add("hidden");
+    }
+
+    function adminGirisKontrol() {
+        const pass = document.getElementById("admin-pass-input").value;
+        if (pass === "1234") {
+            document.getElementById("admin-login-form").style.display = "none";
+            document.getElementById("admin-controls").style.display = "block";
+            document.getElementById("edit-hero-title").value = document.getElementById("hero-title").innerText;
+            document.getElementById("edit-hero-desc").value = document.getElementById("hero-desc").innerText;
+        } else {
+            alert("Hatalı Admin Şifresi!");
         }
-        function yasalModalKapat(modalId) {
-            document.getElementById(modalId).classList.add("hidden");
-        }
-    </script>
-</body>
-</html>
+    }
+
+    function adminDegisiklikleriKaydet() {
+        const t = document.getElementById("edit-hero-title").value;
+        const d = document.getElementById("edit-hero-desc").value;
+        if (t) document.getElementById("hero-title").innerText = t;
+        if (d) document.getElementById("hero-desc").innerText = d;
+        alert("Değişiklikler başarıyla kaydedildi!");
+        adminPaneliKapat();
+    }
+
+    // 📄 Modal Açma/Kapatma
+    function modalAc(id) {
+        document.getElementById(id).classList.remove("hidden");
+    }
+    function modalKapat(id) {
+        document.getElementById(id).classList.add("hidden");
+    }
+    function yasalModalAc(modalId) {
+        document.getElementById(modalId).classList.remove("hidden");
+    }
+    function yasalModalKapat(modalId) {
+        document.getElementById(modalId).classList.add("hidden");
+    }
+</script>
