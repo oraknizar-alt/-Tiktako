@@ -48,12 +48,11 @@
 
         <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
             
-            <!-- 🎁 1 HAFTA ÜCRETSİZ DENEME -->
             <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
                 <h3 style="color: #fff; margin-bottom: 10px;">1 Hafta Deneme</h3>
                 <div class="price" style="font-size: 20px; font-weight: bold; color: #29b6f6; margin-bottom: 15px;">ÜCRETSİZ</div>
-                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Cihazınıza özel 7 gün boyunca tam erişim hakkı.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #0288d1; border: none; color: white; cursor: pointer;" onclick="ucretsizDenemeBaslat()">🎁 1 Hafta Ücretsiz Başlat</button>
+                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Uygulamayı ilk indirenlere özel 7 gün tam yetki.</p>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #0288d1; border: none; color: white; cursor: pointer;" onclick="ucretsizDenemeBaslat()">Hemen Başla (7 Gün Ücretsiz)</button>
             </div>
 
             <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
@@ -275,43 +274,55 @@
     <script>
         // 🔧 Firebase Kurulumu
         const firebaseConfig = {
-            databaseURL: "https://SENIN-FIREBASE-PROJECT-ID.firebaseio.com" // Kendi Firebase veritabanı adresinle değiştir
+            databaseURL: "https://SENIN-FIREBASE-PROJECT-ID.firebaseio.com" // Kendi Firebase veritabanı adresin
         };
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         const db = firebase.database();
 
-        // 🔗 GitHub APK İndirme Bağlantın
+        // 🔗 GitHub APK İndirme Linki
         const GITHUB_APK_URL = "https://github.com/KULLANICI_ADI/REPOSU/releases/download/v1.0/app-release.apk";
 
         let currentDeviceId = "";
 
-        // URL'den Cihaz ID'sini Otomatik Alıp Ekrana Yazdırır
-        window.addEventListener('DOMContentLoaded', () => {
+        // 🆔 Cihaz ID Yakalama veya Otomatik Oluşturma
+        function cihazKimligiAlVeyaUret() {
             const urlParams = new URLSearchParams(window.location.search);
-            const deviceIdParam = urlParams.get('deviceId');
-            const displayEl = document.getElementById('display-device-id');
+            let id = urlParams.get('deviceId');
             
-            if (deviceIdParam) {
-                currentDeviceId = deviceIdParam;
-                if (displayEl) displayEl.innerText = deviceIdParam;
-            } else {
-                if (displayEl) displayEl.innerText = "Siteden Doğrudan Girildi";
+            if (!id) {
+                id = localStorage.getItem('rose_device_id');
+            }
+            
+            if (!id) {
+                id = 'DEV-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+                localStorage.setItem('rose_device_id', id);
+            }
+            
+            return id;
+        }
+
+        // Sayfa Yüklendiğinde Cihaz ID'yi Ekrana Yaz
+        window.addEventListener('DOMContentLoaded', () => {
+            currentDeviceId = cihazKimligiAlVeyaUret();
+            const displayEl = document.getElementById('display-device-id');
+            if (displayEl) {
+                displayEl.innerText = currentDeviceId;
             }
         });
 
-        // 🎁 1 Hafta Ücretsiz Deneme Başlatma Fonksiyonu
+        // 🎁 1 Hafta Ücretsiz Deneme Başlatma ve Otomatik İndirme
         function ucretsizDenemeBaslat() {
             if (!currentDeviceId) {
-                alert("❌ Cihaz ID tespit edilemedi! Lütfen uygulamadaki kilit ekranındaki buton üzerinden sitemize giriş yapın.");
-                return;
+                currentDeviceId = cihazKimligiAlVeyaUret();
             }
 
             const trialRef = db.ref('licenses/' + currentDeviceId);
             trialRef.once('value').then(snapshot => {
                 if (snapshot.exists() && snapshot.val().trialUsed) {
-                    alert("❌ Bu cihazda daha önce 1 haftalık ücretsiz deneme kullanılmış!");
+                    alert("❌ Bu cihazda daha önce 1 haftalık ücretsiz deneme kullanılmış! APK indirmesi başlatılıyor...");
+                    guvenliApkIndir();
                 } else {
                     const birHaftaSonra = Date.now() + (7 * 24 * 60 * 60 * 1000);
                     trialRef.set({
@@ -319,7 +330,7 @@
                         trialUsed: true,
                         tip: "1_hafta_deneme"
                     }).then(() => {
-                        alert("🎉 1 Haftalık Ücretsiz Denemeniz Başlatıldı! İndirme işlemi başlıyor...");
+                        alert("🎉 1 Haftalık Ücretsiz Denemeniz Başlatıldı! İndirme başlıyor...");
                         guvenliApkIndir();
                     }).catch(err => {
                         alert("Hata oluştu: " + err.message);
@@ -328,7 +339,7 @@
             });
         }
 
-        // 📥 GitHub APK İndirme
+        // 📥 APK İndirme
         function guvenliApkIndir() {
             window.location.href = GITHUB_APK_URL;
         }
