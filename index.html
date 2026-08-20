@@ -6,6 +6,10 @@
     <title id="site-title-tag"> Rose Stüdyo</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ⚙️ Firebase Veritabanı SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
@@ -25,7 +29,7 @@
         
         <div class="hero-buttons">
             <button id="download-apk-btn" class="btn-primary btn-lg" type="button" onclick="guvenliApkIndir()">
-                <i class="fa-solid fa-download"></i> ROSE STÜDYO SATIN AL!
+                <i class="fa-solid fa-download"></i> ROSE STÜDYO İNDİR (APK)
             </button>
         </div>
         
@@ -44,11 +48,12 @@
 
         <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
             
+            <!-- 🎁 1 HAFTA ÜCRETSİZ DENEME -->
             <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
                 <h3 style="color: #fff; margin-bottom: 10px;">1 Hafta Deneme</h3>
                 <div class="price" style="font-size: 20px; font-weight: bold; color: #29b6f6; margin-bottom: 15px;">ÜCRETSİZ</div>
-                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Uygulamayı ilk indirenlere özel 7 gün tam yetki.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #0288d1; border: none; color: white; cursor: pointer;" onclick="alert('Deneme süresi uygulamayı ilk indirdiğinizde otomatik başlar!')">Hemen Başla</button>
+                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Cihazınıza özel 7 gün boyunca tam erişim hakkı.</p>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #0288d1; border: none; color: white; cursor: pointer;" onclick="ucretsizDenemeBaslat()">🎁 1 Hafta Ücretsiz Başlat</button>
             </div>
 
             <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
@@ -268,6 +273,66 @@
     </div>
 
     <script>
+        // 🔧 Firebase Kurulumu
+        const firebaseConfig = {
+            databaseURL: "https://SENIN-FIREBASE-PROJECT-ID.firebaseio.com" // Kendi Firebase veritabanı adresinle değiştir
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+
+        // 🔗 GitHub APK İndirme Bağlantın
+        const GITHUB_APK_URL = "https://github.com/KULLANICI_ADI/REPOSU/releases/download/v1.0/app-release.apk";
+
+        let currentDeviceId = "";
+
+        // URL'den Cihaz ID'sini Otomatik Alıp Ekrana Yazdırır
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const deviceIdParam = urlParams.get('deviceId');
+            const displayEl = document.getElementById('display-device-id');
+            
+            if (deviceIdParam) {
+                currentDeviceId = deviceIdParam;
+                if (displayEl) displayEl.innerText = deviceIdParam;
+            } else {
+                if (displayEl) displayEl.innerText = "Siteden Doğrudan Girildi";
+            }
+        });
+
+        // 🎁 1 Hafta Ücretsiz Deneme Başlatma Fonksiyonu
+        function ucretsizDenemeBaslat() {
+            if (!currentDeviceId) {
+                alert("❌ Cihaz ID tespit edilemedi! Lütfen uygulamadaki kilit ekranındaki buton üzerinden sitemize giriş yapın.");
+                return;
+            }
+
+            const trialRef = db.ref('licenses/' + currentDeviceId);
+            trialRef.once('value').then(snapshot => {
+                if (snapshot.exists() && snapshot.val().trialUsed) {
+                    alert("❌ Bu cihazda daha önce 1 haftalık ücretsiz deneme kullanılmış!");
+                } else {
+                    const birHaftaSonra = Date.now() + (7 * 24 * 60 * 60 * 1000);
+                    trialRef.set({
+                        bitisZamani: birHaftaSonra,
+                        trialUsed: true,
+                        tip: "1_hafta_deneme"
+                    }).then(() => {
+                        alert("🎉 1 Haftalık Ücretsiz Denemeniz Başlatıldı! İndirme işlemi başlıyor...");
+                        guvenliApkIndir();
+                    }).catch(err => {
+                        alert("Hata oluştu: " + err.message);
+                    });
+                }
+            });
+        }
+
+        // 📥 GitHub APK İndirme
+        function guvenliApkIndir() {
+            window.location.href = GITHUB_APK_URL;
+        }
+
         let secilenUrun = "";
         let secilenFiyat = "";
         let secilenLink = "";
