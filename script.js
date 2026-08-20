@@ -16,8 +16,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // --- ZORUNLU GOOGLE GİRİŞ & SAYFA KİLİDİ ---
-function gercekGoogleGirisYap(e) {
-    if(e) e.preventDefault(); // Sayfanın kesinlikle yenilenmesini önler
+window.gercekGoogleGirisYap = function(e) {
+    if(e) e.preventDefault();
     
     const isim = prompt("Google (Gmail) Hesabınızın Adı:", "Kullanıcı");
     if (isim && isim.trim() !== "") {
@@ -25,7 +25,7 @@ function gercekGoogleGirisYap(e) {
     } else {
         alert("Devam etmek için Google hesabınızı girmeniz zorunludur!");
     }
-}
+};
 
 function oturumAcildiGoster(name, photo) {
     const authModal = document.getElementById('googleAuthModal');
@@ -42,13 +42,13 @@ function oturumAcildiGoster(name, photo) {
     localStorage.setItem('user_name', name);
 }
 
-function cikisYap() {
+window.cikisYap = function() {
     localStorage.removeItem('google_logged_in');
     localStorage.removeItem('user_name');
     location.reload();
-}
+};
 
-// --- BENZERSİZ CİHAZ LİSANS GÜVENLİĞİ (Arkadaşa Paylaşımı Engeller) ---
+// --- BENZERSİZ CİHAZ LİSANS GÜVENLİĞİ ---
 function benzersizCihazIdUret() {
     let deviceId = localStorage.getItem('tt_unique_device_id');
     if(!deviceId) {
@@ -61,7 +61,7 @@ function benzersizCihazIdUret() {
     return deviceId;
 }
 
-function gercekOdemeBaslat() {
+window.gercekOdemeBaslat = function() {
     const devId = benzersizCihazIdUret();
     const onay = confirm("Ödeme onaylansın mı?\n\nUyarı: Lisans hakkı YALNIZCA bu cihaza (" + devId + ") özel olarak kilitlenecektir. Dosyayı başka bir telefona atsanız bile o telefonda ÇALIŞMAZ!");
     
@@ -70,9 +70,9 @@ function gercekOdemeBaslat() {
         kilitleriGuncelle();
         alert("Ödeme başarılı! Cihazınıza özel APK indirme kilidi açıldı.");
     }
-}
+};
 
-// --- GOOGLE FİREBASE LİSANS KONTROL ENTEGRASYONU ---
+// --- GOOGLE FIREBASE LİSANS KONTROL ENTEGRASYONU ---
 async function kilitleriGuncelle() {
     const devId = benzersizCihazIdUret();
     const idDisplay = document.getElementById('display-device-id');
@@ -116,7 +116,7 @@ async function kilitleriGuncelle() {
     }
 }
 
-function guvenliApkIndir() {
+window.guvenliApkIndir = function() {
     const devId = benzersizCihazIdUret();
     const devLicense = localStorage.getItem('license_granted_' + devId);
 
@@ -125,19 +125,19 @@ function guvenliApkIndir() {
     } else {
         alert("Bu cihaz için geçerli bir lisans bulunamadı! İndirmek için önce satın almanız gerekmektedir.");
     }
-}
+};
 
 // --- FULL AKILLI AI ASİSTAN MOTORU ---
-function aiPenceresiAcKapat() {
+window.aiPenceresiAcKapat = function() {
     const aiModal = document.getElementById('aiChatModal');
     if(aiModal) aiModal.classList.toggle('hidden');
-}
+};
 
-function aiTusaBasildi(e) {
+window.aiTusaBasildi = function(e) {
     if (e.key === 'Enter') aiMesajGonder();
-}
+};
 
-function aiMesajGonder() {
+window.aiMesajGonder = function() {
     const input = document.getElementById('aiInput');
     if(!input) return;
     const txt = input.value.trim();
@@ -173,20 +173,21 @@ function aiMesajGonder() {
             box.scrollTop = box.scrollHeight;
         }
     }, 400);
-}
+};
 
 // --- ADMIN PANEL (ŞİFRE: 19071907) ---
 const ADMIN_PASS = "19071907";
-function adminPaneliAc() { 
+window.adminPaneliAc = function() { 
     const adminModal = document.getElementById('admin-modal');
     if(adminModal) adminModal.classList.remove('hidden'); 
-}
-function adminPaneliKapat() { 
+};
+
+window.adminPaneliKapat = function() { 
     const adminModal = document.getElementById('admin-modal');
     if(adminModal) adminModal.classList.add('hidden'); 
-}
+};
 
-function adminGirisKontrol() {
+window.adminGirisKontrol = function() {
     const passInput = document.getElementById('admin-pass-input');
     if(passInput && passInput.value === ADMIN_PASS) {
         document.getElementById('admin-login-form').classList.add('hidden');
@@ -194,9 +195,9 @@ function adminGirisKontrol() {
     } else {
         alert("Hatalı Şifre!");
     }
-}
+};
 
-function adminDegisiklikleriKaydet() {
+window.adminDegisiklikleriKaydet = function() {
     const t = document.getElementById('edit-hero-title').value;
     const d = document.getElementById('edit-hero-desc').value;
 
@@ -208,19 +209,20 @@ function adminDegisiklikleriKaydet() {
     
     alert("Değişiklikler başarıyla kaydedildi!");
     adminPaneliKapat();
-}
+};
 
-function modalAc(id) { 
+window.modalAc = function(id) { 
     const el = document.getElementById(id);
     if(el) el.classList.remove('hidden'); 
-}
-function modalKapat(id) { 
+};
+
+window.modalKapat = function(id) { 
     const el = document.getElementById(id);
     if(el) el.classList.add('hidden'); 
-}
+};
 
 // Sayfa yüklendiğinde çalışacak ana tetikleyici
-window.onload = async function() {
+window.addEventListener('DOMContentLoaded', async () => {
     await kilitleriGuncelle();
     
     if(localStorage.getItem('google_logged_in') === 'true') {
@@ -230,8 +232,6 @@ window.onload = async function() {
         const savedName = localStorage.getItem('user_name') || 'Kullanıcı';
         const userBox = document.getElementById('user-profile');
         if(userBox) {
-            userBox.classList.add('hidden'); // Gerekirse düzenlenebilir
-            // Profil detayları dolduruluyor
             userBox.classList.remove('hidden');
             const userNameEl = document.getElementById('user-name');
             const userPhotoEl = document.getElementById('user-photo');
@@ -239,4 +239,4 @@ window.onload = async function() {
             if(userPhotoEl) userPhotoEl.src = "https://www.gstatic.com/images/branding/product/1x/avatar_square_blue_56dp.png";
         }
     }
-};
+});
