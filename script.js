@@ -11,11 +11,15 @@ function gercekGoogleGirisYap(e) {
 }
 
 function oturumAcildiGoster(name, photo) {
-    document.getElementById('googleAuthModal').style.display = 'none';
+    const authModal = document.getElementById('googleAuthModal');
+    if(authModal) authModal.style.display = 'none';
+    
     const userBox = document.getElementById('user-profile');
-    userBox.classList.remove('hidden');
-    document.getElementById('user-name').innerText = name;
-    document.getElementById('user-photo').src = photo;
+    if(userBox) {
+        userBox.classList.remove('hidden');
+        document.getElementById('user-name').innerText = name;
+        document.getElementById('user-photo').src = photo;
+    }
     
     localStorage.setItem('google_logged_in', 'true');
     localStorage.setItem('user_name', name);
@@ -51,18 +55,47 @@ function gercekOdemeBaslat() {
     }
 }
 
-function kilitleriGuncelle() {
+// --- SUNUCU & LİSANS KONTROL ENTEGRASYONU ---
+async function kilitleriGuncelle() {
     const devId = benzersizCihazIdUret();
     const idDisplay = document.getElementById('display-device-id');
     if(idDisplay) idDisplay.innerText = devId;
 
-    const devLicense = localStorage.getItem('license_granted_' + devId);
+    let isAuthorized = localStorage.getItem('license_granted_' + devId) === 'ACTIVE';
 
-    if(devLicense === 'ACTIVE') {
-        const apkBtn = document.getElementById('download-apk-btn');
-        apkBtn.classList.remove('disabled');
-        apkBtn.removeAttribute('disabled');
-        document.getElementById('buy-btn').classList.add('hidden');
+    // Node.js Sunucunuza bağlanarak uzaktan lisans sorgulama (API)
+    try {
+        const response = await fetch('http://SUNUCU_IP_VEYA_DOMAIN:3000/api/check-license?device_id=' + devId, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await response.json();
+        
+        if (data.status === 'active') {
+            isAuthorized = true;
+            localStorage.setItem('license_granted_' + devId, 'ACTIVE');
+        } else if (data.status === 'expired' || data.status === 'inactive') {
+            isAuthorized = false;
+            localStorage.removeItem('license_granted_' + devId);
+        }
+    } catch (error) {
+        console.log("Sunucuya ulaşılamadı, yerel önbellek lisansı kullanılıyor.");
+    }
+
+    const apkBtn = document.getElementById('download-apk-btn');
+    const buyBtn = document.getElementById('buy-btn');
+
+    if(isAuthorized) {
+        if(apkBtn) {
+            apkBtn.classList.remove('disabled');
+            apkBtn.removeAttribute('disabled');
+        }
+        if(buyBtn) buyBtn.classList.add('hidden');
+    } else {
+        if(apkBtn) {
+            apkBtn.classList.add('disabled');
+            apkBtn.setAttribute('disabled', 'true');
+        }
     }
 }
 
@@ -73,13 +106,14 @@ function guvenliApkIndir() {
     if(devLicense === 'ACTIVE') {
         window.location.href = "https://www.mediafire.com/file/o7pcnoteaatlk3s/Tiktok_Mobil_St%25C3%25BCdyo.apk/file";
     } else {
-        alert("Bu cihaz için lisans bulunamadı! İndirmek için önce satın almanız gerekmektedir.");
+        alert("Bu cihaz için geçerli bir lisans bulunamadı! İndirmek için önce satın almanız gerekmektedir.");
     }
 }
 
 // --- FULL AKILLI AI ASİSTAN MOTORU ---
 function aiPenceresiAcKapat() {
-    document.getElementById('aiChatModal').classList.toggle('hidden');
+    const aiModal = document.getElementById('aiChatModal');
+    if(aiModal) aiModal.classList.toggle('hidden');
 }
 
 function aiTusaBasildi(e) {
@@ -88,13 +122,16 @@ function aiTusaBasildi(e) {
 
 function aiMesajGonder() {
     const input = document.getElementById('aiInput');
+    if(!input) return;
     const txt = input.value.trim();
     if (!txt) return;
 
     const box = document.getElementById('ai-messages');
-    box.innerHTML += `<div class="user-msg">${txt}</div>`;
-    input.value = '';
-    box.scrollTop = box.scrollHeight;
+    if(box) {
+        box.innerHTML += `<div class="user-msg">${txt}</div>`;
+        input.value = '';
+        box.scrollTop = box.scrollHeight;
+    }
 
     setTimeout(() => {
         let reply = "TikTok Mobil Stüdyo ile canlı yayın ekranınıza fotoğraflar, videolar ve özel görevler ekleyebilirsiniz. Başka ne öğrenmek istersiniz?";
@@ -114,18 +151,27 @@ function aiMesajGonder() {
             reply = "Bize doğrudan sayfanın altındaki sarı/kırmızı posta yazısına tıklayarak oraknizar@gmail.com üzerinden e-posta gönderebilirsiniz.";
         }
 
-        box.innerHTML += `<div class="bot-msg">${reply}</div>`;
-        box.scrollTop = box.scrollHeight;
+        if(box) {
+            box.innerHTML += `<div class="bot-msg">${reply}</div>`;
+            box.scrollTop = box.scrollHeight;
+        }
     }, 400);
 }
 
 // --- ADMIN PANEL (ŞİFRE: 19071907) ---
 const ADMIN_PASS = "19071907";
-function adminPaneliAc() { document.getElementById('admin-modal').classList.remove('hidden'); }
-function adminPaneliKapat() { document.getElementById('admin-modal').classList.add('hidden'); }
+function adminPaneliAc() { 
+    const adminModal = document.getElementById('admin-modal');
+    if(adminModal) adminModal.classList.remove('hidden'); 
+}
+function adminPaneliKapat() { 
+    const adminModal = document.getElementById('admin-modal');
+    if(adminModal) adminModal.classList.add('hidden'); 
+}
 
 function adminGirisKontrol() {
-    if(document.getElementById('admin-pass-input').value === ADMIN_PASS) {
+    const passInput = document.getElementById('admin-pass-input');
+    if(passInput && passInput.value === ADMIN_PASS) {
         document.getElementById('admin-login-form').classList.add('hidden');
         document.getElementById('admin-controls').classList.remove('hidden');
     } else {
@@ -137,26 +183,41 @@ function adminDegisiklikleriKaydet() {
     const t = document.getElementById('edit-hero-title').value;
     const d = document.getElementById('edit-hero-desc').value;
 
-    if(t) document.getElementById('hero-title').innerHTML = t;
-    if(d) document.getElementById('hero-desc').innerText = d;
+    const heroTitle = document.getElementById('hero-title');
+    const heroDesc = document.getElementById('hero-desc');
+
+    if(t && heroTitle) heroTitle.innerHTML = t;
+    if(d && heroDesc) heroDesc.innerText = d;
     
     alert("Değişiklikler başarıyla kaydedildi!");
     adminPaneliKapat();
 }
 
-function modalAc(id) { document.getElementById(id).classList.remove('hidden'); }
-function modalKapat(id) { document.getElementById(id).classList.add('hidden'); }
+function modalAc(id) { 
+    const el = document.getElementById(id);
+    if(el) el.classList.remove('hidden'); 
+}
+function modalKapat(id) { 
+    const el = document.getElementById(id);
+    if(el) el.classList.add('hidden'); 
+}
 
-window.onload = function() {
-    kilitleriGuncelle();
+// Sayfa yüklendiğinde çalışacak ana tetikleyici
+window.onload = async function() {
+    await kilitleriGuncelle();
     
-    // Eğer daha önce giriş yapıldıysa Google Modalını gizle
     if(localStorage.getItem('google_logged_in') === 'true') {
-        document.getElementById('googleAuthModal').style.display = 'none';
+        const googleModal = document.getElementById('googleAuthModal');
+        if(googleModal) googleModal.style.display = 'none';
+        
         const savedName = localStorage.getItem('user_name') || 'Kullanıcı';
         const userBox = document.getElementById('user-profile');
-        userBox.classList.remove('hidden');
-        document.getElementById('user-name').innerText = savedName;
-        document.getElementById('user-photo').src = "https://www.gstatic.com/images/branding/product/1x/avatar_square_blue_56dp.png";
+        if(userBox) {
+            userBox.classList.remove('hidden');
+            const userNameEl = document.getElementById('user-name');
+            const userPhotoEl = document.getElementById('user-photo');
+            if(userNameEl) userNameEl.innerText = savedName;
+            if(userPhotoEl) userPhotoEl.src = "https://www.gstatic.com/images/branding/product/1x/avatar_square_blue_56dp.png";
+        }
     }
 };
