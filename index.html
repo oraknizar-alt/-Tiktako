@@ -19,6 +19,7 @@
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             color: white; min-height: 100vh;
+            scroll-behavior: smooth;
         }
 
         @keyframes gradientBG {
@@ -88,6 +89,9 @@
             align-items: center; cursor: pointer; z-index: 999;
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.5); text-decoration: none;
         }
+
+        footer a { color: #aaa; text-decoration: none; transition: 0.2s; }
+        footer a:hover { color: #ff3366; }
     </style>
 </head>
 <body>
@@ -98,10 +102,11 @@
             <i class="fa-solid fa-wand-magic-sparkles" style="color: #ff3366;"></i> TikTok ROSE <span style="color: #ff3366;">Stüdyo</span>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="#paketler-alani" style="background: rgba(255,255,255,0.1); color: white; padding: 9px 14px; border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: bold;">Paketler</a>
             <button onclick="satinAlmaMenusuAcKapat()" style="background: #00e676; color: black; font-weight: bold; padding: 9px 16px; border-radius: 20px; border: none; cursor: pointer; font-size: 12px; display: flex; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(0,230,118,0.3);">
                 <i class="fa-solid fa-store"></i> PAKET AL
             </button>
-            <div class="cart-icon-container" onclick="sepetiAcKapat()" style="cursor: pointer; color: white; font-size: 18px; position: relative;">
+            <div class="cart-icon-container" onclick="sepetiAcKapat()" style="cursor: pointer; color: white; font-size: 18px; position: relative; margin-left: 5px;">
                 <i class="fa-solid fa-cart-shopping"></i> 
                 <span id="sepet-sayac" style="background: #ff3366; color: white; padding: 2px 7px; border-radius: 50%; font-size: 11px; position: absolute; top: -8px; right: -10px;">0</span>
             </div>
@@ -116,7 +121,7 @@
         
         <h1 style="font-size: 32px; margin-bottom: 12px; font-weight: 800;">TikTok ROSE <span style="color: #ff3366;">Stüdyo</span></h1>
         <p style="color: #bbb; max-width: 650px; margin: 0 auto 25px; font-size: 14px; line-height: 1.6;">
-            Sistem cihazınıza özel çalışır. Paket satın aldığınızda APK indirme kilidi açılır ve satın aldığınız süre boyunca uygulamayı kesintisiz kullanabilirsiniz.
+            Cihazınıza özel lisans sistemi! Ödemeniz onaylandığında indirme kilitli buton aktifleşir ve satın aldığınız süre kadar kesintisiz yayın aracını kullanabilirsiniz.
         </p>
 
         <!-- 🔒 / 🔓 DİNAMİK APK İNDİRME BUTONU -->
@@ -140,6 +145,90 @@
         </div>
     </section>
 
+    <!-- 📱 UYGULAMA HAKKINDA / ÖZELLİKLER -->
+    <section id="uygulama-hakkinda" style="max-width: 1000px; margin: 50px auto; padding: 0 20px;">
+        <h2 style="text-align: center; font-size: 24px; margin-bottom: 30px; color: #fff;">
+            <i class="fa-solid fa-layer-group" style="color: #ff3366;"></i> Uygulama Özellikleri
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            <div class="glass-card" style="padding: 20px; border-radius: 14px;">
+                <i class="fa-solid fa-window-restore" style="font-size: 28px; color: #ff3366; margin-bottom: 10px;"></i>
+                <h3 style="font-size: 16px; margin: 5px 0;">Yüzen Pencere Desteği</h3>
+                <p style="font-size: 13px; color: #aaa; line-height: 1.5;">Ekranda overlay katmanı olarak çalışır, canlı yayın akışınızı aksatmadan pencereleri yönetmenizi sağlar.</p>
+            </div>
+            <div class="glass-card" style="padding: 20px; border-radius: 14px;">
+                <i class="fa-solid fa-bolt" style="font-size: 28px; color: #00e676; margin-bottom: 10px;"></i>
+                <h3 style="font-size: 16px; margin: 5px 0;">Anlık Canlı Bildirimler</h3>
+                <p style="font-size: 13px; color: #aaa; line-height: 1.5;">Hediyeler ve etkileşimler anında ekranda animasyonlu olarak gösterilir.</p>
+            </div>
+            <div class="glass-card" style="padding: 20px; border-radius: 14px;">
+                <i class="fa-solid fa-shield-halved" style="font-size: 28px; color: #00b0ff; margin-bottom: 10px;"></i>
+                <h3 style="font-size: 16px; margin: 5px 0;">Cihaz Bazlı Güvenlik</h3>
+                <p style="font-size: 13px; color: #aaa; line-height: 1.5;">Kişiye ve cihaza özel lisanslama ile izinsiz erişim ve paylaşımlar engellenir.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 💳 SAYFA İÇİ PAKETLER ALANI -->
+    <section id="paketler-alani" style="max-width: 1000px; margin: 50px auto; padding: 0 20px;">
+        <h2 style="text-align: center; font-size: 24px; margin-bottom: 10px; color: #fff;">
+            <i class="fa-solid fa-tags" style="color: #00e676;"></i> Lisans Paketleri
+        </h2>
+        <p style="text-align: center; font-size: 13px; color: #aaa; margin-bottom: 30px;">İhtiyacınıza uygun paketi seçip Shopier güvencesiyle satın alabilirsiniz.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+            <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px; font-size: 16px;">1 Hafta Paket</h3>
+                <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">29.99 ₺</div>
+                <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">7 Gün Geçerli Lisans.</p>
+                <button style="width: 100%; padding: 10px; border-radius: 8px; background: #ff3366; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="sepeteEkle('1 Hafta Paket', '29.99 ₺', 'https://www.shopier.com/rosestudyo/50065249')">Sepete Ekle</button>
+            </div>
+
+            <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px; font-size: 16px;">1 Ay Paket</h3>
+                <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">100 ₺</div>
+                <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">30 Gün VIP Lisans.</p>
+                <button style="width: 100%; padding: 10px; border-radius: 8px; background: #ff3366; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="sepeteEkle('1 Ay Paket', '100 ₺', 'https://www.shopier.com/rosestudyo/50065277')">Sepete Ekle</button>
+            </div>
+
+            <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px; font-size: 16px;">2 Ay Paket</h3>
+                <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">150 ₺</div>
+                <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">60 Gün Kullanım Hakkı.</p>
+                <button style="width: 100%; padding: 10px; border-radius: 8px; background: #ff3366; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="sepeteEkle('2 Ay Paket', '150 ₺', 'https://www.shopier.com/rosestudyo/50065353')">Sepete Ekle</button>
+            </div>
+
+            <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px; font-size: 16px;">7 Ay Paket</h3>
+                <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">1000 ₺</div>
+                <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">210 Gün Sezonluk Paket.</p>
+                <button style="width: 100%; padding: 10px; border-radius: 8px; background: #ff3366; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="sepeteEkle('7 Ay Paket', '1000 ₺', 'https://www.shopier.com/rosestudyo/50065378')">Sepete Ekle</button>
+            </div>
+
+            <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
+                <h3 style="color: #fff; margin-bottom: 10px; font-size: 16px;">1 Yıllık Paket</h3>
+                <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">1800 ₺</div>
+                <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">365 Gün Kesintisiz Tam Sürüm.</p>
+                <button style="width: 100%; padding: 10px; border-radius: 8px; background: #ff3366; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="sepeteEkle('1 Yıllık Paket', '1800 ₺', 'https://www.shopier.com/rosestudyo/50065419')">Sepete Ekle</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ❓ SSS / SIKÇA SORULAN SORULAR -->
+    <section style="max-width: 800px; margin: 50px auto; padding: 0 20px;">
+        <h2 style="text-align: center; font-size: 22px; margin-bottom: 20px; color: #fff;">
+            <i class="fa-solid fa-circle-question" style="color: #00b0ff;"></i> Sıkça Sorulan Sorular
+        </h2>
+        <div class="glass-card" style="padding: 15px 20px; border-radius: 12px; margin-bottom: 10px;">
+            <h4 style="margin: 0 0 5px; color: #00e676;">Satın aldıktan sonra APK indirme nasıl açılır?</h4>
+            <p style="margin: 0; font-size: 12px; color: #ccc;">Shopier ödemeniz ardından Device ID kodunuzu WhatsApp destek hattımıza ilettiğinizde lisansınız tanımlanır ve sitedeki indirme kilitli buton yeşile döner.</p>
+        </div>
+        <div class="glass-card" style="padding: 15px 20px; border-radius: 12px; margin-bottom: 10px;">
+            <h4 style="margin: 0 0 5px; color: #00e676;">Süre bitince ne olur?</h4>
+            <p style="margin: 0; font-size: 12px; color: #ccc;">Satın aldığınız paket süresi dolduğunda hem sitedeki indirme linki hem de uygulamanız otomatik olarak kilitlenir.</p>
+        </div>
+    </section>
+
     <!-- 🛍️ SATIN ALMA MENÜSÜ MODALI -->
     <div id="satinAlmaModal" class="modal hidden">
         <div class="glass-card" style="padding: 25px; border-radius: 18px; max-width: 850px; width: 95%; max-height: 85vh; overflow-y: auto;">
@@ -152,35 +241,26 @@
                 <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
                     <h3 style="color: #fff; margin-bottom: 10px; font-size: 16px;">1 Hafta Paket</h3>
                     <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">29.99 ₺</div>
-                    <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">7 Gün Tam Sürüm İndirme ve Kullanım Hakkı.</p>
                     <button style="width: 100%; padding: 10px; border-radius: 8px; background: #ff3366; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="sepeteEkle('1 Hafta Paket', '29.99 ₺', 'https://www.shopier.com/rosestudyo/50065249')">Sepete Ekle</button>
                 </div>
-
                 <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
                     <h3 style="color: #fff; margin-bottom: 10px; font-size: 16px;">1 Ay Paket</h3>
                     <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">100 ₺</div>
-                    <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">30 Gün VIP Lisans ve İndirme Erişimi.</p>
                     <button style="width: 100%; padding: 10px; border-radius: 8px; background: #ff3366; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="sepeteEkle('1 Ay Paket', '100 ₺', 'https://www.shopier.com/rosestudyo/50065277')">Sepete Ekle</button>
                 </div>
-
                 <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
                     <h3 style="color: #fff; margin-bottom: 10px; font-size: 16px;">2 Ay Paket</h3>
                     <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">150 ₺</div>
-                    <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">60 Gün Kesintisiz Kullanım ve Güncellemeler.</p>
                     <button style="width: 100%; padding: 10px; border-radius: 8px; background: #ff3366; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="sepeteEkle('2 Ay Paket', '150 ₺', 'https://www.shopier.com/rosestudyo/50065353')">Sepete Ekle</button>
                 </div>
-
                 <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
                     <h3 style="color: #fff; margin-bottom: 10px; font-size: 16px;">7 Ay Paket</h3>
                     <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">1000 ₺</div>
-                    <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">210 Gün Avantajlı Sezonluk Yayıncı Paketi.</p>
                     <button style="width: 100%; padding: 10px; border-radius: 8px; background: #ff3366; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="sepeteEkle('7 Ay Paket', '1000 ₺', 'https://www.shopier.com/rosestudyo/50065378')">Sepete Ekle</button>
                 </div>
-
                 <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
                     <h3 style="color: #fff; margin-bottom: 10px; font-size: 16px;">1 Yıllık Paket</h3>
                     <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">1800 ₺</div>
-                    <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">365 Gün Sınırsız İndirme ve Premium Destek.</p>
                     <button style="width: 100%; padding: 10px; border-radius: 8px; background: #ff3366; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="sepeteEkle('1 Yıllık Paket', '1800 ₺', 'https://www.shopier.com/rosestudyo/50065419')">Sepete Ekle</button>
                 </div>
             </div>
@@ -210,6 +290,21 @@
         </div>
     </div>
 
+    <!-- 📄 GİZLİLİK VE KULLANIM ŞARTLARI MODALI -->
+    <div id="gizlilikModal" class="modal hidden">
+        <div class="glass-card" style="padding: 25px; border-radius: 16px; max-width: 550px; width: 95%; max-height: 80vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 15px;">
+                <h3 style="margin: 0; color: #00b0ff;"><i class="fa-solid fa-file-contract"></i> Gizlilik & Kullanım Koşulları</h3>
+                <span onclick="gizlilikModalAcKapat()" style="cursor: pointer; font-size: 22px;">×</span>
+            </div>
+            <div style="font-size: 12px; color: #ccc; line-height: 1.6;">
+                <p><b>1. Cihaz Kimliği Kullanımı:</b> Rose Stüdyo uygulaması, lisans doğrulaması gerçekleştirebilmek adına cihazınıza özel rastgele oluşturulmuş bir Device ID kullanır.</p>
+                <p><b>2. Lisans Süreleri:</b> Satın alınan paketler ödeme onaylandığı andan itibaren başlar ve seçilen süre sonunda erişim sonlanır.</p>
+                <p><b>3. İade Politikası:</b> Dijital lisans ve yazılım erişimlerinde aktifleştirme sonrası iade işlemi yapılmamaktadır.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- 🤖 YAPAY ZEKA ASİSTAN MODALI -->
     <div id="aiModal" class="modal hidden">
         <div class="glass-card" style="padding: 20px; border-radius: 16px; max-width: 450px; width: 100%;">
@@ -224,6 +319,24 @@
         </div>
     </div>
 
+    <!-- 📜 EN ALT FOOTER (GİZLİLİK & UYGULAMA HAKKINDA) -->
+    <footer class="glass-nav" style="margin-top: 60px; padding: 30px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1);">
+        <div style="max-width: 900px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
+            <div style="text-align: left;">
+                <h4 style="margin: 0 0 5px; color: #fff; font-size: 16px;">Rose Stüdyo</h4>
+                <p style="margin: 0; font-size: 12px; color: #888;">TikTok Canlı Yayın Lisanslı Katman Yazılımı</p>
+            </div>
+            <div style="display: flex; gap: 15px; font-size: 13px;">
+                <a href="#uygulama-hakkinda">Hakkında</a>
+                <a href="javascript:void(0)" onclick="gizlilikModalAcKapat()">Gizlilik Politikası</a>
+                <a href="javascript:void(0)" onclick="gizlilikModalAcKapat()">Kullanım Koşulları</a>
+            </div>
+        </div>
+        <div style="margin-top: 20px; font-size: 11px; color: #666;">
+            © 2026 Rose Stüdyo. Tüm Hakları Saklıdır.
+        </div>
+    </footer>
+
     <!-- FLOATING BUTTONS -->
     <div class="ai-float-btn" onclick="aiModalAcKapat()" title="Yapay Zeka Destek">
         <i class="fa-solid fa-robot" style="font-size: 24px;"></i>
@@ -235,7 +348,6 @@
 
     <!-- 📜 JAVASCRIPT & FIREBASE KONTROLÜ -->
     <script>
-        // 🚨 Kendi Firebase Ayarlarını Buraya Gir:
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -265,7 +377,6 @@
         function lisansVeApkDurumunuKontrolEt(deviceId) {
             const db = firebase.database();
             
-            // Firebase'de devices/DEVICE_ID düğümünü dinliyoruz
             db.ref('devices/' + deviceId).on('value', (snapshot) => {
                 const data = snapshot.val();
                 const simdi = new Date().getTime();
@@ -276,15 +387,13 @@
                 const apkStatusText = document.getElementById('apk-status-text');
                 const licenseBadge = document.getElementById('license-badge');
 
-                // Lisans Onaylı ve Süresi Var mı?
                 if (data && data.active === true && data.expireTimestamp > simdi) {
                     const kalanKullanimGunu = Math.ceil((data.expireTimestamp - simdi) / (1000 * 60 * 60 * 24));
                     
-                    // APK İndirme Butonunu Aç
                     apkBtn.classList.remove('locked');
                     apkBtn.classList.add('unlocked');
                     apkBtn.href = data.apkUrl || "https://github.com/SizinKullaniciAdi/SizinRepo/releases/download/v1.0/ROSE_STUDYO.apk";
-                    apkBtn.onclick = null; // Normal indirme bağlantısı çalışsın
+                    apkBtn.onclick = null;
 
                     apkIcon.className = "fa-solid fa-download";
                     apkText.innerText = "Uygulamayı İndir (Aktif)";
@@ -295,7 +404,6 @@
                     licenseBadge.style.color = "#00e676";
                     licenseBadge.style.background = "rgba(0, 230, 118, 0.15)";
                 } else {
-                    // Lisans Yok veya Süresi Dolmuş -> KİLİTLE
                     apkBtn.classList.remove('unlocked');
                     apkBtn.classList.add('locked');
                     apkBtn.href = "javascript:void(0)";
@@ -332,6 +440,7 @@
         function satinAlmaMenusuAcKapat() { document.getElementById("satinAlmaModal").classList.toggle("hidden"); }
         function sepetiAcKapat() { document.getElementById("sepetModal").classList.toggle("hidden"); }
         function aiModalAcKapat() { document.getElementById("aiModal").classList.toggle("hidden"); }
+        function gizlilikModalAcKapat() { document.getElementById("gizlilikModal").classList.toggle("hidden"); }
 
         let secilenUrun = "", secilenFiyat = "", secilenLink = "";
 
