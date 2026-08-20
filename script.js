@@ -1,3 +1,20 @@
+// --- FIREBASE BAĞLANTISI (Google Bulut Veritabanı) ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA1OnSmjE9YtvhVMbfhNR-Ojt73TKOa3Og",
+  authDomain: "rose-studio-a961a.firebaseapp.com",
+  projectId: "rose-studio-a961a",
+  storageBucket: "rose-studio-a961a.firebasestorage.app",
+  messagingSenderId: "451378777867",
+  appId: "1:451378777867:web:24b24010f6e3cd283d9c0e",
+  measurementId: "G-K1HPBFE2FX"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 // --- ZORUNLU GOOGLE GİRİŞ & SAYFA KİLİDİ ---
 function gercekGoogleGirisYap(e) {
     if(e) e.preventDefault(); // Sayfanın kesinlikle yenilenmesini önler
@@ -55,7 +72,7 @@ function gercekOdemeBaslat() {
     }
 }
 
-// --- SUNUCU & LİSANS KONTROL ENTEGRASYONU ---
+// --- GOOGLE FİREBASE LİSANS KONTROL ENTEGRASYONU ---
 async function kilitleriGuncelle() {
     const devId = benzersizCihazIdUret();
     const idDisplay = document.getElementById('display-device-id');
@@ -63,23 +80,23 @@ async function kilitleriGuncelle() {
 
     let isAuthorized = localStorage.getItem('license_granted_' + devId) === 'ACTIVE';
 
-    // Node.js Sunucunuza bağlanarak uzaktan lisans sorgulama (API)
+    // Firebase Firestore'dan uzaktan lisans sorgulama
     try {
-        const response = await fetch('http://SUNUCU_IP_VEYA_DOMAIN:3000/api/check-license?device_id=' + devId, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        });
-        const data = await response.json();
+        const docRef = doc(db, "licenses", devId);
+        const docSnap = await getDoc(docRef);
         
-        if (data.status === 'active') {
-            isAuthorized = true;
-            localStorage.setItem('license_granted_' + devId, 'ACTIVE');
-        } else if (data.status === 'expired' || data.status === 'inactive') {
-            isAuthorized = false;
-            localStorage.removeItem('license_granted_' + devId);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.status === 'active') {
+                isAuthorized = true;
+                localStorage.setItem('license_granted_' + devId, 'ACTIVE');
+            } else if (data.status === 'expired' || data.status === 'inactive') {
+                isAuthorized = false;
+                localStorage.removeItem('license_granted_' + devId);
+            }
         }
     } catch (error) {
-        console.log("Sunucuya ulaşılamadı, yerel önbellek lisansı kullanılıyor.");
+        console.log("Firebase veritabanına ulaşılamadı, yerel önbellek lisansı kullanılıyor.", error);
     }
 
     const apkBtn = document.getElementById('download-apk-btn');
@@ -213,6 +230,8 @@ window.onload = async function() {
         const savedName = localStorage.getItem('user_name') || 'Kullanıcı';
         const userBox = document.getElementById('user-profile');
         if(userBox) {
+            userBox.classList.add('hidden'); // Gerekirse düzenlenebilir
+            // Profil detayları dolduruluyor
             userBox.classList.remove('hidden');
             const userNameEl = document.getElementById('user-name');
             const userPhotoEl = document.getElementById('user-photo');
