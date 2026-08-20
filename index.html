@@ -55,41 +55,41 @@
                 <h3 style="color: #fff; margin-bottom: 10px;">1 Hafta Paket</h3>
                 <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">29.99 ₺</div>
                 <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">7 günlük kesintisiz lisans.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Hafta Paket', 29.99)">Sepete Ekle</button>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Hafta Paket', '29.99 ₺', 'https://www.shopier.com/rosestudyo/50065249')">Sepete Ekle</button>
             </div>
 
             <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
                 <h3 style="color: #fff; margin-bottom: 10px;">1 Ay Paket</h3>
                 <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">100 ₺</div>
                 <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">30 günlük VIP yayın desteği.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Ay Paket', 100)">Sepete Ekle</button>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Ay Paket', '100 ₺', 'https://www.shopier.com/rosestudyo/50065277')">Sepete Ekle</button>
             </div>
 
             <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
                 <h3 style="color: #fff; margin-bottom: 10px;">2 Ay Paket</h3>
                 <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">150 ₺</div>
                 <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">60 günlük avantajlı paket.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('2 Ay Paket', 150)">Sepete Ekle</button>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('2 Ay Paket', '150 ₺', 'https://www.shopier.com/rosestudyo/50065353')">Sepete Ekle</button>
             </div>
 
             <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
                 <h3 style="color: #fff; margin-bottom: 10px;">7 Ay Paket</h3>
                 <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">1000 ₺</div>
                 <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Uzun dönem ekonomik paket.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('7 Ay Paket', 1000)">Sepete Ekle</button>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('7 Ay Paket', '1000 ₺', 'https://www.shopier.com/rosestudyo/50065378')">Sepete Ekle</button>
             </div>
 
             <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
                 <h3 style="color: #fff; margin-bottom: 10px;">1 Yıllık Paket</h3>
                 <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">1800 ₺</div>
                 <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">365 gün kesintisiz tam sürüm.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Yıllık Paket', 1800)">Sepete Ekle</button>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Yıllık Paket', '1800 ₺', 'https://www.shopier.com/rosestudyo/50065419')">Sepete Ekle</button>
             </div>
 
         </div>
     </section>
 
-    <!-- SEPET / ÖDEME MODALI (SİLME ÖZELLİĞİ EKLENDİ) -->
+    <!-- SEPET / ÖDEME MODALI -->
     <div id="sepetModal" class="modal hidden">
         <div class="modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 50px auto;">
             <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
@@ -108,7 +108,7 @@
                         <button onclick="sepettenUrunSil()" style="background: #ff3366; border: none; color: white; padding: 6px 10px; border-radius: 4px; cursor: pointer;" title="Ürünü Sil"><i class="fa-solid fa-trash"></i></button>
                     </div>
 
-                    <button id="paytr-odeme-btn" class="btn-primary" style="width: 100%; padding: 12px; background: #00e676; color: black; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;" onclick="paytrOdemeYap()">PayTR ile Güvenli Öde</button>
+                    <button id="satin-al-btn" class="btn-primary" style="width: 100%; padding: 12px; background: #00e676; color: black; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;" onclick="dogrudanSatinAl()">Satın Al</button>
                 </div>
             </div>
         </div>
@@ -135,7 +135,7 @@
                 <span class="close-btn" onclick="yasalModalKapat('gizlilikModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
             </div>
             <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
-                <p>Sistemimize kayıtlı cihaz kimliğiniz (Device ID) sadece lisans güvenliği amacıyla tutulmakta olup üçüncü şahıslarla kesinlikle paylaşılmamaktadır. Ödeme işlemleriniz PayTR güvencesiyle gerçekleşmekte olup kredi kartı bilgileriniz sistemimizde saklanmamaktadır.</p>
+                <p>Sistemimize kayıtlı cihaz kimliğiniz (Device ID) sadece lisans güvenliği amacıyla tutulmakta olup üçüncü şahıslarla kesinlikle paylaşılmamaktadır.</p>
             </div>
         </div>
     </div>
@@ -148,8 +148,7 @@
             </div>
             <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
                 <p><strong>MADDE 1 - TARAFLAR:</strong> İşbu sözleşme, dijital lisans satın alan 'Alıcı' ile hizmeti sağlayan 'Satıcı' arasındadır.<br>
-                <strong>MADDE 2 - KONU:</strong> Sözleşmenin konusu, alıcının dijital platform üzerinden satın aldığı uygulama kullanım lisansının satışı ve teslimidir.<br>
-                <strong>MADDE 3 - TESLİMAT:</strong> Hizmet dijital olduğu için ödeme onayı sonrasında lisans anında cihaz kimliğine tanımlanır.</p>
+                <strong>MADDE 2 - KONU:</strong> Sözleşmenin konusu, alıcının dijital platform üzerinden satın aldığı uygulama kullanım lisansının satışı ve teslimidir.</p>
             </div>
         </div>
     </div>
@@ -161,7 +160,7 @@
                 <span class="close-btn" onclick="yasalModalKapat('iadeModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
             </div>
             <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
-                <p>Satın alınan hizmet dijital bir içerik (yazılım lisansı) olduğu için, Mesafeli Sözleşmeler Yönetmeliği'nin 15. maddesi gereğince, anında ifa edilen hizmetler cayma hakkının istisnaları kapsamındadır. Lisans aktif edildikten sonra ücret iadesi yapılamaz. Ancak altyapısal bir sorun olması durumunda destek ekibimiz telafi lisans süresi tanımlayabilir.</p>
+                <p>Satın alınan hizmet dijital bir içerik olduğu için lisans aktif edildikten sonra ücret iadesi yapılamaz.</p>
             </div>
         </div>
     </div>
@@ -270,13 +269,15 @@
 
     <script>
         let secilenUrun = "";
-        let secilenFiyat = 0;
+        let secilenFiyat = "";
+        let secilenLink = "";
 
-        function sepeteEkle(urunAdi, fiyat) {
+        function sepeteEkle(urunAdi, fiyat, link) {
             secilenUrun = urunAdi;
             secilenFiyat = fiyat;
+            secilenLink = link;
             document.getElementById("sepet-urun-adi").innerText = urunAdi;
-            document.getElementById("sepet-urun-fiyat").innerText = "Tutar: " + fiyat + " ₺";
+            document.getElementById("sepet-urun-fiyat").innerText = "Tutar: " + fiyat;
             document.getElementById("sepet-sayac").innerText = "1";
             
             document.getElementById("sepet-bos-mesaj").style.display = "none";
@@ -286,7 +287,8 @@
 
         function sepettenUrunSil() {
             secilenUrun = "";
-            secilenFiyat = 0;
+            secilenFiyat = "";
+            secilenLink = "";
             document.getElementById("sepet-sayac").innerText = "0";
             
             document.getElementById("sepet-dolu-alan").style.display = "none";
@@ -298,8 +300,12 @@
             modal.classList.toggle("hidden");
         }
 
-        function paytrOdemeYap() {
-            alert(secilenUrun + " (" + secilenFiyat + " ₺) için PayTR ödeme sayfasına yönlendiriliyorsunuz...");
+        function dogrudanSatinAl() {
+            if (secilenLink) {
+                window.location.href = secilenLink;
+            } else {
+                alert("Lütfen bir paket seçin.");
+            }
         }
 
         function yasalModalAc(modalId) {
