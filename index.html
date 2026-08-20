@@ -3,304 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title-tag">Rose Stüdyo</title>
+    <title id="site-title-tag">TikTok ROSE Stüdyo</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- ⚙️ Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <style>
+        /* Temel Temizlik ve Karanlık Tema Stilleri */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #121212; color: #ffffff; padding-bottom: 60px; }
+        a { color: inherit; text-decoration: none; }
+        
+        /* Navbar */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #1a1a1a; border-bottom: 1px solid #2a2a2a; sticky: top; top: 0; z-index: 100; }
+        .logo { font-size: 20px; font-weight: bold; color: #ff3366; }
+        .cart-icon-container { position: relative; font-size: 20px; cursor: pointer; padding: 5px; }
+        #sepet-sayac { background: #ff3366; color: white; border-radius: 50%; padding: 2px 7px; font-size: 11px; font-weight: bold; position: relative; top: -8px; left: -5px; }
+
+        /* Hero */
+        .hero { text-align: center; padding: 40px 20px 20px; max-width: 800px; margin: 0 auto; }
+        .badge { display: inline-block; background: rgba(255,51,102,0.15); color: #ff3366; border: 1px solid #ff3366; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 15px; }
+        .hero h1 { font-size: 32px; margin-bottom: 10px; }
+        .hero h1 span { color: #ff3366; }
+        .hero p { color: #aaaaaa; font-size: 15px; line-height: 1.5; }
+        .device-security-info { margin-top: 15px; background: #1e1e1e; display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 8px; border: 1px solid #333; font-size: 13px; color: #00e676; }
+
+        /* Kartlar ve Paketler */
+        .pricing-section { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        .section-title { text-align: center; margin-bottom: 25px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .card { background: #1a1a1a; border: 1px solid #2d2d2d; border-radius: 12px; padding: 25px; text-align: center; transition: transform 0.2s, border-color 0.2s; }
+        .card:hover { transform: translateY(-3px); border-color: #ff3366; }
+        .card h3 { font-size: 18px; margin-bottom: 10px; }
+        .card .price { font-size: 22px; font-weight: bold; margin-bottom: 10px; color: #00e676; }
+        .card p { color: #888; font-size: 13px; margin-bottom: 20px; min-height: 36px; }
+        .btn-primary { width: 100%; padding: 12px; background: #ff3366; border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        .btn-primary:hover { background: #e02e5b; }
+        .btn-free { background: #0288d1; }
+        .btn-free:hover { background: #0277bd; }
+
+        /* Modallar */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+        .modal.hidden { display: none !important; }
+        .modal-content { background: #1e1e1e; color: #fff; width: 100%; max-width: 480px; border-radius: 12px; border: 1px solid #333; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 12px; margin-bottom: 15px; }
+        .close-btn { font-size: 24px; cursor: pointer; color: #aaa; }
+        .close-btn:hover { color: #fff; }
+
+        /* AI Asistan */
+        .ai-float-btn { position: fixed; bottom: 25px; right: 25px; background: #ff3366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 900; box-shadow: 0 4px 15px rgba(255,51,102,0.4); }
+        .ai-badge { position: absolute; top: -2px; right: -2px; background: #00e676; color: #000; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 10px; }
+
+        /* Alt Butonlar ve Footer */
+        .bottom-section { text-align: center; margin: 40px 0 20px; }
+        .about-app-btn { background: #252525; border: 1px solid #333; color: white; padding: 10px 20px; border-radius: 30px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; }
+        .circular-btn-img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+        .contact-request { margin-top: 20px; }
+        .yellow-email-link { color: #ffd700; font-size: 13px; font-weight: bold; display: inline-block; line-height: 1.4; }
+        .footer-links { text-align: center; margin-top: 30px; padding: 20px; border-top: 1px solid #222; font-size: 12px; color: #777; }
+        .footer-links a { margin: 0 8px; color: #999; }
+        .footer-links a:hover { color: #ff3366; }
+    </style>
 </head>
 <body>
 
+    <!-- NAVBAR -->
     <header class="navbar">
         <div class="logo">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> TikTok Mobile <span id="nav-logo-sub">Stüdyo</span>
+            <i class="fa-solid fa-wand-magic-sparkles"></i> TikTok Mobile <span>Stüdyo</span>
         </div>
-        <div class="cart-icon-container" onclick="sepetiAcKapat()" style="cursor: pointer; color: white; font-size: 18px;">
-            <i class="fa-solid fa-cart-shopping"></i> <span id="sepet-sayac" style="background: #ff3366; padding: 2px 8px; border-radius: 50%; font-size: 12px;">0</span>
+        <div class="cart-icon-container" onclick="sepetiAcKapat()" title="Sepetim">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="sepet-sayac">0</span>
         </div>
     </header>
 
+    <!-- HERO BÖLÜMÜ -->
     <section class="hero">
         <div class="badge">✨ TikTok ROSE Stüdyo ✨</div>
         <h1 id="hero-title">TikTok ROSE <span>Stüdyo</span></h1>
         <p id="hero-desc">Canlı yayın ekranınızı kişiselleştirin! Ekrana hediye, video, özel yazılar ve görevler ekleyerek yayınınızı profesyonelleştirin.</p>
         
-        <div class="device-security-info" style="margin-top: 20px;">
+        <div class="device-security-info">
             <i class="fa-solid fa-shield-halved"></i> 
             <span>Cihaz Kimliği: <strong id="display-device-id">Yükleniyor...</strong></span>
         </div>
     </section>
 
-    <!-- ABONELİK VE MARKET SEPETİ BÖLÜMÜ -->
-    <section class="pricing-section" style="padding: 40px 20px; max-width: 1000px; margin: 0 auto;">
-        <div class="section-title" style="text-align: center; margin-bottom: 30px;">
+    <!-- MARKET VE ABONELİK PAKETLERİ -->
+    <section class="pricing-section">
+        <div class="section-title">
             <h2><i class="fa-solid fa-store"></i> Abonelik Paketleri ve Market</h2>
-            <p style="color: #aaa;">Uygulamanızı kesintisiz kullanmak için size uygun lisans paketini seçin.</p>
+            <p style="color: #aaa; font-size: 13px; margin-top: 5px;">Uygulamanızı kesintisiz kullanmak için size uygun lisans paketini seçin.</p>
         </div>
 
-        <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+        <div class="pricing-grid">
             
-            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
-                <h3 style="color: #fff; margin-bottom: 10px;">1 Hafta Deneme</h3>
-                <div class="price" style="font-size: 20px; font-weight: bold; color: #29b6f6; margin-bottom: 15px;">ÜCRETSİZ</div>
-                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Uygulamayı ilk indirenlere özel 7 gün tam yetki.</p>
-                <button class="btn-primary" style="width: 100%; padding: 12px; border-radius: 6px; background: #0288d1; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="ucretsizDenemeBaslat()">7 Gün Ücretsiz İndir</button>
+            <div class="card">
+                <h3>1 Hafta Deneme</h3>
+                <div class="price" style="color: #29b6f6;">ÜCRETSİZ</div>
+                <p>Uygulamayı ilk indirenlere özel 7 gün tam yetki kullanımı.</p>
+                <button class="btn-primary btn-free" onclick="ucretsizDenemeBaslat()">7 Gün Ücretsiz İndir</button>
             </div>
 
-            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
-                <h3 style="color: #fff; margin-bottom: 10px;">1 Hafta Paket</h3>
-                <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">29.99 ₺</div>
-                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">7 günlük kesintisiz lisans.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Hafta Paket', '29.99 ₺', 'https://www.shopier.com/rosestudyo/50065249')">Sepete Ekle</button>
+            <div class="card">
+                <h3>1 Hafta Paket</h3>
+                <div class="price">29.99 ₺</div>
+                <p>7 günlük kesintisiz tam sürüm lisansı.</p>
+                <button class="btn-primary" onclick="sepeteEkle('1 Hafta Paket', '29.99 ₺', 'https://www.shopier.com/rosestudyo/50065249')">Sepete Ekle</button>
             </div>
 
-            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
-                <h3 style="color: #fff; margin-bottom: 10px;">1 Ay Paket</h3>
-                <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">100 ₺</div>
-                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">30 günlük VIP yayın desteği.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Ay Paket', '100 ₺', 'https://www.shopier.com/rosestudyo/50065277')">Sepete Ekle</button>
+            <div class="card">
+                <h3>1 Ay Paket</h3>
+                <div class="price">100 ₺</div>
+                <p>30 günlük VIP yayın ve tema desteği.</p>
+                <button class="btn-primary" onclick="sepeteEkle('1 Ay Paket', '100 ₺', 'https://www.shopier.com/rosestudyo/50065277')">Sepete Ekle</button>
             </div>
 
-            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
-                <h3 style="color: #fff; margin-bottom: 10px;">2 Ay Paket</h3>
-                <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">150 ₺</div>
-                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">60 günlük avantajlı paket.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('2 Ay Paket', '150 ₺', 'https://www.shopier.com/rosestudyo/50065353')">Sepete Ekle</button>
+            <div class="card">
+                <h3>2 Ay Paket</h3>
+                <div class="price">150 ₺</div>
+                <p>60 günlük avantajlı yayıncı paketi.</p>
+                <button class="btn-primary" onclick="sepeteEkle('2 Ay Paket', '150 ₺', 'https://www.shopier.com/rosestudyo/50065353')">Sepete Ekle</button>
             </div>
 
-            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
-                <h3 style="color: #fff; margin-bottom: 10px;">7 Ay Paket</h3>
-                <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">1000 ₺</div>
-                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Uzun dönem ekonomik paket.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('7 Ay Paket', '1000 ₺', 'https://www.shopier.com/rosestudyo/50065378')">Sepete Ekle</button>
+            <div class="card">
+                <h3>7 Ay Paket</h3>
+                <div class="price">1000 ₺</div>
+                <p>Uzun dönem ekonomik yayıncı paketi.</p>
+                <button class="btn-primary" onclick="sepeteEkle('7 Ay Paket', '1000 ₺', 'https://www.shopier.com/rosestudyo/50065378')">Sepete Ekle</button>
             </div>
 
-            <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
-                <h3 style="color: #fff; margin-bottom: 10px;">1 Yıllık Paket</h3>
-                <div class="price" style="font-size: 20px; font-weight: bold; color: #00e676; margin-bottom: 15px;">1800 ₺</div>
-                <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">365 gün kesintisiz tam sürüm.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #ff3366; border: none; color: white; cursor: pointer;" onclick="sepeteEkle('1 Yıllık Paket', '1800 ₺', 'https://www.shopier.com/rosestudyo/50065419')">Sepete Ekle</button>
+            <div class="card">
+                <h3>1 Yıllık Paket</h3>
+                <div class="price">1800 ₺</div>
+                <p>365 gün kesintisiz tam sürüm VIP lisans.</p>
+                <button class="btn-primary" onclick="sepeteEkle('1 Yıllık Paket', '1800 ₺', 'https://www.shopier.com/rosestudyo/50065419')">Sepete Ekle</button>
             </div>
 
         </div>
     </section>
 
-    <!-- SEPET / ÖDEME MODALI -->
+    <!-- ALT BUTONLAR VE İLETİŞİM -->
+    <section class="bottom-section">
+        <button id="openAboutModal" class="about-app-btn" type="button" onclick="modalAc('aboutModal')">
+            <img src="https://cdn.phototourl.com/free/2026-08-07-ef3d73f8-f2bb-4039-a996-34b929e1eef6.jpg" alt="Logo" class="circular-btn-img">
+            <span>UYGULAMA HAKKINDA</span>
+        </button>
+
+        <div class="contact-request">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=oraknizar@gmail.com" target="_blank" class="yellow-email-link">
+                <i class="fa-solid fa-envelope"></i> EKLEMEMİZİ İSTEDİĞİNİZ BİR ŞEY VARSA POSTA ADRESİMİZE GÖNDERİN<br>
+                <span style="font-size: 11px; opacity: 0.8;">(YAZIYA TIKLAYIN)</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER LINKLERI -->
+    <div class="footer-links">
+        <a href="#" onclick="yasalModalAc('hakkimizdaModal'); return false;">Hakkımızda</a> | 
+        <a href="#" onclick="yasalModalAc('gizlilikModal'); return false;">Gizlilik Politikası</a> | 
+        <a href="#" onclick="yasalModalAc('mesafeliModal'); return false;">Mesafeli Satış Sözleşmesi</a> | 
+        <a href="#" onclick="yasalModalAc('iadeModal'); return false;">İptal ve İade Koşulları</a>
+        <br><br>
+        <button type="button" onclick="adminPaneliAc()" style="background: transparent; border: 1px solid #444; color: #777; padding: 4px 12px; border-radius: 4px; font-size: 11px; cursor: pointer;">⚙️ Admin Paneli</button>
+        <p style="margin-top: 10px; font-size: 11px; color: #555;">© 2026 TikTok Mobil Stüdyo - Tüm Hakları Saklıdır.</p>
+    </div>
+
+    <!-- 🛒 SEPET MODALI -->
     <div id="sepetModal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 50px auto;">
-            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h3>🛒 Market Sepetim</h3>
-                <span class="close-btn" onclick="sepetiAcKapat()" style="cursor: pointer; font-size: 20px;">×</span>
+                <span class="close-btn" onclick="sepetiAcKapat()">&times;</span>
             </div>
-            <div class="modal-body" style="padding: 20px 0;">
-                <div id="sepet-bos-mesaj" style="text-align: center; color: #888;">Sepetinizde ürün bulunmamaktadır.</div>
+            <div class="modal-body">
+                <div id="sepet-bos-mesaj" style="text-align: center; color: #888; padding: 20px 0;">Sepetinizde henüz ürün bulunmamaktadır.</div>
                 
                 <div id="sepet-dolu-alan" style="display: none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: #252525; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: #252525; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
                         <div>
-                            <p id="sepet-urun-adi" style="font-size: 15px; font-weight: bold; color: #fff;"></p>
-                            <p id="sepet-urun-fiyat" style="font-size: 14px; color: #00e676; margin-top: 4px;"></p>
+                            <p id="sepet-urun-adi" style="font-weight: bold; font-size: 15px;"></p>
+                            <p id="sepet-urun-fiyat" style="color: #00e676; font-size: 14px; margin-top: 4px;"></p>
                         </div>
-                        <button onclick="sepettenUrunSil()" style="background: #ff3366; border: none; color: white; padding: 6px 10px; border-radius: 4px; cursor: pointer;" title="Ürünü Sil"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="sepettenUrunSil()" style="background: #ff3366; border: none; color: white; padding: 8px 12px; border-radius: 6px; cursor: pointer;" title="Kaldır"><i class="fa-solid fa-trash"></i></button>
                     </div>
-
-                    <button id="satin-al-btn" class="btn-primary" style="width: 100%; padding: 12px; background: #00e676; color: black; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;" onclick="dogrudanSatinAl()">Satın Al</button>
+                    <button class="btn-primary" style="background: #00e676; color: #000;" onclick="dogrudanSatinAl()">Ödemeye Geç (Shopier)</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- HAKKIMIZDA VE YASAL METİNLER MODALLARI -->
-    <div id="hakkimizdaModal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto;">
-            <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
-                <h3>🏢 Hakkımızda</h3>
-                <span class="close-btn" onclick="yasalModalKapat('hakkimizdaModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
+    <!-- 🤖 AI ASİSTAN BUTONU VE SOHBET MODALI -->
+    <div id="aiAssistantBtn" class="ai-float-btn" title="AI Asistan" onclick="aiPenceresiAcKapat()">
+        <i class="fa-solid fa-robot" style="font-size: 22px;"></i>
+        <span class="ai-badge">AI</span>
+    </div>
+
+    <div id="aiChatModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-robot" style="color: #ff3366;"></i> AI Asistan</h3>
+                <span class="close-btn" onclick="aiPenceresiAcKapat()">&times;</span>
             </div>
-            <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
-                <p>TikTok Mobil Stüdyo, yayıncıların canlı yayın deneyimlerini profesyonelleştirmeyi hedefleyen yenilikçi bir yazılım projesidir. Amacımız, yayıncılara mobil cihazları üzerinden en kaliteli etkileşim araçlarını sunmaktır.</p>
-                <br><p><strong>İletişim:</strong> oraknizar@gmail.com</p>
+            <div class="modal-body" id="ai-messages" style="height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px;">
+                <div style="background: #252525; color: #ccc; padding: 10px 14px; border-radius: 12px; max-width: 85%; align-self: flex-start; font-size: 13px;">
+                    Merhaba Sülü! Ben TikTok Mobil Stüdyo yapay zeka asistanıyım. Uygulama indirme, kurulum veya paket satın alma konularında sorularını sorabilirsin!
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 15px;">
+                <input type="text" id="aiInput" placeholder="Soru sorun..." onkeypress="aiTusaBasildi(event)" style="flex: 1; padding: 10px 12px; border-radius: 6px; border: 1px solid #333; background: #252525; color: white; outline: none; font-size: 13px;">
+                <button type="button" onclick="aiMesajGonder()" style="padding: 10px 16px; background: #ff3366; border: none; color: white; border-radius: 6px; cursor: pointer;"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✨ UYGULAMA REHBERİ MODALI -->
+    <div id="aboutModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✨ TikTok Mobil Stüdyo Rehberi</h3>
+                <span class="close-btn" onclick="modalKapat('aboutModal')">&times;</span>
+            </div>
+            <div class="modal-body" style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+                <div style="background: #252525; padding: 12px; border-radius: 8px;">
+                    <h4 style="color: #ff3366; margin-bottom: 4px;">1. Ekrana Fotoğraf & Görev Ekleme</h4>
+                    <p style="color: #aaa;">Canlı yayın ekranınıza özel görseller, hedef sayaçları ve metinler yerleştirebilirsiniz.</p>
+                </div>
+                <div style="background: #252525; padding: 12px; border-radius: 8px;">
+                    <h4 style="color: #ff3366; margin-bottom: 4px;">2. Video Overlay & Katmanlar</h4>
+                    <p style="color: #aaa;">Hareketli katmanlar ve video efektleri ekleyerek yayın görselliğini üst seviyeye taşıyın.</p>
+                </div>
+                <div style="background: #252525; padding: 12px; border-radius: 8px;">
+                    <h4 style="color: #ff3366; margin-bottom: 4px;">3. Boyut, Şeffaflık & Kilitleme</h4>
+                    <p style="color: #aaa;">Tüm objelerin şeffaflık ve boyutunu ayarlayabilir, yayında kaymamaları için ekrana kilitleyebilirsiniz.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⚙️ ADMIN MODALI -->
+    <div id="admin-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚙️ Yönetici Paneli</h3>
+                <span class="close-btn" onclick="adminPaneliKapat()">&times;</span>
+            </div>
+            <div id="admin-login-form">
+                <p style="margin-bottom: 10px; color: #aaa; font-size: 13px;">Giriş için yönetici şifresini yazın:</p>
+                <input type="password" id="admin-pass-input" placeholder="Admin Şifresi" style="width: 100%; padding: 10px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #333; background: #252525; color: white;">
+                <button type="button" onclick="adminGirisKontrol()" class="btn-primary">Giriş Yap</button>
+            </div>
+
+            <div id="admin-controls" style="display: none;">
+                <label style="font-size: 12px; color: #aaa; display: block; margin-bottom: 4px;">Site Başlığı:</label>
+                <input type="text" id="edit-hero-title" style="width: 100%; padding: 8px; margin-bottom: 12px; border-radius: 4px; border: 1px solid #333; background: #252525; color: white;">
+
+                <label style="font-size: 12px; color: #aaa; display: block; margin-bottom: 4px;">Açıklama Metni:</label>
+                <textarea id="edit-hero-desc" rows="3" style="width: 100%; padding: 8px; margin-bottom: 12px; border-radius: 4px; border: 1px solid #333; background: #252525; color: white;"></textarea>
+
+                <button type="button" class="btn-primary" onclick="adminDegisiklikleriKaydet()" style="background: #00e676; color: #000;">💾 Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- YASAL METİN MODALLARI -->
+    <div id="hakkimizdaModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header"><h3>🏢 Hakkımızda</h3><span class="close-btn" onclick="yasalModalKapat('hakkimizdaModal')">&times;</span></div>
+            <div class="modal-body" style="font-size: 13px; color: #ccc; line-height: 1.6;">
+                TikTok Mobil Stüdyo, mobil yayıncılar için geliştirilmiş interaktif yayın katmanı çözümüdür.<br><br><strong>İletişim:</strong> oraknizar@gmail.com
             </div>
         </div>
     </div>
 
     <div id="gizlilikModal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto; max-height: 80vh; overflow-y: auto;">
-            <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
-                <h3>🔒 Gizlilik Politikası</h3>
-                <span class="close-btn" onclick="yasalModalKapat('gizlilikModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
-            </div>
-            <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
-                <p>Sistemimize kayıtlı cihaz kimliğiniz (Device ID) sadece lisans güvenliği amacıyla tutulmakta olup üçüncü şahıslarla kesinlikle paylaşılmamaktadır.</p>
+        <div class="modal-content">
+            <div class="modal-header"><h3>🔒 Gizlilik Politikası</h3><span class="close-btn" onclick="yasalModalKapat('gizlilikModal')">&times;</span></div>
+            <div class="modal-body" style="font-size: 13px; color: #ccc; line-height: 1.6;">
+                Cihaz Kimliğiniz (Device ID) sadece tek kullanımlık lisans doğrulama ve indirme kontrolü amacıyla tutulur.
             </div>
         </div>
     </div>
 
     <div id="mesafeliModal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto; max-height: 80vh; overflow-y: auto;">
-            <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
-                <h3>📄 Mesafeli Satış Sözleşmesi</h3>
-                <span class="close-btn" onclick="yasalModalKapat('mesafeliModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
-            </div>
-            <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
-                <p><strong>MADDE 1 - TARAFLAR:</strong> İşbu sözleşme, dijital lisans satın alan 'Alıcı' ile hizmeti sağlayan 'Satıcı' arasındadır.<br>
-                <strong>MADDE 2 - KONU:</strong> Sözleşmenin konusu, alıcının dijital platform üzerinden satın aldığı uygulama kullanım lisansının satışı ve teslimidir.</p>
+        <div class="modal-content">
+            <div class="modal-header"><h3>📄 Mesafeli Satış Sözleşmesi</h3><span class="close-btn" onclick="yasalModalKapat('mesafeliModal')">&times;</span></div>
+            <div class="modal-body" style="font-size: 13px; color: #ccc; line-height: 1.6;">
+                Dijital içerik ve yazılım lisansı teslimatları Shopier ödeme altyapısı onaylandıktan sonra anında aktif edilir.
             </div>
         </div>
     </div>
 
     <div id="iadeModal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto;">
-            <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
-                <h3>↩️ İptal ve İade Koşulları</h3>
-                <span class="close-btn" onclick="yasalModalKapat('iadeModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
-            </div>
-            <div class="modal-body" style="padding: 20px 0; font-size: 14px; color: #ccc; line-height: 1.6;">
-                <p>Satın alınan hizmet dijital bir içerik olduğu için lisans aktif edildikten sonra ücret iadesi yapılamaz.</p>
-            </div>
-        </div>
-    </div>
-
-    <section class="bottom-section">
-        <div class="about-app-wrapper">
-            <button id="openAboutModal" class="about-app-btn" type="button" onclick="modalAc('aboutModal')">
-                <div class="about-img-circle">
-                    <img src="https://cdn.phototourl.com/free/2026-08-07-ef3d73f8-f2bb-4039-a996-34b929e1eef6.jpg" alt="Uygulama Hakkında" class="circular-btn-img">
-                </div>
-                <span>UYGULAMA HAKKINDA</span>
-            </button>
-        </div>
-
-        <div class="contact-request">
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=oraknizar@gmail.com" target="_blank" class="yellow-email-link">
-                <i class="fa-solid fa-envelope"></i> EKLEMEMİZİ İSTEDİĞİNİZ BİŞEY VARSA POSTA ADRESİMİZE GÖNDERİN
-                <span class="click-subtext">(YAZIYA TIKLA)</span>
-            </a>
-        </div>
-    </section>
-
-    <!-- FOOTER ALANI -->
-    <div style="background: #111; padding: 20px; text-align: center; border-top: 1px solid #333; margin-top: 30px;">
-        <a href="#" onclick="yasalModalAc('hakkimizdaModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Hakkımızda</a> | 
-        <a href="#" onclick="yasalModalAc('gizlilikModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Gizlilik Politikası</a> | 
-        <a href="#" onclick="yasalModalAc('mesafeliModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Mesafeli Satış Sözleşmesi</a> | 
-        <a href="#" onclick="yasalModalAc('iadeModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">İptal ve İade Koşulları</a>
-        <p style="color: #555; font-size: 11px; margin-top: 10px;">© 2026 TikTok Mobil Stüdyo - Tüm Hakları Saklıdır.</p>
-    </div>
-
-    <!-- AI ASİSTAN BUTONU VE SOHBET PENCERESİ -->
-    <div id="aiAssistantBtn" class="ai-float-btn" title="AI Asistan" onclick="aiPenceresiAcKapat()" style="position: fixed; bottom: 20px; right: 20px; background: #ff3366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 999; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
-        <i class="fa-solid fa-robot" style="font-size: 20px;"></i>
-        <span class="ai-badge" style="position: absolute; top: -2px; right: -2px; background: #00e676; color: black; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px;">AI</span>
-    </div>
-
-    <div id="aiChatModal" class="modal hidden">
-        <div class="modal-content ai-modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 50px auto;">
-            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
-                <h3><i class="fa-solid fa-robot"></i> AI Asistan</h3>
-                <span class="close-btn" onclick="aiPenceresiAcKapat()" style="cursor: pointer; font-size: 20px;">×</span>
-            </div>
-            <div class="modal-body ai-chat-body" id="ai-messages" style="height: 250px; overflow-y: auto; padding: 10px 0; display: flex; flex-direction: column;">
-                <div style="background: #252525; color: #ccc; padding: 8px 12px; border-radius: 12px; margin: 5px 0; max-width: 80%; align-self: flex-start; font-size: 13px;">Merhaba Sülü! Ben TikTok Mobil Stüdyo yapay zeka asistanıyım. Uygulama veya paketler hakkında her şeyi sorabilirsin!</div>
-            </div>
-            <div class="chat-footer" style="display: flex; gap: 8px; margin-top: 10px;">
-                <input type="text" id="aiInput" placeholder="Mesajınızı yazın..." onkeypress="aiTusaBasildi(event)" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #252525; color: white; outline: none;">
-                <button type="button" onclick="aiMesajGonder()" style="padding: 10px 15px; background: #ff3366; border: none; color: white; border-radius: 6px; cursor: pointer;"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- UYGULAMA REHBERİ MODALI -->
-    <div id="aboutModal" class="modal hidden">
-        <div class="modal-content about-modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: 50px auto;">
-            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
-                <h3>✨ TikTok Mobil Stüdyo Rehberi</h3>
-                <span class="close-btn" onclick="modalKapat('aboutModal')" style="cursor: pointer; font-size: 20px;">×</span>
-            </div>
-            <div class="modal-body" style="padding: 15px 0;">
-                <div class="guide-list" style="display: flex; flex-direction: column; gap: 15px;">
-                    <div class="guide-card" style="background: #252525; padding: 12px; border-radius: 8px;">
-                        <h4 style="color: #ff3366; margin-bottom: 5px;">1. Ekrana Fotoğraf & Görev Ekleme</h4>
-                        <p style="color: #aaa; font-size: 13px;">Canlı yayın ekranınıza özel fotoğraflar, hedef görselleri ve görev metinleri yerleştirebilirsiniz.</p>
-                    </div>
-                    <div class="guide-card" style="background: #252525; padding: 12px; border-radius: 8px;">
-                        <h4 style="color: #ff3366; margin-bottom: 5px;">2. Ekrana Video Simgesi & Overlay</h4>
-                        <p style="color: #aaa; font-size: 13px;">Hareketli veya sabit video simgeleri ekleyerek yayın kalitenizi profesyonel seviyeye taşıyabilirsiniz.</p>
-                    </div>
-                    <div class="guide-card" style="background: #252525; padding: 12px; border-radius: 8px;">
-                        <h4 style="color: #ff3366; margin-bottom: 5px;">3. Boyut, Şeffaflık & Kilitleme</h4>
-                        <p style="color: #aaa; font-size: 13px;">Ekrandaki tüm objelerin şeffaflık derecesini ayarlayabilir, yanlışlıkla dokunmamak için sabitleyip kilitleyebilirsiniz.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ADMIN PANELİ FOOTER VE MODALI -->
-    <footer class="footer" style="text-align: center; margin-top: 20px; padding-bottom: 20px;">
-        <button class="admin-open-btn" type="button" onclick="adminPaneliAc()" style="background: transparent; border: 1px solid #444; color: #888; padding: 6px 15px; border-radius: 6px; cursor: pointer;">⚙️ Admin Paneli</button>
-    </footer>
-
-    <div id="admin-modal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 50px auto;">
-            <span class="close-btn" onclick="adminPaneliKapat()" style="cursor: pointer; float: right; font-size: 20px;">×</span>
-            <h2>⚙️ Yönetici Paneli</h2>
-            <br>
-            <div id="admin-login-form">
-                <p style="margin-bottom: 10px; color: #aaa;">Yönetici şifresini girin:</p>
-                <input type="password" id="admin-pass-input" placeholder="Admin Şifresi" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #333; background: #252525; color: white;">
-                <button type="button" onclick="adminGirisKontrol()" class="btn-primary" style="width: 100%; padding: 10px; background: #ff3366; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer;">Giriş Yap</button>
-            </div>
-
-            <div id="admin-controls" class="hidden" style="display: none;">
-                <hr style="border-color: #333; margin: 15px 0;">
-                <h3>Site İçeriğini Düzenle</h3>
-                <br>
-                <label style="font-size: 12px; color: #aaa;">Site Başlığı:</label>
-                <input type="text" id="edit-hero-title" style="width: 100%; padding: 8px; margin: 5px 0 15px; border-radius: 4px; border: 1px solid #333; background: #252525; color: white;">
-
-                <label style="font-size: 12px; color: #aaa;">Açıklama Metni:</label>
-                <textarea id="edit-hero-desc" rows="3" style="width: 100%; padding: 8px; margin: 5px 0 15px; border-radius: 4px; border: 1px solid #333; background: #252525; color: white;"></textarea>
-
-                <button type="button" class="btn-primary" onclick="adminDegisiklikleriKaydet()" style="width: 100%; padding: 10px; background: #00e676; border: none; color: black; font-weight: bold; border-radius: 6px; cursor: pointer;">💾 Değişiklikleri Kaydet</button>
+        <div class="modal-content">
+            <div class="modal-header"><h3>↩️ İptal ve İade Koşulları</h3><span class="close-btn" onclick="yasalModalKapat('iadeModal')">&times;</span></div>
+            <div class="modal-body" style="font-size: 13px; color: #ccc; line-height: 1.6;">
+                Satın alınan lisans anahtarları dijital içerik kapsamında olduğundan aktivasyon sonrası iade edilemez.
             </div>
         </div>
     </div>
 
     <!-- JAVASCRIPT MOTORU -->
     <script>
-        // ⚙️ Firebase Kurulumu
+        // ⚙️ Firebase Bağlantısı
         const firebaseConfig = {
             databaseURL: "https://SENIN-FIREBASE-PROJECT-ID.firebaseio.com"
         };
 
         try {
-            if (!firebase.apps.length) {
+            if (typeof firebase !== 'undefined' && !firebase.apps.length) {
                 firebase.initializeApp(firebaseConfig);
             }
-        } catch (e) {
-            console.log("Firebase başlatma uyarısı:", e);
-        }
-        
+        } catch (e) { console.log("Firebase başlatma:", e); }
+
         let db = null;
         try {
-            db = firebase.database();
-        } catch (e) {
-            console.log("Firebase DB bağlantı uyarısı:", e);
-        }
+            if (typeof firebase !== 'undefined') db = firebase.database();
+        } catch (e) { console.log("Database:", e); }
 
-        // 🔒 GİZLİ APK LINKI (Base64 Şifreli Raw Github Adresiniz)
+        // 🔒 Base64 ile Şifrelenmiş APK İndirme Bağlantın
         const _0x4a12 = "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL29yYWtuaXphci1hbHQvLVRpa3Rha28vbWFpbi9ST1NFJTIwU1QlQzMlOTNESU8uYXBr";
 
         let currentDeviceId = "";
 
-        // 🆔 Cihaz ID Oluşturma / Yakalama
+        // 🆔 Cihaz Kimliğini Yakalama ve Üretme
         function cihazKimligiAlVeyaUret() {
             const urlParams = new URLSearchParams(window.location.search);
             let id = urlParams.get('deviceId') || localStorage.getItem('rose_device_id');
-            
             if (!id) {
                 id = 'DEV-' + Math.random().toString(36).substring(2, 10).toUpperCase();
                 localStorage.setItem('rose_device_id', id);
@@ -311,31 +344,27 @@
         window.addEventListener('DOMContentLoaded', () => {
             currentDeviceId = cihazKimligiAlVeyaUret();
             const displayEl = document.getElementById('display-device-id');
-            if (displayEl) {
-                displayEl.innerText = currentDeviceId;
-            }
+            if (displayEl) displayEl.innerText = currentDeviceId;
         });
 
-        // 🎁 7 Gün Ücretsiz Deneme (1 Cihaz = 1 İndirme Kontrolü)
+        // 🎁 7 Günlük Deneme Sürümü (Tek Cihaz = Tek İndirme Kontrolü)
         function ucretsizDenemeBaslat() {
-            if (!currentDeviceId) {
-                currentDeviceId = cihazKimligiAlVeyaUret();
-            }
+            if (!currentDeviceId) currentDeviceId = cihazKimligiAlVeyaUret();
 
-            // 1. Yerel Depolama (LocalStorage) Kontrolü
+            // 1. Yerel Kontrol (LocalStorage)
             const localTrialStatus = localStorage.getItem('rose_trial_used_' + currentDeviceId);
             if (localTrialStatus === 'true') {
-                alert("⚠️ Bu cihazda 7 günlük deneme sürümü zaten kullanılmış Sülü! Tekrar indiremezsin.");
+                alert("⚠️ Sülü, bu cihazda 7 günlük deneme sürümü zaten kullanılmış! İkinci kez indiremezsin.");
                 return;
             }
 
-            // 2. Firebase Veritabanı Üzerinden Çift Kontrol
+            // 2. Firebase Veritabanı Kontrolü
             if (db) {
                 db.ref('licenses/' + currentDeviceId).once('value').then((snapshot) => {
                     const data = snapshot.val();
                     if (data && data.trialUsed) {
                         localStorage.setItem('rose_trial_used_' + currentDeviceId, 'true');
-                        alert("⚠️ Bu cihazda 7 günlük deneme sürümü zaten kullanılmış! Tekrar indiremezsin.");
+                        alert("⚠️ Bu cihazda 7 günlük deneme sürümü zaten kullanılmış!");
                     } else {
                         indirmeyiIşleVeKilitle();
                     }
@@ -347,7 +376,7 @@
             }
         }
 
-        // 📥 İndirmeyi Başlat, Kaydet ve Cihazı İkinci İndirmeye Karşı Kilitle
+        // İndirmeyi Onayla ve Cihazı İkinci Kullanıma Karşı Kilitle
         function indirmeyiIşleVeKilitle() {
             localStorage.setItem('rose_trial_used_' + currentDeviceId, 'true');
 
@@ -359,33 +388,29 @@
                         trialUsed: true,
                         tip: "1_hafta_deneme"
                     });
-                } catch (err) {
-                    console.log("Firebase kaydı atlandı:", err);
-                }
+                } catch (err) { console.log("Firebase yazma pas geçildi"); }
             }
 
             guvenliGizliApkIndir();
         }
 
-        // 🔐 Şifrelenmiş Linki Çözüp Doğrudan İndirme Yapma
+        // Base64 Çözüp Gizli APK İndirme İşlemi
         function guvenliGizliApkIndir() {
             try {
                 const realUrl = atob(_0x4a12);
-                
                 const hiddenAnchor = document.createElement('a');
                 hiddenAnchor.href = realUrl;
                 hiddenAnchor.setAttribute('download', 'ROSE_STUDYO.apk');
                 hiddenAnchor.style.display = 'none';
                 document.body.appendChild(hiddenAnchor);
-                
                 hiddenAnchor.click();
                 document.body.removeChild(hiddenAnchor);
             } catch (e) {
-                alert("İndirme bağlantısı çözülemedi!");
+                alert("İndirme adresi çözülemedi!");
             }
         }
 
-        // 🛒 Sepet ve Market İşlemleri
+        // 🛒 Sepet Mantığı
         let secilenUrun = "";
         let secilenFiyat = "";
         let secilenLink = "";
@@ -404,11 +429,8 @@
         }
 
         function sepettenUrunSil() {
-            secilenUrun = "";
-            secilenFiyat = "";
-            secilenLink = "";
+            secilenUrun = ""; secilenFiyat = ""; secilenLink = "";
             document.getElementById("sepet-sayac").innerText = "0";
-            
             document.getElementById("sepet-dolu-alan").style.display = "none";
             document.getElementById("sepet-bos-mesaj").style.display = "block";
         }
@@ -421,11 +443,11 @@
             if (secilenLink) {
                 window.location.href = secilenLink;
             } else {
-                alert("Lütfen bir paket seçin.");
+                alert("Lütfen sepete geçerli bir paket ekleyin.");
             }
         }
 
-        // 🤖 AI Asistan İşlemleri
+        // 🤖 AI Asistan
         function aiPenceresiAcKapat() {
             document.getElementById("aiChatModal").classList.toggle("hidden");
         }
@@ -442,7 +464,7 @@
             const msgArea = document.getElementById("ai-messages");
             
             const userDiv = document.createElement("div");
-            userDiv.style.cssText = "background:#ff3366; color:#fff; padding:8px 12px; border-radius:12px; margin:5px 0; align-self:flex-end; max-width:80%; font-size:13px;";
+            userDiv.style.cssText = "background:#ff3366; color:#fff; padding:8px 12px; border-radius:12px; font-size:13px; align-self:flex-end; max-width:85%;";
             userDiv.innerText = txt;
             msgArea.appendChild(userDiv);
 
@@ -450,23 +472,18 @@
 
             setTimeout(() => {
                 const botDiv = document.createElement("div");
-                botDiv.style.cssText = "background:#252525; color:#ccc; padding:8px 12px; border-radius:12px; margin:5px 0; align-self:flex-start; max-width:80%; font-size:13px;";
-                botDiv.innerText = "Sorunu aldım! TikTok Mobil Stüdyo özelliklerini kullanabilmek için 7 gün ücretsiz paketi indirebilir veya marketten lisans satın alabilirsin.";
+                botDiv.style.cssText = "background:#252525; color:#ccc; padding:8px 12px; border-radius:12px; font-size:13px; align-self:flex-start; max-width:85%;";
+                botDiv.innerText = "Sorunu aldım! TikTok Mobil Stüdyo özelliklerini hemen denemek için 7 Gün Ücretsiz İndir butonunu kullanabilir veya market paketlerinden birini seçebilirsin.";
                 msgArea.appendChild(botDiv);
                 msgArea.scrollTop = msgArea.scrollHeight;
-            }, 600);
+            }, 500);
 
             msgArea.scrollTop = msgArea.scrollHeight;
         }
 
-        // ⚙️ Admin Paneli İşlemleri
-        function adminPaneliAc() {
-            document.getElementById("admin-modal").classList.remove("hidden");
-        }
-
-        function adminPaneliKapat() {
-            document.getElementById("admin-modal").classList.add("hidden");
-        }
+        // ⚙️ Admin Paneli
+        function adminPaneliAc() { document.getElementById("admin-modal").classList.remove("hidden"); }
+        function adminPaneliKapat() { document.getElementById("admin-modal").classList.add("hidden"); }
 
         function adminGirisKontrol() {
             const pass = document.getElementById("admin-pass-input").value;
@@ -485,23 +502,15 @@
             const d = document.getElementById("edit-hero-desc").value;
             if (t) document.getElementById("hero-title").innerText = t;
             if (d) document.getElementById("hero-desc").innerText = d;
-            alert("Değişiklikler başarıyla kaydedildi!");
+            alert("Değişiklikler kaydedildi!");
             adminPaneliKapat();
         }
 
-        // 📄 Modal Açma/Kapatma Genel Fonksiyonları
-        function modalAc(id) {
-            document.getElementById(id).classList.remove("hidden");
-        }
-        function modalKapat(id) {
-            document.getElementById(id).classList.add("hidden");
-        }
-        function yasalModalAc(modalId) {
-            document.getElementById(modalId).classList.remove("hidden");
-        }
-        function yasalModalKapat(modalId) {
-            document.getElementById(modalId).classList.add("hidden");
-        }
+        // Genel Modal Fonksiyonları
+        function modalAc(id) { document.getElementById(id).classList.remove("hidden"); }
+        function modalKapat(id) { document.getElementById(id).classList.add("hidden"); }
+        function yasalModalAc(id) { document.getElementById(id).classList.remove("hidden"); }
+        function yasalModalKapat(id) { document.getElementById(id).classList.add("hidden"); }
     </script>
 </body>
 </html>
