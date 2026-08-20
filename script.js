@@ -61,14 +61,30 @@ function benzersizCihazIdUret() {
     return deviceId;
 }
 
-window.gercekOdemeBaslat = function() {
+window.gercekOdemeBaslat = async function() {
     const devId = benzersizCihazIdUret();
     const onay = confirm("Ödeme onaylansın mı?\n\nUyarı: Lisans hakkı YALNIZCA bu cihaza (" + devId + ") özel olarak kilitlenecektir. Dosyayı başka bir telefona atsanız bile o telefonda ÇALIŞMAZ!");
     
     if(onay) {
-        localStorage.setItem('license_granted_' + devId, 'ACTIVE');
-        kilitleriGuncelle();
-        alert("Ödeme başarılı! Cihazınıza özel APK indirme kilidi açıldı.");
+        try {
+            // Ödeme onaylandığı an Firebase Firestore veritabanına bu cihazı "active" olarak kaydediyoruz!
+            await setDoc(doc(db, "licenses", devId), {
+                status: "active",
+                tarih: new Date().toISOString(),
+                cihazId: devId
+            });
+
+            // Yerel hafızaya da işleyelim
+            localStorage.setItem('license_granted_' + devId, 'ACTIVE');
+            
+            // Kilitleri hemen güncelle
+            await kilitleriGuncelle();
+            
+            alert("Ödeme başarılı! Cihazınıza özel bulut lisansınız oluşturuldu ve APK indirme kilidi açıldı.");
+        } catch (error) {
+            console.error("Lisans veritabanına yazılamadı:", error);
+            alert("Bir hata oluştu, lütfen tekrar deneyin.");
+        }
     }
 };
 
