@@ -1,26 +1,140 @@
-<!-- aktivasyon.html -->
-<div style="max-width: 400px; margin: 50px auto; text-align: center; color: white; background: #1e1e1e; padding: 20px; border-radius: 10px;">
-    <h2>Lisans Aktivasyonu</h2>
-    <p>Satın aldığınız paketi cihazınıza tanımlayın.</p>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rose Stüdyo - İndirme ve Aktivasyon</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h2 {
+            color: #ff0050;
+            margin-bottom: 8px;
+        }
+        p {
+            color: #aaa;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .step {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        .step h3 {
+            margin-top: 0;
+            font-size: 1.05rem;
+            color: #00f2fe;
+        }
+        .btn-download {
+            display: block;
+            width: 100%;
+            background: linear-gradient(45deg, #ff0050, #00f2fe);
+            color: white;
+            padding: 12px 0;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            text-align: center;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(255, 0, 80, 0.3);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #121212;
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .btn-activate {
+            width: 100%;
+            background-color: #00e676;
+            color: #121212;
+            border: none;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+        .btn-activate:active {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🎉 Rose Stüdyo</h2>
+    <p>Satın alımınız başarıyla gerçekleşti! Aşağıdan uygulamanızı indirebilir ve lisansınızı aktif edebilirsiniz.</p>
     
-    <input type="text" id="deviceId" placeholder="Cihaz ID'nizi Yapıştırın" style="width: 100%; padding: 10px; margin: 10px 0;"><br>
-    <input type="text" id="orderNo" placeholder="Shopier Sipariş Numarası" style="width: 100%; padding: 10px; margin: 10px 0;"><br>
-    
-    <button onclick="activateLicense()" style="width: 100%; padding: 10px; background: #00e676; border: none; cursor: pointer; font-weight: bold;">Aktivasyonu Tamamla</button>
+    <!-- 1. ADIM: UYGULAMAYI İNDİR -->
+    <div class="step">
+        <h3>1. Adım: Uygulamayı İndir</h3>
+        <p style="font-size: 0.85rem; color: #ccc; margin-bottom: 10px;">APK dosyasını telefonunuza indirin ve kurun:</p>
+        <a href="https://github.com/oraknizar-alt/-Tiktako/raw/main/ROSE%20ST%C3%9CDYO.apk" class="btn-download" download>
+            📥 UYGULAMAYI İNDİR
+        </a>
+    </div>
+
+    <!-- 2. ADIM: LİSANS AKTİVASYONU -->
+    <div class="step">
+        <h3>2. Adım: Lisansı Tanımla</h3>
+        <input type="text" id="deviceId" placeholder="Cihaz ID'nizi Yapıştırın">
+        <input type="text" id="orderNo" placeholder="Shopier Sipariş Numarası">
+        
+        <button class="btn-activate" onclick="activateLicense()">Aktivasyonu Tamamla</button>
+    </div>
 </div>
 
 <script>
 async function activateLicense() {
-    const deviceId = document.getElementById('deviceId').value;
-    const orderNo = document.getElementById('orderNo').value;
+    const deviceId = document.getElementById('deviceId').value.trim();
+    const orderNo = document.getElementById('orderNo').value.trim();
 
-    const response = await fetch('http://SUNUCU_ADRESIN:3000/api/auto-activate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ deviceId, orderNo })
-    });
+    if(!deviceId || !orderNo) {
+        alert('Lütfen tüm alanları doldurun!');
+        return;
+    }
 
-    const result = await response.json();
-    alert(result.message);
+    try {
+        const response = await fetch('http://SUNUCU_ADRESIN:3000/api/auto-activate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ deviceId, orderNo })
+        });
+
+        const result = await response.json();
+        alert(result.message);
+    } catch (error) {
+        alert('Sunucuya bağlanırken bir hata oluştu!');
+    }
 }
 </script>
+
+</body>
+</html>
