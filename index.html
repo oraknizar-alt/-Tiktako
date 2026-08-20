@@ -27,13 +27,7 @@
         <h1 id="hero-title">TikTok ROSE <span>Stüdyo</span></h1>
         <p id="hero-desc">Canlı yayın ekranınızı kişiselleştirin! Ekrana hediye, video, özel yazılar ve görevler ekleyerek yayınınızı profesyonelleştirin.</p>
         
-        <div class="hero-buttons">
-            <button id="download-apk-btn" class="btn-primary btn-lg" type="button" onclick="guvenliApkIndir()">
-                <i class="fa-solid fa-download"></i> ROSE STÜDYO İNDİR (APK)
-            </button>
-        </div>
-        
-        <div class="device-security-info">
+        <div class="device-security-info" style="margin-top: 20px;">
             <i class="fa-solid fa-shield-halved"></i> 
             <span>Cihaz Kimliği: <strong id="display-device-id">Yükleniyor...</strong></span>
         </div>
@@ -52,7 +46,7 @@
                 <h3 style="color: #fff; margin-bottom: 10px;">1 Hafta Deneme</h3>
                 <div class="price" style="font-size: 20px; font-weight: bold; color: #29b6f6; margin-bottom: 15px;">ÜCRETSİZ</div>
                 <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Uygulamayı ilk indirenlere özel 7 gün tam yetki.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #0288d1; border: none; color: white; cursor: pointer;" onclick="ucretsizDenemeBaslat()">Hemen Başla (7 Gün Ücretsiz)</button>
+                <button class="btn-primary" style="width: 100%; padding: 12px; border-radius: 6px; background: #0288d1; border: none; color: white; font-weight: bold; cursor: pointer;" onclick="ucretsizDenemeBaslat()">7 Gün Ücretsiz İndir</button>
             </div>
 
             <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
@@ -235,7 +229,7 @@
                     </div>
                     <div class="guide-card">
                         <h4>3. Boyut, Şeffaflık & Kilitleme</h4>
-                        <p>Ekrandaki tüm objelerin şeffaflık derecesini ayarlayabilir, yanlışlıkla dokunmamak için sabitleyip kilitleyebilirsiniz.</p>
+                        <p>Ekrandaki tüm objelerin şeffaflık derecesini ayarlayabilir, yanlışlıkla dokunmamak için sabitleyip kilitleleyebilirsiniz.</p>
                     </div>
                 </div>
             </div>
@@ -274,7 +268,7 @@
     <script>
         // 🔧 Firebase Kurulumu
         const firebaseConfig = {
-            databaseURL: "https://SENIN-FIREBASE-PROJECT-ID.firebaseio.com" // Kendi Firebase veritabanı adresin
+            databaseURL: "https://SENIN-FIREBASE-PROJECT-ID.firebaseio.com" // Kendi Firebase adresin
         };
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
@@ -321,7 +315,6 @@
             const trialRef = db.ref('licenses/' + currentDeviceId);
             trialRef.once('value').then(snapshot => {
                 if (snapshot.exists() && snapshot.val().trialUsed) {
-                    alert("❌ Bu cihazda daha önce 1 haftalık ücretsiz deneme kullanılmış! APK indirmesi başlatılıyor...");
                     guvenliApkIndir();
                 } else {
                     const birHaftaSonra = Date.now() + (7 * 24 * 60 * 60 * 1000);
@@ -330,16 +323,15 @@
                         trialUsed: true,
                         tip: "1_hafta_deneme"
                     }).then(() => {
-                        alert("🎉 1 Haftalık Ücretsiz Denemeniz Başlatıldı! İndirme başlıyor...");
                         guvenliApkIndir();
                     }).catch(err => {
-                        alert("Hata oluştu: " + err.message);
+                        guvenliApkIndir();
                     });
                 }
             });
         }
 
-        // 📥 APK İndirme
+        // 📥 Otomatik APK İndirme
         function guvenliApkIndir() {
             window.location.href = GITHUB_APK_URL;
         }
