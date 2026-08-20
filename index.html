@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title-tag"> Rose Stüdyo</title>
+    <title id="site-title-tag">Rose Stüdyo</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ⚙️ Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <style>
+        /* Modal & Temel Görünüm Gizleme / Gösterme Stilleri */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+        .modal.hidden { display: none !important; }
+        .ai-float-btn { position: fixed; bottom: 20px; right: 20px; background: #ff3366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 999; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .ai-badge { position: absolute; top: -2px; right: -2px; background: #00e676; color: black; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; }
+    </style>
 </head>
 <body>
 
@@ -23,13 +35,7 @@
         <h1 id="hero-title">TikTok ROSE <span>Stüdyo</span></h1>
         <p id="hero-desc">Canlı yayın ekranınızı kişiselleştirin! Ekrana hediye, video, özel yazılar ve görevler ekleyerek yayınınızı profesyonelleştirin.</p>
         
-        <div class="hero-buttons">
-            <button id="download-apk-btn" class="btn-primary btn-lg" type="button" onclick="guvenliApkIndir()">
-                <i class="fa-solid fa-download"></i> ROSE STÜDYO SATIN AL!
-            </button>
-        </div>
-        
-        <div class="device-security-info">
+        <div class="device-security-info" style="margin-top: 20px;">
             <i class="fa-solid fa-shield-halved"></i> 
             <span>Cihaz Kimliği: <strong id="display-device-id">Yükleniyor...</strong></span>
         </div>
@@ -48,7 +54,7 @@
                 <h3 style="color: #fff; margin-bottom: 10px;">1 Hafta Deneme</h3>
                 <div class="price" style="font-size: 20px; font-weight: bold; color: #29b6f6; margin-bottom: 15px;">ÜCRETSİZ</div>
                 <p style="color: #aaa; font-size: 13px; margin-bottom: 15px;">Uygulamayı ilk indirenlere özel 7 gün tam yetki.</p>
-                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #0288d1; border: none; color: white; cursor: pointer;" onclick="alert('Deneme süresi uygulamayı ilk indirdiğinizde otomatik başlar!')">Hemen Başla</button>
+                <button class="btn-primary" style="width: 100%; padding: 10px; border-radius: 6px; background: #0288d1; border: none; color: white; cursor: pointer; font-weight: bold;" onclick="ucretsizDenemeBaslat()">7 Gün Ücretsiz İndir</button>
             </div>
 
             <div class="card" style="background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center;">
@@ -91,7 +97,7 @@
 
     <!-- SEPET / ÖDEME MODALI -->
     <div id="sepetModal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 50px auto;">
+        <div class="modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 0 auto;">
             <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
                 <h3>🛒 Market Sepetim</h3>
                 <span class="close-btn" onclick="sepetiAcKapat()" style="cursor: pointer; font-size: 20px;">×</span>
@@ -116,7 +122,7 @@
 
     <!-- HAKKIMIZDA VE YASAL METİNLER MODALLARI -->
     <div id="hakkimizdaModal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto;">
+        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto;">
             <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
                 <h3>🏢 Hakkımızda</h3>
                 <span class="close-btn" onclick="yasalModalKapat('hakkimizdaModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
@@ -129,7 +135,7 @@
     </div>
 
     <div id="gizlilikModal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto; max-height: 80vh; overflow-y: auto;">
+        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto; max-height: 80vh; overflow-y: auto;">
             <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
                 <h3>🔒 Gizlilik Politikası</h3>
                 <span class="close-btn" onclick="yasalModalKapat('gizlilikModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
@@ -141,7 +147,7 @@
     </div>
 
     <div id="mesafeliModal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto; max-height: 80vh; overflow-y: auto;">
+        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto; max-height: 80vh; overflow-y: auto;">
             <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
                 <h3>📄 Mesafeli Satış Sözleşmesi</h3>
                 <span class="close-btn" onclick="yasalModalKapat('mesafeliModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
@@ -154,7 +160,7 @@
     </div>
 
     <div id="iadeModal" class="modal hidden">
-        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 50px auto;">
+        <div class="modal-content" style="background: #1e1e1e; color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto;">
             <div class="modal-header" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
                 <h3>↩️ İptal ve İade Koşulları</h3>
                 <span class="close-btn" onclick="yasalModalKapat('iadeModal')" style="cursor: pointer; float: right; font-size: 20px;">×</span>
@@ -165,109 +171,207 @@
         </div>
     </div>
 
-    <section class="bottom-section">
+    <section class="bottom-section" style="text-align: center; margin-top: 30px;">
         <div class="about-app-wrapper">
-            <button id="openAboutModal" class="about-app-btn" type="button" onclick="modalAc('aboutModal')">
+            <button id="openAboutModal" class="about-app-btn" type="button" onclick="modalAc('aboutModal')" style="background: #252525; border: 1px solid #333; color: white; padding: 10px 20px; border-radius: 30px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-weight: bold;">
                 <div class="about-img-circle">
-                    <img src="https://cdn.phototourl.com/free/2026-08-07-ef3d73f8-f2bb-4039-a996-34b929e1eef6.jpg" alt="Uygulama Hakkında" class="circular-btn-img">
+                    <img src="https://cdn.phototourl.com/free/2026-08-07-ef3d73f8-f2bb-4039-a996-34b929e1eef6.jpg" alt="Uygulama Hakkında" class="circular-btn-img" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
                 </div>
                 <span>UYGULAMA HAKKINDA</span>
             </button>
         </div>
 
-        <div class="contact-request">
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=oraknizar@gmail.com" target="_blank" class="yellow-email-link">
+        <div class="contact-request" style="margin-top: 20px;">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=oraknizar@gmail.com" target="_blank" class="yellow-email-link" style="color: #ffd700; text-decoration: none; font-weight: bold; font-size: 13px;">
                 <i class="fa-solid fa-envelope"></i> EKLEMEMİZİ İSTEDİĞİNİZ BİŞEY VARSA POSTA ADRESİMİZE GÖNDERİN
-                <span class="click-subtext">(YAZIYA TIKLA)</span>
+                <span class="click-subtext" style="display: block; font-size: 11px; opacity: 0.8;">(YAZIYA TIKLA)</span>
             </a>
         </div>
     </section>
 
     <!-- FOOTER ALANI -->
     <div style="background: #111; padding: 20px; text-align: center; border-top: 1px solid #333; margin-top: 30px;">
-        <a href="#" onclick="yasalModalAc('hakkimizdaModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Hakkımızda</a> | 
-        <a href="#" onclick="yasalModalAc('gizlilikModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Gizlilik Politikası</a> | 
-        <a href="#" onclick="yasalModalAc('mesafeliModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Mesafeli Satış Sözleşmesi</a> | 
-        <a href="#" onclick="yasalModalAc('iadeModal')" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">İptal ve İade Koşulları</a>
+        <a href="#" onclick="yasalModalAc('hakkimizdaModal'); return false;" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Hakkımızda</a> | 
+        <a href="#" onclick="yasalModalAc('gizlilikModal'); return false;" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Gizlilik Politikası</a> | 
+        <a href="#" onclick="yasalModalAc('mesafeliModal'); return false;" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">Mesafeli Satış Sözleşmesi</a> | 
+        <a href="#" onclick="yasalModalAc('iadeModal'); return false;" style="color: #888; font-size: 12px; margin: 0 10px; text-decoration: none;">İptal ve İade Koşulları</a>
         <p style="color: #555; font-size: 11px; margin-top: 10px;">© 2026 TikTok Mobil Stüdyo - Tüm Hakları Saklıdır.</p>
     </div>
 
+    <!-- AI ASİSTAN -->
     <div id="aiAssistantBtn" class="ai-float-btn" title="AI Asistan" onclick="aiPenceresiAcKapat()">
-        <i class="fa-solid fa-robot"></i>
+        <i class="fa-solid fa-robot" style="font-size: 20px;"></i>
         <span class="ai-badge">AI</span>
     </div>
 
     <div id="aiChatModal" class="modal hidden">
-        <div class="modal-content ai-modal-content">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-robot"></i> AI Asistan</h3>
-                <span class="close-btn" onclick="aiPenceresiAcKapat()">×</span>
+        <div class="modal-content ai-modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 0 auto; width: 100%;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                <h3><i class="fa-solid fa-robot" style="color: #ff3366;"></i> AI Asistan</h3>
+                <span class="close-btn" onclick="aiPenceresiAcKapat()" style="cursor: pointer; font-size: 20px;">×</span>
             </div>
-            <div class="modal-body ai-chat-body" id="ai-messages">
-                <div class="bot-msg">Merhaba! Ben TikTok Mobil Stüdyo yapay zeka asistanıyım. Uygulama veya özellikler hakkında her şeyi bana sorabilirsin!</div>
+            <div class="modal-body ai-chat-body" id="ai-messages" style="height: 250px; overflow-y: auto; padding: 10px 0; display: flex; flex-direction: column; gap: 8px;">
+                <div style="background: #252525; color: #ccc; padding: 8px 12px; border-radius: 12px; max-width: 80%; align-self: flex-start; font-size: 13px;">Merhaba Sülü! Ben TikTok Mobil Stüdyo yapay zeka asistanıyım. Uygulama veya özellikler hakkında her şeyi bana sorabilirsin!</div>
             </div>
-            <div class="chat-footer">
-                <input type="text" id="aiInput" placeholder="Mesajınızı yazın..." onkeypress="aiTusaBasildi(event)">
-                <button type="button" onclick="aiMesajGonder()"><i class="fa-solid fa-paper-plane"></i></button>
+            <div class="chat-footer" style="display: flex; gap: 8px; margin-top: 10px;">
+                <input type="text" id="aiInput" placeholder="Mesajınızı yazın..." onkeypress="aiTusaBasildi(event)" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #252525; color: white; outline: none; font-size: 13px;">
+                <button type="button" onclick="aiMesajGonder()" style="padding: 10px 15px; background: #ff3366; border: none; color: white; border-radius: 6px; cursor: pointer;"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
+    <!-- REHBER MODALI -->
     <div id="aboutModal" class="modal hidden">
-        <div class="modal-content about-modal-content">
-            <div class="modal-header">
+        <div class="modal-content about-modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: 0 auto; width: 100%;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
                 <h3>✨ TikTok Mobil Stüdyo Rehberi</h3>
-                <span class="close-btn" onclick="modalKapat('aboutModal')">×</span>
+                <span class="close-btn" onclick="modalKapat('aboutModal')" style="cursor: pointer; font-size: 20px;">×</span>
             </div>
-            <div class="modal-body">
-                <div class="guide-list">
-                    <div class="guide-card">
-                        <h4>1. Ekrana Fotoğraf & Görev Ekleme</h4>
-                        <p>Canlı yayın ekranınıza özel fotoğraflar, hedef görselleri ve görev metinleri yerleştirebilirsiniz.</p>
+            <div class="modal-body" style="padding: 15px 0;">
+                <div class="guide-list" style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+                    <div class="guide-card" style="background: #252525; padding: 12px; border-radius: 8px;">
+                        <h4 style="color: #ff3366; margin-bottom: 5px;">1. Ekrana Fotoğraf & Görev Ekleme</h4>
+                        <p style="color: #aaa;">Canlı yayın ekranınıza özel fotoğraflar, hedef görselleri ve görev metinleri yerleştirebilirsiniz.</p>
                     </div>
-                    <div class="guide-card">
-                        <h4>2. Ekrana Video Simgesi & Overlay</h4>
-                        <p>Hareketli veya sabit video simgeleri ekleyerek yayın kalitenizi profesyonel seviyeye taşıyabilirsiniz.</p>
+                    <div class="guide-card" style="background: #252525; padding: 12px; border-radius: 8px;">
+                        <h4 style="color: #ff3366; margin-bottom: 5px;">2. Ekrana Video Simgesi & Overlay</h4>
+                        <p style="color: #aaa;">Hareketli veya sabit video simgeleri ekleyerek yayın kalitenizi profesyonel seviyeye taşıyabilirsiniz.</p>
                     </div>
-                    <div class="guide-card">
-                        <h4>3. Boyut, Şeffaflık & Kilitleme</h4>
-                        <p>Ekrandaki tüm objelerin şeffaflık derecesini ayarlayabilir, yanlışlıkla dokunmamak için sabitleyip kilitleyebilirsiniz.</p>
+                    <div class="guide-card" style="background: #252525; padding: 12px; border-radius: 8px;">
+                        <h4 style="color: #ff3366; margin-bottom: 5px;">3. Boyut, Şeffaflık & Kilitleme</h4>
+                        <p style="color: #aaa;">Ekrandaki tüm objelerin şeffaflık derecesini ayarlayabilir, yanlışlıkla dokunmamak için sabitleyip kilitleyebilirsiniz.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="footer">
-        <button class="admin-open-btn" type="button" onclick="adminPaneliAc()">⚙️ Admin Paneli</button>
+    <!-- ADMIN PANELSİ FOOTER -->
+    <footer class="footer" style="text-align: center; margin-top: 20px; padding-bottom: 20px;">
+        <button class="admin-open-btn" type="button" onclick="adminPaneliAc()" style="background: transparent; border: 1px solid #444; color: #888; padding: 6px 15px; border-radius: 6px; cursor: pointer; font-size: 12px;">⚙️ Admin Paneli</button>
     </footer>
 
     <div id="admin-modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-btn" onclick="adminPaneliKapat()">×</span>
+        <div class="modal-content" style="background: #1e1e1e; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 0 auto; width: 100%;">
+            <span class="close-btn" onclick="adminPaneliKapat()" style="cursor: pointer; float: right; font-size: 20px;">×</span>
             <h2>⚙️ Yönetici Paneli</h2>
-            
+            <br>
             <div id="admin-login-form">
-                <p>Yönetici şifresini girin:</p>
-                <input type="password" id="admin-pass-input" placeholder="Admin Şifresi">
-                <button type="button" onclick="adminGirisKontrol()" class="btn-primary">Giriş Yap</button>
+                <p style="margin-bottom: 10px; color: #aaa; font-size: 13px;">Yönetici şifresini girin:</p>
+                <input type="password" id="admin-pass-input" placeholder="Admin Şifresi" style="width: 100%; padding: 10px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #333; background: #252525; color: white; outline: none;">
+                <button type="button" onclick="adminGirisKontrol()" class="btn-primary" style="width: 100%; padding: 10px; background: #ff3366; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer;">Giriş Yap</button>
             </div>
 
-            <div id="admin-controls" class="hidden">
-                <hr><br>
-                <h3>Site İçeriğini Düzenle</h3>
-                <label>Site Başlığı:</label>
-                <input type="text" id="edit-hero-title">
+            <div id="admin-controls" style="display: none;">
+                <hr style="border-color: #333; margin: 15px 0;">
+                <h3 style="font-size: 16px;">Site İçeriğini Düzenle</h3>
+                <br>
+                <label style="font-size: 12px; color: #aaa;">Site Başlığı:</label>
+                <input type="text" id="edit-hero-title" style="width: 100%; padding: 8px; margin: 5px 0 12px; border-radius: 4px; border: 1px solid #333; background: #252525; color: white; outline: none;">
 
-                <label>Açıklama Metni:</label>
-                <textarea id="edit-hero-desc" rows="3"></textarea>
+                <label style="font-size: 12px; color: #aaa;">Açıklama Metni:</label>
+                <textarea id="edit-hero-desc" rows="3" style="width: 100%; padding: 8px; margin: 5px 0 12px; border-radius: 4px; border: 1px solid #333; background: #252525; color: white; outline: none;"></textarea>
 
-                <button type="button" class="btn-primary" onclick="adminDegisiklikleriKaydet()">💾 Değişiklikleri Kaydet</button>
+                <button type="button" class="btn-primary" onclick="adminDegisiklikleriKaydet()" style="width: 100%; padding: 10px; background: #00e676; border: none; color: black; font-weight: bold; border-radius: 6px; cursor: pointer;">💾 Değişiklikleri Kaydet</button>
             </div>
         </div>
     </div>
 
+    <!-- JAVASCRIPT EKSİKSİZ KOD MOTORU -->
     <script>
+        // ⚙️ Firebase Bağlantı Ayarları
+        const firebaseConfig = {
+            databaseURL: "https://SENIN-FIREBASE-PROJECT-ID.firebaseio.com"
+        };
+
+        try {
+            if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+        } catch (e) {
+            console.log("Firebase başlatma uyarısı:", e);
+        }
+
+        let db = null;
+        try {
+            if (typeof firebase !== 'undefined') db = firebase.database();
+        } catch (e) {
+            console.log("Database uyarısı:", e);
+        }
+
+        // 🔗 1 Hafta Deneme Butonu İçin Doğrudan APK İndirme Bağlantın
+        const apkDownloadUrl = "https://raw.githubusercontent.com/oraknizar-alt/-Tiktako/main/ROSE%20ST%C3%9CDYO.apk";
+
+        let currentDeviceId = "";
+
+        // 🆔 Cihaz Kimliğini Üretme / Yakalama
+        function cihazKimligiAlVeyaUret() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let id = urlParams.get('deviceId') || localStorage.getItem('rose_device_id');
+            if (!id) {
+                id = 'DEV-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+                localStorage.setItem('rose_device_id', id);
+            }
+            return id;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            currentDeviceId = cihazKimligiAlVeyaUret();
+            const displayEl = document.getElementById('display-device-id');
+            if (displayEl) displayEl.innerText = currentDeviceId;
+        });
+
+        // 🎁 1 Hafta Ücretsiz Deneme (Tıklayınca Belirttiğin Linkten APK İndirir)
+        function ucretsizDenemeBaslat() {
+            if (!currentDeviceId) currentDeviceId = cihazKimligiAlVeyaUret();
+
+            // 1. Cihaz Üzerinde İndirme Kontrolü
+            const localTrialStatus = localStorage.getItem('rose_trial_used_' + currentDeviceId);
+            if (localTrialStatus === 'true') {
+                alert("⚠️ Sülü, bu cihazda 7 günlük deneme sürümü zaten kullanılmış! İkinci kez indiremezsin.");
+                return;
+            }
+
+            // 2. Firebase Çift Kontrolü
+            if (db) {
+                db.ref('licenses/' + currentDeviceId).once('value').then((snapshot) => {
+                    const data = snapshot.val();
+                    if (data && data.trialUsed) {
+                        localStorage.setItem('rose_trial_used_' + currentDeviceId, 'true');
+                        alert("⚠️ Bu cihazda 7 günlük deneme sürümü zaten kullanılmış!");
+                    } else {
+                        indirmeyiIşleVeIndir();
+                    }
+                }).catch(() => {
+                    indirmeyiIşleVeIndir();
+                });
+            } else {
+                indirmeyiIşleVeIndir();
+            }
+        }
+
+        // 📥 İndirme Kaydını Tut ve Dosyaya Yönlendir
+        function indirmeyiIşleVeIndir() {
+            localStorage.setItem('rose_trial_used_' + currentDeviceId, 'true');
+
+            if (db) {
+                try {
+                    const birHaftaSonra = Date.now() + (7 * 24 * 60 * 60 * 1000);
+                    db.ref('licenses/' + currentDeviceId).set({
+                        bitisZamani: birHaftaSonra,
+                        trialUsed: true,
+                        tip: "1_hafta_deneme"
+                    });
+                } catch (err) {
+                    console.log("Firebase kaydı pas geçildi.");
+                }
+            }
+
+            // Doğrudan APK İndirme Adresine Yönlendirme
+            window.location.href = apkDownloadUrl;
+        }
+
+        // 🛒 Sepet Ve Market İşlemleri
         let secilenUrun = "";
         let secilenFiyat = "";
         let secilenLink = "";
@@ -296,8 +400,7 @@
         }
 
         function sepetiAcKapat() {
-            const modal = document.getElementById("sepetModal");
-            modal.classList.toggle("hidden");
+            document.getElementById("sepetModal").classList.toggle("hidden");
         }
 
         function dogrudanSatinAl() {
@@ -308,13 +411,75 @@
             }
         }
 
-        function yasalModalAc(modalId) {
-            document.getElementById(modalId).classList.remove("hidden");
+        // 🤖 AI Asistan İşlemleri
+        function aiPenceresiAcKapat() {
+            document.getElementById("aiChatModal").classList.toggle("hidden");
         }
-        function yasalModalKapat(modalId) {
-            document.getElementById(modalId).classList.add("hidden");
+
+        function aiTusaBasildi(e) {
+            if (e.key === 'Enter') aiMesajGonder();
         }
+
+        function aiMesajGonder() {
+            const input = document.getElementById("aiInput");
+            const txt = input.value.trim();
+            if (!txt) return;
+
+            const msgArea = document.getElementById("ai-messages");
+            
+            const userDiv = document.createElement("div");
+            userDiv.style.cssText = "background:#ff3366; color:#fff; padding:8px 12px; border-radius:12px; margin:3px 0; align-self:flex-end; max-width:80%; font-size:13px;";
+            userDiv.innerText = txt;
+            msgArea.appendChild(userDiv);
+
+            input.value = "";
+
+            setTimeout(() => {
+                const botDiv = document.createElement("div");
+                botDiv.style.cssText = "background:#252525; color:#ccc; padding:8px 12px; border-radius:12px; margin:3px 0; align-self:flex-start; max-width:80%; font-size:13px;";
+                botDiv.innerText = "Sorunu aldım Sülü! Uygulamayı denemek için 7 Gün Ücretsiz İndir butonunu kullanabilir veya market alanından paket satın alabilirsin.";
+                msgArea.appendChild(botDiv);
+                msgArea.scrollTop = msgArea.scrollHeight;
+            }, 500);
+
+            msgArea.scrollTop = msgArea.scrollHeight;
+        }
+
+        // ⚙️ Admin Paneli İşlemleri
+        function adminPaneliAc() {
+            document.getElementById("admin-modal").classList.remove("hidden");
+        }
+
+        function adminPaneliKapat() {
+            document.getElementById("admin-modal").classList.add("hidden");
+        }
+
+        function adminGirisKontrol() {
+            const pass = document.getElementById("admin-pass-input").value;
+            if (pass === "1234") {
+                document.getElementById("admin-login-form").style.display = "none";
+                document.getElementById("admin-controls").style.display = "block";
+                document.getElementById("edit-hero-title").value = document.getElementById("hero-title").innerText;
+                document.getElementById("edit-hero-desc").value = document.getElementById("hero-desc").innerText;
+            } else {
+                alert("Hatalı Admin Şifresi!");
+            }
+        }
+
+        function adminDegisiklikleriKaydet() {
+            const t = document.getElementById("edit-hero-title").value;
+            const d = document.getElementById("edit-hero-desc").value;
+            if (t) document.getElementById("hero-title").innerText = t;
+            if (d) document.getElementById("hero-desc").innerText = d;
+            alert("Değişiklikler kaydedildi!");
+            adminPaneliKapat();
+        }
+
+        // Modal Açma / Kapatma Fonksiyonları
+        function modalAc(id) { document.getElementById(id).classList.remove("hidden"); }
+        function modalKapat(id) { document.getElementById(id).classList.add("hidden"); }
+        function yasalModalAc(id) { document.getElementById(id).classList.remove("hidden"); }
+        function yasalModalKapat(id) { document.getElementById(id).classList.add("hidden"); }
     </script>
-    <script type="module" src="script.js"></script>
 </body>
 </html>
