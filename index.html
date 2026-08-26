@@ -101,8 +101,8 @@ footer a{color:#aaa;text-decoration:none;margin:0 8px}
     <h2>Tanıtım</h2>
     <p class="sub">Kendi yayın klipini buraya koyabilirsin</p>
     <div class="glass card" style="text-align:center">
-      <iframe id="promo" style="width:100%;max-width:720px;aspect-ratio:16/9;border:0;border-radius:12px;background:#000" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Tanıtım" allowfullscreen></iframe>
-      <p class="muted">YouTube linkini `iframe src` olarak değiştir.</p>
+      <iframe id="promo" style="width:100%;max-width:720px;aspect-ratio:16/9;border:0;border-radius:12px;background:#000" src="https://www.youtube.com/embed/8PaPi4FhxNw" title="Tanıtım" allowfullscreen></iframe>
+      
     </div>
   </section>
 
@@ -111,11 +111,8 @@ footer a{color:#aaa;text-decoration:none;margin:0 8px}
     <p class="sub">Key sitede açık yazılmaz. Ödeme + Device ID sonrası admin gönderir.</p>
     <div class="glass card" style="margin-bottom:14px">
       <label class="muted">Kupon kodu</label>
-      <div style="display:flex;gap:8px;margin-top:6px">
-        <input id="kupon" placeholder="ör. ROSE10">
-        <button class="buy" style="width:auto;margin:0;padding:10px 16px" onclick="kuponUygula()">Uygula</button>
-      </div>
-      <div id="kupon-msg" class="muted" style="margin-top:6px"></div>
+      <input id="kupon" value="henüz aktif kupon yok" readonly style="margin-top:6px;opacity:.85">
+      <div id="kupon-msg" class="muted" style="margin-top:6px">Şu an tanımlı kupon bulunmuyor.</div>
     </div>
     <div class="grid" id="paket-grid"></div>
   </section>
