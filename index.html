@@ -1,378 +1,348 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title-tag">Rose Stüdyo - Canlı Yayın Lisans Paneli</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <style>
-        body {
-            margin: 0; padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(-45deg, #0a0a0a, #1f0918, #09131f, #150921);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: white; min-height: 100vh;
-            scroll-behavior: smooth;
-        }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        .glass-nav {
-            background: rgba(15, 15, 15, 0.7) !important;
-            backdrop-filter: blur(10px) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-        }
-        .modal {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000; padding: 15px; box-sizing: border-box;
-        }
-        .modal.hidden { display: none !important; }
-        .admin-banner {
-            display: block; text-align: center; text-decoration: none;
-            background: linear-gradient(90deg, #128C7E, #25D366);
-            color: #06240f; font-weight: 800; padding: 14px 16px;
-            border-radius: 14px; margin: 16px auto; max-width: 1000px;
-            box-shadow: 0 8px 24px rgba(37,211,102,.28);
-        }
-        .ai-float-btn {
-            position: fixed; bottom: 20px; right: 20px;
-            background: linear-gradient(45deg, #ff3366, #ff6b81);
-            color: white; width: 55px; height: 55px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; z-index: 999;
-            box-shadow: 0 4px 15px rgba(255, 51, 102, 0.5);
-        }
-        .whatsapp-float-btn {
-            position: fixed; bottom: 20px; left: 20px;
-            background: #25D366; color: white; width: 55px; height: 55px;
-            border-radius: 50%; display: flex; justify-content: center;
-            align-items: center; cursor: pointer; z-index: 999;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.5); text-decoration: none;
-        }
-        footer a { color: #aaa; text-decoration: none; }
-        footer a:hover { color: #ff3366; }
-        .buy-btn {
-            width: 100%; padding: 10px; border-radius: 8px;
-            background: #ff3366; border: none; color: white;
-            font-weight: bold; cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rose Stüdyo — Lisans Key Paneli</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<style>
+:root{--pink:#ff2d6a;--green:#00e676;--wa:#25D366}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;background:linear-gradient(-45deg,#0a0a0a,#1f0918,#09131f,#150921);background-size:400% 400%;animation:bg 16s ease infinite;min-height:100vh}
+@keyframes bg{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+.glass{background:rgba(255,255,255,.05);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:16px}
+.nav{position:sticky;top:0;z-index:80;background:rgba(12,12,18,.78);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.1)}
+.nav-in{display:flex;justify-content:space-between;align-items:center;min-height:62px;gap:10px}
+.logo{font-weight:800}.logo span{color:var(--pink)}
+.nav a,.nav button{border:0;cursor:pointer;text-decoration:none;color:#fff;background:rgba(255,255,255,.08);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700}
+.btn-key{background:#00e676!important;color:#062!important}
+.banner{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(255,45,106,.15);border:1px solid rgba(255,45,106,.35);border-radius:12px;padding:10px 14px;margin:14px 0;font-size:13px}
+.admin{display:block;text-align:center;text-decoration:none;background:linear-gradient(90deg,#128C7E,#25D366);color:#06240f;font-weight:800;padding:14px;border-radius:14px;margin:8px 0 18px}
+.hero{text-align:center;padding:18px 0 8px}
+.badge{display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(255,45,106,.14);color:#ff8aaa;border:1px solid rgba(255,45,106,.3);font-size:12px;font-weight:700}
+h1{font-size:clamp(26px,5vw,40px);margin:12px 0}
+.lead{color:#b9b9c9;max-width:680px;margin:0 auto 18px;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.card{padding:18px}
+.card h3{margin:0 0 8px}
+.price{font-size:24px;font-weight:800;color:var(--green)}
+.muted{color:#9aa0b4;font-size:13px}
+.buy{width:100%;margin-top:10px;background:var(--pink);color:#fff;border:0;padding:11px;border-radius:10px;font-weight:800;cursor:pointer}
+.buy:disabled{opacity:.45;cursor:not-allowed}
+.sec{padding:42px 0 8px}
+.sec h2{text-align:center;margin:0 0 8px}
+.sub{text-align:center;color:#9aa0b4;margin:0 0 22px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.step{padding:16px;text-align:center}
+.step b{display:block;color:var(--pink);margin-bottom:6px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
+.faq{margin:8px 0;padding:14px 16px}
+.faq h4{margin:0 0 6px;color:var(--green)}
+.tpl{display:block;margin:8px 0;padding:10px 12px;border-radius:10px;background:rgba(37,211,102,.12);color:#c8ffd8;text-decoration:none;font-size:13px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;padding:16px;z-index:120}
+.modal.show{display:flex}
+.mbox{width:min(520px,100%);padding:20px;max-height:86vh;overflow:auto}
+.float-wa,.float-ai{position:fixed;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:90;text-decoration:none;color:#fff}
+.float-wa{left:18px;bottom:18px;background:#25D366}
+.float-ai{right:18px;bottom:18px;background:linear-gradient(45deg,#ff3366,#ff6b81);border:0;cursor:pointer}
+input,select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.35);color:#fff}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#00e676;margin-right:6px}
+footer{margin-top:48px;padding:28px 0;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#8b8b9c;font-size:12px}
+footer a{color:#aaa;text-decoration:none;margin:0 8px}
+</style>
 </head>
 <body>
-    <header class="navbar glass-nav" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: sticky; top: 0; z-index: 100;">
-        <div class="logo" style="color: white; font-weight: bold; font-size: 18px;">
-            <i class="fa-solid fa-wand-magic-sparkles" style="color: #ff3366;"></i> TikTok ROSE <span style="color: #ff3366;">Stüdyo</span>
-        </div>
-        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <a href="#paketler-alani" style="background: rgba(255,255,255,0.1); color: white; padding: 9px 14px; border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: bold;">Key Paketleri</a>
-            <button onclick="satinAlmaMenusuAcKapat()" style="background: #00e676; color: black; font-weight: bold; padding: 9px 16px; border-radius: 20px; border: none; cursor: pointer; font-size: 12px;">
-                <i class="fa-solid fa-key"></i> KEY AL
-            </button>
-            <div class="cart-icon-container" onclick="sepetiAcKapat()" style="cursor: pointer; color: white; font-size: 18px; position: relative;">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span id="sepet-sayac" style="background: #ff3366; color: white; padding: 2px 7px; border-radius: 50%; font-size: 11px; position: absolute; top: -8px; right: -10px;">0</span>
-            </div>
-        </div>
-    </header>
+<header class="nav"><div class="wrap nav-in">
+  <div class="logo">TikTok ROSE <span>Stüdyo</span></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <a href="#keyler">Key</a>
+    <a href="#kurulum">Kurulum</a>
+    <a href="#sss">SSS</a>
+    <a href="#durum">Durum</a>
+    <button class="btn-key" onclick="satinAlmaMenusuAcKapat()">KEY AL</button>
+    <button onclick="sepetiAcKapat()">🛒 <span id="sepet-sayac">0</span></button>
+  </div>
+</div></header>
 
-    <a class="admin-banner" target="_blank"
-       href="https://wa.me/905441710421?text=SELAM%20FOX%20%F0%9F%A6%8A%20BEN%20UYGULAMANI%20SATIN%20ALMAK%20ISTIYORUM%20BILGILERI%20BENIMLE%20PAYLASIRMISIN...">
-        Uygulamayı satın almak için admin’e ulaşın — WhatsApp
-    </a>
+<div class="wrap">
+  <div class="banner">
+    <div>Yeni: hediye yarışı oyunu panelde. Key aldıktan sonra hemen açılır.</div>
+    <div id="destek-saat">Destek: 12:00–02:00</div>
+  </div>
+  <a class="admin" target="_blank" href="https://wa.me/905441710421?text=SELAM%20FOX%20%F0%9F%A6%8A%20BEN%20UYGULAMANI%20SATIN%20ALMAK%20ISTIYORUM%20BILGILERI%20BENIMLE%20PAYLASIRMISIN...">Uygulamayı satın almak için admin’e ulaşın — WhatsApp</a>
 
-    <section class="hero" style="text-align: center; padding: 30px 20px;">
-        <div id="license-badge" class="badge" style="display: inline-block; background: rgba(255,51,102,0.15); padding: 6px 18px; border-radius: 20px; font-size: 12px; margin-bottom: 15px; color: #ff3366; border: 1px solid rgba(255,51,102,0.3);">
-            Lisans Durumu
-        </div>
-        <h1 style="font-size: 32px; margin-bottom: 12px; font-weight: 800;">TikTok ROSE <span style="color: #ff3366;">Stüdyo</span></h1>
-        <p style="color: #bbb; max-width: 650px; margin: 0 auto 25px; font-size: 14px; line-height: 1.6;">
-            Cihaza özel key sistemi. Shopier ile paketi al, Device ID’ni admin’e gönder, keyin gelsin.
-            Key tek cihazda bir kez kullanılır.
-        </p>
-        <div class="glass-card" style="max-width: 450px; margin: 20px auto 0; padding: 15px; border-radius: 12px;">
-            <div style="font-size: 13px; color: #aaa; margin-bottom: 5px;">
-                <i class="fa-solid fa-mobile-screen-button" style="color: #00e676;"></i> Cihaz Kimliğiniz (Device ID):
-            </div>
-            <div style="font-size: 18px; font-weight: bold; color: #00e676; letter-spacing: 1px;" id="display-device-id">Yükleniyor...</div>
-            <div style="font-size: 11px; color: #888; margin-top: 5px;">Satın alımda bu kodu WhatsApp’tan gönderin.</div>
-        </div>
-    </section>
-
-    <section id="uygulama-hakkinda" style="max-width: 1000px; margin: 50px auto; padding: 0 20px;">
-        <h2 style="text-align: center; font-size: 24px; margin-bottom: 30px;">
-            <i class="fa-solid fa-layer-group" style="color: #ff3366;"></i> Uygulama Özellikleri
-        </h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-            <div class="glass-card" style="padding: 20px; border-radius: 14px;">
-                <i class="fa-solid fa-window-restore" style="font-size: 28px; color: #ff3366; margin-bottom: 10px;"></i>
-                <h3 style="font-size: 16px;">Yüzen Pencere</h3>
-                <p style="font-size: 13px; color: #aaa;">Overlay katmanı, yayın bozulmadan panel ve uyarılar.</p>
-            </div>
-            <div class="glass-card" style="padding: 20px; border-radius: 14px;">
-                <i class="fa-solid fa-bolt" style="font-size: 28px; color: #00e676; margin-bottom: 10px;"></i>
-                <h3 style="font-size: 16px;">Anlık Hediye / TTS</h3>
-                <p style="font-size: 13px; color: #aaa;">Hediye, takip, beğeni, ses ve video tetikleri.</p>
-            </div>
-            <div class="glass-card" style="padding: 20px; border-radius: 14px;">
-                <i class="fa-solid fa-flag-checkered" style="font-size: 28px; color: #00b0ff; margin-bottom: 10px;"></i>
-                <h3 style="font-size: 16px;">Hediye Yarışı</h3>
-                <p style="font-size: 13px; color: #aaa;">Ülke kulvarları, hediye seçimi, canlı skor.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="paketler-alani" style="max-width: 1000px; margin: 50px auto; padding: 0 20px;">
-        <h2 style="text-align: center; font-size: 24px; margin-bottom: 10px;">
-            <i class="fa-solid fa-key" style="color: #00e676;"></i> Key Satın Al
-        </h2>
-        <p style="text-align: center; font-size: 13px; color: #aaa; margin-bottom: 30px;">Shopier güvencesiyle öde, key WhatsApp ile gelir.</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
-            <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
-                <h3 style="margin-bottom: 10px; font-size: 16px;">1 Haftalık Key</h3>
-                <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">29.99 ₺</div>
-                <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">7 gün · 1 cihaz · tek kullanım</p>
-                <button class="buy-btn" onclick="sepeteEkle('1 Haftalık Key', '29.99 ₺', 'https://www.shopier.com/rosestudyo/50065249')">Satın Al</button>
-            </div>
-            <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
-                <h3 style="margin-bottom: 10px; font-size: 16px;">1 Aylık Key</h3>
-                <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">100 ₺</div>
-                <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">30 gün · 1 cihaz · tek kullanım</p>
-                <button class="buy-btn" onclick="sepeteEkle('1 Aylık Key', '100 ₺', 'https://www.shopier.com/rosestudyo/50065277')">Satın Al</button>
-            </div>
-            <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
-                <h3 style="margin-bottom: 10px; font-size: 16px;">2 Aylık Key</h3>
-                <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">150 ₺</div>
-                <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">60 gün · 1 cihaz · tek kullanım</p>
-                <button class="buy-btn" onclick="sepeteEkle('2 Aylık Key', '150 ₺', 'https://www.shopier.com/rosestudyo/50065353')">Satın Al</button>
-            </div>
-            <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
-                <h3 style="margin-bottom: 10px; font-size: 16px;">7 Aylık Key</h3>
-                <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">1000 ₺</div>
-                <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">210 gün · 1 cihaz · tek kullanım</p>
-                <button class="buy-btn" onclick="sepeteEkle('7 Aylık Key', '1000 ₺', 'https://www.shopier.com/rosestudyo/50065378')">Satın Al</button>
-            </div>
-            <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
-                <h3 style="margin-bottom: 10px; font-size: 16px;">1 Yıllık Key</h3>
-                <div style="font-size: 22px; font-weight: bold; color: #00e676; margin-bottom: 10px;">1800 ₺</div>
-                <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">365 gün · 1 cihaz · tek kullanım</p>
-                <button class="buy-btn" onclick="sepeteEkle('1 Yıllık Key', '1800 ₺', 'https://www.shopier.com/rosestudyo/50065419')">Satın Al</button>
-            </div>
-        </div>
-    </section>
-
-    <section style="max-width: 800px; margin: 50px auto; padding: 0 20px;">
-        <h2 style="text-align: center; font-size: 22px; margin-bottom: 20px;">
-            <i class="fa-solid fa-circle-question" style="color: #00b0ff;"></i> Sıkça Sorulan Sorular
-        </h2>
-        <div class="glass-card" style="padding: 15px 20px; border-radius: 12px; margin-bottom: 10px;">
-            <h4 style="margin: 0 0 5px; color: #00e676;">Key nasıl gelir?</h4>
-            <p style="margin: 0; font-size: 12px; color: #ccc;">Shopier ödemesinden sonra Device ID’ni WhatsApp’tan gönder. Admin süresi dolu keyi iletir.</p>
-        </div>
-        <div class="glass-card" style="padding: 15px 20px; border-radius: 12px; margin-bottom: 10px;">
-            <h4 style="margin: 0 0 5px; color: #00e676;">Süre bitince ne olur?</h4>
-            <p style="margin: 0; font-size: 12px; color: #ccc;">Uygulama kilit ekranına düşer. Yeni key alman gerekir. Aynı key tekrar kullanılmaz.</p>
-        </div>
-    </section>
-
-    <div id="satinAlmaModal" class="modal hidden">
-        <div class="glass-card" style="padding: 25px; border-radius: 18px; max-width: 850px; width: 95%; max-height: 85vh; overflow-y: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px;">
-                <h3 style="color: #00e676; margin: 0; font-size: 18px;"><i class="fa-solid fa-key"></i> KEY PAKETLERİ</h3>
-                <span onclick="satinAlmaMenusuAcKapat()" style="cursor: pointer; font-size: 24px; color: #aaa;">×</span>
-            </div>
-            <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
-                <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
-                    <h3 style="font-size: 16px;">1 Haftalık Key</h3>
-                    <div style="font-size: 22px; font-weight: bold; color: #00e676;">29.99 ₺</div>
-                    <button class="buy-btn" onclick="sepeteEkle('1 Haftalık Key', '29.99 ₺', 'https://www.shopier.com/rosestudyo/50065249')">Satın Al</button>
-                </div>
-                <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
-                    <h3 style="font-size: 16px;">1 Aylık Key</h3>
-                    <div style="font-size: 22px; font-weight: bold; color: #00e676;">100 ₺</div>
-                    <button class="buy-btn" onclick="sepeteEkle('1 Aylık Key', '100 ₺', 'https://www.shopier.com/rosestudyo/50065277')">Satın Al</button>
-                </div>
-                <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
-                    <h3 style="font-size: 16px;">2 Aylık Key</h3>
-                    <div style="font-size: 22px; font-weight: bold; color: #00e676;">150 ₺</div>
-                    <button class="buy-btn" onclick="sepeteEkle('2 Aylık Key', '150 ₺', 'https://www.shopier.com/rosestudyo/50065353')">Satın Al</button>
-                </div>
-                <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
-                    <h3 style="font-size: 16px;">7 Aylık Key</h3>
-                    <div style="font-size: 22px; font-weight: bold; color: #00e676;">1000 ₺</div>
-                    <button class="buy-btn" onclick="sepeteEkle('7 Aylık Key', '1000 ₺', 'https://www.shopier.com/rosestudyo/50065378')">Satın Al</button>
-                </div>
-                <div class="glass-card" style="padding: 20px; border-radius: 14px; text-align: center;">
-                    <h3 style="font-size: 16px;">1 Yıllık Key</h3>
-                    <div style="font-size: 22px; font-weight: bold; color: #00e676;">1800 ₺</div>
-                    <button class="buy-btn" onclick="sepeteEkle('1 Yıllık Key', '1800 ₺', 'https://www.shopier.com/rosestudyo/50065419')">Satın Al</button>
-                </div>
-            </div>
-        </div>
+  <section class="hero">
+    <div class="badge" id="license-badge">Lisans Durumu</div>
+    <h1>Rose Stüdyo</h1>
+    <p class="lead">Canlı yayın overlay, hediye, TTS ve yarış. Shopier ile key al, Device ID’ni gönder, tek cihazda kullan.</p>
+    <div class="glass card" style="max-width:480px;margin:0 auto;text-align:left">
+      <div class="muted">Cihaz Kimliği</div>
+      <div id="display-device-id" style="color:#00e676;font-size:20px;font-weight:800;letter-spacing:1px">Yükleniyor...</div>
+      <div class="muted">Satın alırken bu kodu admin’e ilet.</div>
     </div>
+  </section>
 
-    <div id="sepetModal" class="modal hidden">
-        <div class="glass-card" style="padding: 20px; border-radius: 14px; max-width: 400px; width: 100%;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-                <h3 style="margin: 0;">🛒 Sepetim</h3>
-                <span onclick="sepetiAcKapat()" style="cursor: pointer; font-size: 20px;">×</span>
-            </div>
-            <div style="padding: 20px 0;">
-                <div id="sepet-bos-mesaj" style="text-align: center; color: #888;">Sepetiniz boş.</div>
-                <div id="sepet-dolu-alan" style="display: none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
-                        <div>
-                            <p id="sepet-urun-adi" style="font-size: 15px; font-weight: bold; margin:0;"></p>
-                            <p id="sepet-urun-fiyat" style="font-size: 14px; color: #00e676; margin: 4px 0 0;"></p>
-                        </div>
-                        <button onclick="sepettenUrunSil()" style="background: #ff3366; border: none; color: white; padding: 6px 10px; border-radius: 4px; cursor: pointer;"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <button style="width: 100%; padding: 12px; background: #00e676; color: black; font-weight: bold; border: none; border-radius: 8px; cursor: pointer;" onclick="dogrudanSatinAl()">Shopier Güvenli Ödeme</button>
-                </div>
-            </div>
-        </div>
+  <section class="sec" id="kurulum">
+    <h2>Kurulum — 4 adım</h2>
+    <p class="sub">Key geldikten sonra</p>
+    <div class="steps">
+      <div class="glass step"><b>1</b>APK’yı admin’den al</div>
+      <div class="glass step"><b>2</b>Üstte gösterme + depolama izni ver</div>
+      <div class="glass step"><b>3</b>Kilit ekranına keyi yaz</div>
+      <div class="glass step"><b>4</b>TikTok hesabını bağla, yayına geç</div>
     </div>
+  </section>
 
-    <div id="gizlilikModal" class="modal hidden">
-        <div class="glass-card" style="padding: 25px; border-radius: 16px; max-width: 550px; width: 95%; max-height: 80vh; overflow-y: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 15px;">
-                <h3 style="margin: 0; color: #00b0ff;"><i class="fa-solid fa-file-contract"></i> Gizlilik & Kullanım</h3>
-                <span onclick="gizlilikModalAcKapat()" style="cursor: pointer; font-size: 22px;">×</span>
-            </div>
-            <div style="font-size: 12px; color: #ccc; line-height: 1.6;">
-                <p><b>1. Cihaz Kimliği:</b> Lisans doğrulaması için Device ID kullanılır.</p>
-                <p><b>2. Key süresi:</b> Paket, key aktif edildiği andan itibaren işler.</p>
-                <p><b>3. İade:</b> Key aktifleştirildikten sonra iade yoktur.</p>
-            </div>
-        </div>
+  <section class="sec">
+    <h2>Tanıtım</h2>
+    <p class="sub">Kendi yayın klipini buraya koyabilirsin</p>
+    <div class="glass card" style="text-align:center">
+      <iframe id="promo" style="width:100%;max-width:720px;aspect-ratio:16/9;border:0;border-radius:12px;background:#000" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Tanıtım" allowfullscreen></iframe>
+      <p class="muted">YouTube linkini `iframe src` olarak değiştir.</p>
     </div>
+  </section>
 
-    <div id="aiModal" class="modal hidden">
-        <div class="glass-card" style="padding: 20px; border-radius: 16px; max-width: 450px; width: 100%;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-                <h3 style="margin: 0; color: #ff3366;"><i class="fa-solid fa-robot"></i> Rose Destek</h3>
-                <span onclick="aiModalAcKapat()" style="cursor: pointer; font-size: 20px;">×</span>
-            </div>
-            <div style="padding: 15px 0; font-size: 13px; color: #ccc; line-height: 1.5;">
-                Ödeme sonrası Device ID’ni WhatsApp’tan gönder. Key dakikalar içinde iletilir.
-            </div>
-            <button onclick="satinAlmaMenusuAcKapat(); aiModalAcKapat();" style="width: 100%; padding: 10px; background: #ff3366; border: none; color: white; font-weight: bold; border-radius: 8px; cursor: pointer;">Key paketlerini gör</button>
-        </div>
+  <section class="sec" id="keyler">
+    <h2>Key Satın Al</h2>
+    <p class="sub">Key sitede açık yazılmaz. Ödeme + Device ID sonrası admin gönderir.</p>
+    <div class="glass card" style="margin-bottom:14px">
+      <label class="muted">Kupon kodu</label>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <input id="kupon" placeholder="ör. ROSE10">
+        <button class="buy" style="width:auto;margin:0;padding:10px 16px" onclick="kuponUygula()">Uygula</button>
+      </div>
+      <div id="kupon-msg" class="muted" style="margin-top:6px"></div>
     </div>
+    <div class="grid" id="paket-grid"></div>
+  </section>
 
-    <footer class="glass-nav" style="margin-top: 60px; padding: 30px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1);">
-        <div style="max-width: 900px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
-            <div style="text-align: left;">
-                <h4 style="margin: 0 0 5px;">Rose Stüdyo</h4>
-                <p style="margin: 0; font-size: 12px; color: #888;">TikTok Canlı Yayın Lisanslı Katman Yazılımı</p>
-            </div>
-            <div style="display: flex; gap: 15px; font-size: 13px;">
-                <a href="#uygulama-hakkinda">Hakkında</a>
-                <a href="javascript:void(0)" onclick="gizlilikModalAcKapat()">Gizlilik Politikası</a>
-                <a href="javascript:void(0)" onclick="gizlilikModalAcKapat()">Kullanım Koşulları</a>
-            </div>
-        </div>
-        <div style="margin-top: 20px; font-size: 11px; color: #666;">© 2026 Rose Stüdyo. Tüm Hakları Saklıdır.</div>
-    </footer>
-
-    <div class="ai-float-btn" onclick="aiModalAcKapat()" title="Destek">
-        <i class="fa-solid fa-robot" style="font-size: 24px;"></i>
+  <section class="sec">
+    <h2>Paket karşılaştırması</h2>
+    <div class="glass card" style="overflow:auto">
+      <table>
+        <tr><th></th><th>1 Hafta</th><th>1 Ay</th><th>2 Ay</th><th>7 Ay</th><th>1 Yıl</th></tr>
+        <tr><td>Süre</td><td>7 gün</td><td>30</td><td>60</td><td>210</td><td>365</td></tr>
+        <tr><td>Overlay / TTS / yarış</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Tek cihaz</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Key tekrar kullanılamaz</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      </table>
     </div>
-    <a href="https://wa.me/905441710421?text=SELAM%20FOX%20%F0%9F%A6%8A%20BEN%20UYGULAMANI%20SATIN%20ALMAK%20ISTIYORUM%20BILGILERI%20BENIMLE%20PAYLASIRMISIN..." target="_blank" class="whatsapp-float-btn">
-        <i class="fa-brands fa-whatsapp" style="font-size: 32px;"></i>
-    </a>
+  </section>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-            projectId: "YOUR_PROJECT",
-            storageBucket: "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-        try {
-            if (typeof firebase !== "undefined" && !firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        } catch (e) {}
+  <section class="sec">
+    <h2>Lisans sorgula</h2>
+    <p class="sub">Device ID yaz, Firebase bağlıysa durum gelir</p>
+    <div class="glass card" style="max-width:520px;margin:0 auto">
+      <input id="sorgu-id" placeholder="Device ID">
+      <button class="buy" onclick="lisansSorgula()">Sorgula</button>
+      <div id="sorgu-sonuc" class="muted" style="margin-top:10px"></div>
+      <p class="muted">Key’i siteden kopyalama. Sadece admin verir. Sahte key çalışmaz.</p>
+    </div>
+  </section>
 
-        let currentDeviceId = "";
-        function cihazKimligiAlVeyaUret() {
-            const urlParams = new URLSearchParams(window.location.search);
-            let id = urlParams.get('id') || urlParams.get('deviceId') || localStorage.getItem('rose_device_id');
-            if (!id) {
-                id = 'DEV-' + Math.random().toString(36).substring(2, 10).toUpperCase();
-                localStorage.setItem('rose_device_id', id);
-            }
-            return id;
-        }
-        function lisansDurumunuKontrolEt(deviceId) {
-            const badge = document.getElementById('license-badge');
-            if (!badge) return;
-            try {
-                if (typeof firebase === "undefined" || !firebase.apps.length) return;
-                firebase.database().ref('devices/' + deviceId).on('value', (snapshot) => {
-                    const data = snapshot.val();
-                    const simdi = Date.now();
-                    if (data && data.active === true && data.expireTimestamp > simdi) {
-                        const gun = Math.ceil((data.expireTimestamp - simdi) / 86400000);
-                        badge.innerText = "VIP - " + gun + " gün kaldı";
-                        badge.style.color = "#00e676";
-                        badge.style.borderColor = "#00e676";
-                    } else if (data && data.expireTimestamp <= simdi) {
-                        badge.innerText = "Süresi Doldu";
-                    } else {
-                        badge.innerText = "Key bekleniyor";
-                    }
-                });
-            } catch (e) {}
-        }
-        window.addEventListener('DOMContentLoaded', () => {
-            currentDeviceId = cihazKimligiAlVeyaUret();
-            document.getElementById('display-device-id').innerText = currentDeviceId;
-            lisansDurumunuKontrolEt(currentDeviceId);
-        });
+  <section class="sec" id="odeme-sonrasi">
+    <h2>Ödeme yaptıysan</h2>
+    <div class="glass card">
+      <p>Shopier dekontunu ve Device ID’ni tek mesajda gönder.</p>
+      <label class="muted">Paket</label>
+      <select id="wa-paket">
+        <option>1 Haftalık Key</option><option>1 Aylık Key</option><option>2 Aylık Key</option><option>7 Aylık Key</option><option>1 Yıllık Key</option>
+      </select>
+      <label class="muted" style="display:block;margin-top:8px">Sipariş / dekont no</label>
+      <input id="wa-siparis" placeholder="Shopier no">
+      <a class="buy" style="display:block;text-align:center;text-decoration:none;margin-top:12px" href="#" id="wa-hazir" onclick="return waOdemeMesaji()">WhatsApp’tan gönder</a>
+    </div>
+  </section>
 
-        function satinAlmaMenusuAcKapat() { document.getElementById("satinAlmaModal").classList.toggle("hidden"); }
-        function sepetiAcKapat() { document.getElementById("sepetModal").classList.toggle("hidden"); }
-        function aiModalAcKapat() { document.getElementById("aiModal").classList.toggle("hidden"); }
-        function gizlilikModalAcKapat() { document.getElementById("gizlilikModal").classList.toggle("hidden"); }
+  <section class="sec">
+    <h2>Hazır destek mesajları</h2>
+    <a class="tpl" target="_blank" href="https://wa.me/905441710421?text=SELAM%20FOX%20%F0%9F%A6%8A%20ODEME%20YAPTIM%20DEVICE%20ID%20VE%20DEKONT%20GONDERIYORUM">Ödeme yaptım</a>
+    <a class="tpl" target="_blank" href="https://wa.me/905441710421?text=SELAM%20FOX%20%F0%9F%A6%8A%20KEY%20CALISMIYOR">Key çalışmıyor</a>
+    <a class="tpl" target="_blank" href="https://wa.me/905441710421?text=SELAM%20FOX%20%F0%9F%A6%8A%20SURE%20UZATMAK%20ISTIYORUM">Süre uzat</a>
+    <a class="tpl" target="_blank" href="https://wa.me/905441710421?text=SELAM%20FOX%20%F0%9F%A6%8A%20TELEFON%20DEGISTIRDIM">Telefon değişti</a>
+  </section>
 
-        let secilenUrun = "", secilenFiyat = "", secilenLink = "";
-        function sepeteEkle(urunAdi, fiyat, link) {
-            secilenUrun = urunAdi; secilenFiyat = fiyat; secilenLink = link;
-            document.getElementById("sepet-urun-adi").innerText = urunAdi;
-            document.getElementById("sepet-urun-fiyat").innerText = "Tutar: " + fiyat;
-            document.getElementById("sepet-sayac").innerText = "1";
-            document.getElementById("sepet-bos-mesaj").style.display = "none";
-            document.getElementById("sepet-dolu-alan").style.display = "block";
-            document.getElementById("satinAlmaModal").classList.add("hidden");
-            document.getElementById("sepetModal").classList.remove("hidden");
-        }
-        function sepettenUrunSil() {
-            secilenUrun = ""; secilenFiyat = ""; secilenLink = "";
-            document.getElementById("sepet-sayac").innerText = "0";
-            document.getElementById("sepet-dolu-alan").style.display = "none";
-            document.getElementById("sepet-bos-mesaj").style.display = "block";
-        }
-        function dogrudanSatinAl() {
-            if (secilenLink) window.location.href = secilenLink;
-            else alert("Lütfen bir paket seçin.");
-        }
-    </script>
+  <section class="sec">
+    <h2>Yayıncı yorumları</h2>
+    <div class="grid">
+      <div class="glass card">“Hediye yarışı yayında işe yaradı.” <div class="muted">— izinli alıntı</div></div>
+      <div class="glass card">“Key tek cihazda duruyor, kopyalanmıyor.” <div class="muted">— izinli alıntı</div></div>
+      <div class="glass card">“Panel sade, overlay yerini ayarlıyorum.” <div class="muted">— izinli alıntı</div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="sss">
+    <h2>SSS</h2>
+    <div class="glass faq"><h4>Key nasıl gelir?</h4><p class="muted">Shopier + Device ID WhatsApp. Admin keyi yazar.</p></div>
+    <div class="glass faq"><h4>Süre bitince?</h4><p class="muted">Uygulama kilitlenir. Yeni key gerekir. Eski key açılmaz.</p></div>
+    <div class="glass faq"><h4>Key kaybolursa?</h4><p class="muted">Device ID ile yaz. Aynı key tekrar verilmez, süre bakılır.</p></div>
+    <div class="glass faq"><h4>Telefon değişirse?</h4><p class="muted">Yeni Device ID gönder. Eski cihaz düşer, onay sende.</p></div>
+    <div class="glass faq"><h4>2 hesap / 2 telefon?</h4><p class="muted">Key tek cihaz. İkinci cihaz ayrı paket.</p></div>
+    <div class="glass faq"><h4>Ekran görüntüsü</h4><p class="muted">Key ekranını herkese atma. Paylaşılan key iptal edilebilir.</p></div>
+  </section>
+
+  <section class="sec" id="durum">
+    <h2>Sistem durumu</h2>
+    <div class="glass card">
+      <div><span class="status-dot"></span>Uygulama: aktif</div>
+      <div><span class="status-dot"></span>Key teslimi: aktif</div>
+      <div><span class="status-dot"></span>Shopier: aktif</div>
+      <p class="muted" id="bakim-not">Bakım yok. Duyuru buraya yazılır.</p>
+    </div>
+  </section>
+</div>
+
+<div id="satinAlmaModal" class="modal"><div class="glass mbox">
+  <div style="display:flex;justify-content:space-between"><h3 style="margin:0;color:#00e676">KEY PAKETLERİ</h3><span onclick="satinAlmaMenusuAcKapat()" style="cursor:pointer">×</span></div>
+  <div id="modal-paketler" class="grid" style="margin-top:14px"></div>
+</div></div>
+
+<div id="sepetModal" class="modal"><div class="glass mbox">
+  <div style="display:flex;justify-content:space-between"><h3 style="margin:0">Sepet</h3><span onclick="sepetiAcKapat()" style="cursor:pointer">×</span></div>
+  <div id="sepet-bos-mesaj" class="muted" style="padding:16px 0">Sepet boş.</div>
+  <div id="sepet-dolu-alan" style="display:none">
+    <p id="sepet-urun-adi" style="font-weight:800"></p>
+    <p id="sepet-urun-fiyat" style="color:#00e676"></p>
+    <button class="buy" style="background:#444" onclick="sepettenUrunSil()">Sil</button>
+    <button class="buy" onclick="dogrudanSatinAl()">Shopier ile öde</button>
+  </div>
+</div></div>
+
+<div id="aiModal" class="modal"><div class="glass mbox">
+  <div style="display:flex;justify-content:space-between"><h3 style="margin:0;color:#ff3366">Destek</h3><span onclick="aiModalAcKapat()" style="cursor:pointer">×</span></div>
+  <p class="muted">Ödeme sonrası Device ID + dekont. Destek 12:00–02:00.</p>
+  <button class="buy" onclick="satinAlmaMenusuAcKapat();aiModalAcKapat()">Paketleri gör</button>
+</div></div>
+
+<div id="gizlilikModal" class="modal"><div class="glass mbox">
+  <div style="display:flex;justify-content:space-between"><h3 style="margin:0;color:#00b0ff">Gizlilik</h3><span onclick="gizlilikModalAcKapat()" style="cursor:pointer">×</span></div>
+  <p class="muted">Device ID lisans içindir. Key aktif olunca süre başlar. Aktif key iade edilmez. Key ekran görüntüsü paylaşımı iptal sebebi olabilir.</p>
+</div></div>
+
+<footer>
+  <a href="#uygulama-hakkinda">Hakkında</a>
+  <a href="javascript:void(0)" onclick="gizlilikModalAcKapat()">Gizlilik</a>
+  <a href="javascript:void(0)" onclick="gizlilikModalAcKapat()">Koşullar</a>
+  <div style="margin-top:10px">© 2026 Rose Stüdyo</div>
+</footer>
+
+<a class="float-wa" target="_blank" href="https://wa.me/905441710421?text=SELAM%20FOX%20%F0%9F%A6%8A%20BEN%20UYGULAMANI%20SATIN%20ALMAK%20ISTIYORUM%20BILGILERI%20BENIMLE%20PAYLASIRMISIN..."><i class="fa-brands fa-whatsapp" style="font-size:28px"></i></a>
+<button class="float-ai" onclick="aiModalAcKapat()"><i class="fa-solid fa-robot"></i></button>
+
+<script>
+const WA = "905441710421";
+const firebaseConfig = {apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",databaseURL:"https://YOUR_PROJECT-default-rtdb.firebaseio.com",projectId:"YOUR_PROJECT",storageBucket:"YOUR_PROJECT.appspot.com",messagingSenderId:"YOUR_SENDER_ID",appId:"YOUR_APP_ID"};
+try{if(typeof firebase!=="undefined"&&!firebase.apps.length)firebase.initializeApp(firebaseConfig)}catch(e){}
+
+const PAKETLER = [
+  {ad:"1 Haftalık Key", fiyat:29.99, gun:7, stok:3, link:"https://www.shopier.com/rosestudyo/50065249"},
+  {ad:"1 Aylık Key", fiyat:100, gun:30, stok:3, link:"https://www.shopier.com/rosestudyo/50065277"},
+  {ad:"2 Aylık Key", fiyat:150, gun:60, stok:3, link:"https://www.shopier.com/rosestudyo/50065353"},
+  {ad:"7 Aylık Key", fiyat:1000, gun:210, stok:2, link:"https://www.shopier.com/rosestudyo/50065378"},
+  {ad:"1 Yıllık Key", fiyat:1800, gun:365, stok:2, link:"https://www.shopier.com/rosestudyo/50065419"}
+];
+let indirim = 0, secilenLink="", currentDeviceId="";
+
+function fiyatYaz(p){
+  const son = Math.round(p.fiyat*(1-indirim)*100)/100;
+  return indirim ? (p.fiyat.toFixed(2)+" ₺ → "+son.toFixed(2)+" ₺") : (p.fiyat+" ₺");
+}
+function kartHtml(p,i){
+  const bitti = p.stok<=0;
+  return `<article class="glass card">
+    <h3>${p.ad}</h3>
+    <div class="price">${fiyatYaz(p)}</div>
+    <p class="muted">${p.gun} gün · 1 cihaz · kalan key: ${p.stok}</p>
+    <button class="buy" ${bitti?"disabled":""} onclick="sepeteEkle(${i})">${bitti?"Tükendi":"Satın Al"}</button>
+  </article>`;
+}
+function paketleriCiz(){
+  document.getElementById("paket-grid").innerHTML = PAKETLER.map((p,i)=>kartHtml(p,i)).join("");
+  document.getElementById("modal-paketler").innerHTML = PAKETLER.map((p,i)=>kartHtml(p,i)).join("");
+}
+function kuponUygula(){
+  const k = (document.getElementById("kupon").value||"").trim().toUpperCase();
+  const map = {ROSE10:.10, ROSE20:.20, ILK15:.15};
+  if(map[k]){ indirim=map[k]; document.getElementById("kupon-msg").innerText="Kupon uygulandı: %"+(indirim*100)+". Shopier tutarı admin onaylar."; paketleriCiz(); }
+  else { indirim=0; document.getElementById("kupon-msg").innerText="Geçersiz kupon."; paketleriCiz(); }
+}
+function sepeteEkle(i){
+  const p=PAKETLER[i]; if(p.stok<=0) return;
+  secilenLink=p.link;
+  document.getElementById("sepet-urun-adi").innerText=p.ad;
+  document.getElementById("sepet-urun-fiyat").innerText="Tutar: "+fiyatYaz(p);
+  document.getElementById("sepet-sayac").innerText="1";
+  document.getElementById("sepet-bos-mesaj").style.display="none";
+  document.getElementById("sepet-dolu-alan").style.display="block";
+  document.getElementById("satinAlmaModal").classList.remove("show");
+  document.getElementById("sepetModal").classList.add("show");
+}
+function sepettenUrunSil(){
+  secilenLink="";
+  document.getElementById("sepet-sayac").innerText="0";
+  document.getElementById("sepet-dolu-alan").style.display="none";
+  document.getElementById("sepet-bos-mesaj").style.display="block";
+}
+function dogrudanSatinAl(){ if(secilenLink) location.href=secilenLink; else alert("Paket seç"); }
+function satinAlmaMenusuAcKapat(){ document.getElementById("satinAlmaModal").classList.toggle("show"); }
+function sepetiAcKapat(){ document.getElementById("sepetModal").classList.toggle("show"); }
+function aiModalAcKapat(){ document.getElementById("aiModal").classList.toggle("show"); }
+function gizlilikModalAcKapat(){ document.getElementById("gizlilikModal").classList.toggle("show"); }
+
+function cihazKimligiAlVeyaUret(){
+  const p=new URLSearchParams(location.search);
+  let id=p.get("id")||p.get("deviceId")||localStorage.getItem("rose_device_id");
+  if(!id){ id="DEV-"+Math.random().toString(36).substring(2,10).toUpperCase(); localStorage.setItem("rose_device_id",id); }
+  return id;
+}
+function lisansSorgula(){
+  const id=(document.getElementById("sorgu-id").value||currentDeviceId||"").trim();
+  const out=document.getElementById("sorgu-sonuc");
+  if(!id){ out.innerText="ID yaz"; return; }
+  out.innerText="Sorgulanıyor...";
+  try{
+    if(typeof firebase==="undefined"||!firebase.apps.length){ out.innerText="Firebase henüz bağlı değil. Admin’e Device ID ile yaz."; return; }
+    firebase.database().ref("devices/"+id).once("value").then(s=>{
+      const d=s.val(), now=Date.now();
+      if(d&&d.active&&d.expireTimestamp>now) out.innerText="Aktif · kalan ~"+Math.ceil((d.expireTimestamp-now)/86400000)+" gün";
+      else if(d&&d.expireTimestamp<=now) out.innerText="Süresi dolmuş";
+      else out.innerText="Kayıt yok / key bekleniyor";
+    }).catch(()=>out.innerText="Sorgu alınamadı");
+  }catch(e){ out.innerText="Sorgu alınamadı"; }
+}
+function waOdemeMesaji(){
+  const paket=document.getElementById("wa-paket").value;
+  const sip=document.getElementById("wa-siparis").value||"-";
+  const t=`SELAM FOX 🦊 ODEME YAPTIM. Paket: ${paket}. Siparis: ${sip}. Device ID: ${currentDeviceId}`;
+  window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(t),"_blank");
+  return false;
+}
+function lisansRozet(id){
+  const b=document.getElementById("license-badge");
+  try{
+    if(typeof firebase==="undefined"||!firebase.apps.length) return;
+    firebase.database().ref("devices/"+id).on("value",s=>{
+      const d=s.val(), now=Date.now();
+      if(d&&d.active&&d.expireTimestamp>now){ b.innerText="VIP · "+Math.ceil((d.expireTimestamp-now)/86400000)+" gün"; b.style.color="#00e676"; }
+      else if(d&&d.expireTimestamp<=now) b.innerText="Süresi Doldu";
+      else b.innerText="Key bekleniyor";
+    });
+  }catch(e){}
+}
+window.addEventListener("DOMContentLoaded",()=>{
+  currentDeviceId=cihazKimligiAlVeyaUret();
+  document.getElementById("display-device-id").innerText=currentDeviceId;
+  document.getElementById("sorgu-id").value=currentDeviceId;
+  paketleriCiz();
+  lisansRozet(currentDeviceId);
+  if(location.hash==="#odeme" || /odeme|success|shopier/i.test(location.search)) {
+    document.getElementById("odeme-sonrasi").scrollIntoView({behavior:"smooth"});
+  }
+});
+</script>
 </body>
 </html>
