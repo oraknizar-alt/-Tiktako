@@ -123,7 +123,7 @@ footer a{color:#aaa;text-decoration:none;margin:0 8px}
 
   <section class="sec" id="keyler">
     <h2>Key Satın Al</h2>
-    <p class="sub">Key sitede açık yazılmaz. Ödeme + Device ID sonrası admin gönderir.</p>
+    <p class="sub">49,99 ₺ / 99,99 ₺ / 179,99 ₺ / 999 ₺ / 1800 ₺ — Shopier fiyatlari</p>
     <div class="glass card" style="margin-bottom:14px">
       <label class="muted">Kupon kodu</label>
       <input id="kupon" value="henüz aktif kupon yok" readonly style="margin-top:6px;opacity:.85">
@@ -275,17 +275,18 @@ const firebaseConfig = {apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebasea
 try{if(typeof firebase!=="undefined"&&!firebase.apps.length)firebase.initializeApp(firebaseConfig)}catch(e){}
 
 const PAKETLER = [
-  {ad:"1 Haftalık Key", fiyat:29.99, gun:7, stok:3, link:"https://www.shopier.com/rosestudyo/50065249"},
-  {ad:"1 Aylık Key", fiyat:100, gun:30, stok:3, link:"https://www.shopier.com/rosestudyo/50065277"},
-  {ad:"2 Aylık Key", fiyat:150, gun:60, stok:3, link:"https://www.shopier.com/rosestudyo/50065353"},
-  {ad:"7 Aylık Key", fiyat:1000, gun:210, stok:2, link:"https://www.shopier.com/rosestudyo/50065378"},
+  {ad:"1 Haftalık Key", fiyat:49.99, gun:7, stok:3, link:"https://www.shopier.com/rosestudyo/50065249"},
+  {ad:"1 Aylık Key", fiyat:99.99, gun:30, stok:3, link:"https://www.shopier.com/rosestudyo/50065277"},
+  {ad:"2 Aylık Key", fiyat:179.99, gun:60, stok:3, link:"https://www.shopier.com/rosestudyo/50065353"},
+  {ad:"7 Aylık Key", fiyat:999, gun:210, stok:2, link:"https://www.shopier.com/rosestudyo/50065378"},
   {ad:"1 Yıllık Key", fiyat:1800, gun:365, stok:2, link:"https://www.shopier.com/rosestudyo/50065419"}
 ];
 let indirim = 0, secilenLink="", currentDeviceId="";
 
 function fiyatYaz(p){
   const son = Math.round(p.fiyat*(1-indirim)*100)/100;
-  return indirim ? (p.fiyat.toFixed(2)+" ₺ → "+son.toFixed(2)+" ₺") : (p.fiyat+" ₺");
+  const fmt = n => n.toFixed(2).replace(".", ",") + " ₺";
+  return indirim ? (fmt(p.fiyat)+" → "+fmt(son)) : fmt(p.fiyat);
 }
 function kartHtml(p,i){
   const bitti = p.stok<=0;
